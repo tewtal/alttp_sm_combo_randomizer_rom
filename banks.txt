@@ -10,8 +10,9 @@ Bank            Mirror banks    Content
 
 40:0000-7FFF    60              -- ALTTP Randomizer Tables --
 41:0000-7FFF    61              -- ALTTP Item code and definitions for SM Items --
+42:0000-7FFF    62              -- ALTTP Randomizer RNG Block --
 
-42:0000-7FFF    61              -- Free space --
+43:0000-7FFF    63              -- Free space --
 ...                             -- Free space --
 4F:0000-7FFF    6F              -- Free space --
 

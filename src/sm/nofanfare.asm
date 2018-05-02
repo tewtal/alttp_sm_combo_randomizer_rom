@@ -207,7 +207,7 @@ org $c4E9AA			;Scenery Super Missile
 	DW SOUNDFX
 	DB !Click
 org $c4E9E2			;Scenery Powerbomb
-	DL SOUNDFX
+	DW SOUNDFX
 	DB !Click
 org $c4EA22			;Scenery Bombs
 	DW SPECIALFX

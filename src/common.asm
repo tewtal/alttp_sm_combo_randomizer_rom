@@ -23,6 +23,22 @@ org $00fff4
 	dw reset
 	dw irq
 
+org $c0ffe4
+	dw brk
+	dw brk
+	dw brk
+	dw nmi
+	dw reset
+	dw irq
+	
+org $c0fff4
+	dw brk
+	dw brk
+	dw brk
+	dw nmi
+	dw reset
+	dw irq
+
 org $00cf50
 brk:
 	jml $808573
