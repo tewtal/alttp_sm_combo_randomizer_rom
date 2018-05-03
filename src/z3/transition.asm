@@ -315,6 +315,14 @@ zelda_fix_checksum:
     lda $00
     pha
 
+    ldx #$0000              ; Copy main SRAM to backup SRAM
+-
+    lda.l $a06000,x
+    sta.l $a06f00,x
+    inx : inx
+    cpx #$04fe
+    bne -
+
     ldx #$0000
     lda #$0000
 -

@@ -1,5 +1,14 @@
 ; Transition into Super Metroid
 
+org $c18003
+base $818003
+    jml sm_save_hook
+
+org $c18087
+base $818087
+    jml sm_load_hook
+
+
 ; Place all the transition code in upper bank B8/F8 (free space in SM)
 org $eafd00
 base $aafd00
@@ -169,6 +178,59 @@ sm_fix_checksum:
     plx
     pla
     rtl
+
+sm_save_hook:
+    phb : phx : phy
+    pea $7e00
+    plb
+    plb
+    jsl sm_save_alttp_items
+    jml $81800b
+
+sm_load_hook:
+    phb : phx : phy
+    pea $7e00
+    plb
+    plb
+    jsl sm_copy_alttp_items
+    jml $81808f
+
+sm_copy_alttp_items: ; Copies ALTTP items into a temporary SRAM buffer used when SM writes data to ALTTP (so that when Samus dies, alttp progress doesn't stay)
+    pha
+    phx
+    php
+    %a16()
+    ldx #$0000
+-
+    lda.l !SRAM_ALTTP_START+$300,x    ; copy 300-3FF from ALTTP SRAM
+    sta.l !SRAM_ALTTP_ITEM_BUF,X      ; save to temporary buffer
+    inx : inx
+    cpx #$0100
+    bne -
+
+    plp
+    plx
+    pla
+    rtl
+
+sm_save_alttp_items: ; Restores ALTTP items to the real SRAM
+    pha
+    phx
+    php
+    %a16()
+    ldx #$0000
+-
+    lda.l !SRAM_ALTTP_ITEM_BUF,X      ; save to temporary buffer
+    sta.l !SRAM_ALTTP_START+$300,x    ; copy 300-3FF from ALTTP SRAM
+    inx : inx
+    cpx #$0100
+    bne -
+
+    plp
+    plx
+    pla
+    rtl
+
 
 
 

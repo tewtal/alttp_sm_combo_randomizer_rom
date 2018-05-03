@@ -53,7 +53,11 @@ sm_do_teleport:
     bne -
 
     lda #$0000
+    sta.l $00078b
+    sta.l $00079f                    ; Set these values to 0 to force load from the ship if samus dies
+    lda #$0000
     jsl $818000                     ; Save SRAM
+
     jml transition_to_zelda         ; Call transition routine to ALTTP
 
 sm_teleport_table:

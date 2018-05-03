@@ -45,6 +45,8 @@ introskip_doorflags:
     sta !SRAM_ALTTP_RANDOMIZER_SAVED
 
     jsl alttp_new_game  ; Setup new game for ALTTP
+    jsl sm_copy_alttp_items ; Copy alttp items into temporary SRAM buffer
+    jsl zelda_fix_checksum  ; Fix alttp checksum
 
 .ret:   
     lda #$0000

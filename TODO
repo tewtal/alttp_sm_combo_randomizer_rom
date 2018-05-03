@@ -11,7 +11,11 @@
 * Temporary: Always boot into SM, and when creating a new file in SM, copy a "blank" ALTTP file into ALTTP SRAM
 * Add all ALTTP items into SM
 * Integrate randomizer patches into SM
-* Create a randomizer (needs improvement)
+----------------------------------------
+
+* Fix Silver Arrow Downgrade issue
+* Implement Progressive items
+* Fix ALTTP credits crash
 
 
 Update randomizer logic

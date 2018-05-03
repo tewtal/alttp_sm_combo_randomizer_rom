@@ -19,6 +19,7 @@
 !IAlttpVisibleItem = #i_visible_item
 !IAlttpChozoItem = #i_chozo_item
 !IAlttpHiddenItem = #i_hidden_item
+!IProgressiveItem = #i_progressive_item
 
 !Big = #$825A
 !Small = #$8289
@@ -32,11 +33,11 @@
 !AimUp = #$8773
 !EmptyBig = #$877A
 
-;org $cf8432
-;    dw $f01c    ; Replace terminator e-tank with shovel
+org $cf8432
+    dw $efe0    ; Replace terminator e-tank with shovel
 
-;org $cf86de
-;    dw $f01c
+org $cf86de
+    dw $efe4    ; Morph to progressive sword
 
 org $c4efe0     ; First free space in PLM block
 base $84efe0
@@ -221,6 +222,21 @@ plm_items:
     dw $ee8e, h_magic_half      ; f0c0
     dw $ee8e, h_magic_quarter   ; f0c4
 
+    dw $ee64, v_progressive_armor    ; f298
+    dw $ee64, c_progressive_armor    ; f29c
+    dw $ee8e, h_progressive_armor    ; f2a0
+
+    dw $ee64, v_progressive_gloves   ; f2a4
+    dw $ee64, c_progressive_gloves   ; f2a8
+    dw $ee8e, h_progressive_gloves   ; f2ac
+
+    dw $ee64, v_progressive_shields  ; f2b0
+    dw $ee64, c_progressive_shields  ; f2b4
+    dw $ee8e, h_progressive_shields  ; f2b8
+
+    dw $ee64, v_progressive_swords   ; f2bc
+    dw $ee64, c_progressive_swords   ; f2c0
+    dw $ee8e, h_progressive_swords   ; f2c4
 
 v_bow:
     dw !ILoadSpecialGraphics, $9200 : db $00, $00, $00, $00, $00, $00, $00, $00
@@ -925,6 +941,45 @@ h_magic_quarter:
     dw !ILoadSpecialGraphics, $E200 : db $01, $01, $01, $01, $01, $01, $01, $01
     dw !IAlttpHiddenItem, $0039
 
+v_progressive_gloves:
+    dw !IProgressiveItem, $0054, v_glove, v_mitt
+
+c_progressive_gloves:
+    dw !IProgressiveItem, $0054, c_glove, c_mitt
+
+h_progressive_gloves:
+    dw !IProgressiveItem, $0054, h_glove, h_mitt
+
+
+v_progressive_swords:
+    dw !IProgressiveItem, $0059, v_sword_master, v_sword_master, v_sword_tempered, v_sword_gold
+
+c_progressive_swords:
+    dw !IProgressiveItem, $0059, c_sword_master, c_sword_master, c_sword_tempered, c_sword_gold
+
+h_progressive_swords:
+    dw !IProgressiveItem, $0059, h_sword_master, h_sword_master, h_sword_tempered, h_sword_gold
+
+
+v_progressive_shields:
+    dw !IProgressiveItem, $005A, v_shield_blue, v_shield_red, v_shield_mirror
+
+c_progressive_shields:
+    dw !IProgressiveItem, $005A, c_shield_blue, c_shield_red, c_shield_mirror
+
+h_progressive_shields:
+    dw !IProgressiveItem, $005A, h_shield_blue, h_shield_red, h_shield_mirror
+
+
+v_progressive_armor:
+    dw !IProgressiveItem, $005B, v_tunic_blue, v_tunic_red
+
+c_progressive_armor:
+    dw !IProgressiveItem, $005B, c_tunic_blue, c_tunic_red
+
+h_progressive_armor:
+    dw !IProgressiveItem, $005B, h_tunic_blue, h_tunic_red
+
 
 p_visible_item:
     dw !IBranchItem, .end
@@ -983,6 +1038,21 @@ i_loop:
     dw !IDrawCustom2
     dw !IGoto, i_loop    
 
+i_progressive_item:
+    phx
+    lda $0000,y                 ; Load SRAM offset of progressive item
+    iny : iny                         ; Y points to value of first progressive item
+    sty $89
+    tax
+    lda !SRAM_ALTTP_ITEM_BUF,x               ; Load current item value
+    and #$00ff
+    asl a                       ; Shift left for table lookup
+    clc : adc $89
+    tax
+    ldy $0000,x                 ; Set Y to next instruction by lookup table
+    plx
+    rts
+
 i_visible_item:
     lda $0000,y
     sta $7ffb00,x               ; Store ALTTP item index to temp memory
@@ -1002,166 +1072,7 @@ i_hidden_item:
     rts
 
 i_pickup:
-    phx
-    phy
-    php
-    lda $7ffb00,x               ; Load previously saved item index
-    jsl check_item_swap         ; Set correct item swap flag if needed
-    asl : asl : asl             ; Value * 8 to get a table index
-    tax
-    lda.l alttp_item_table,x    ; Get ALTTP SRAM index
-    tay                         ; Store Index in Y
-    lda.l alttp_item_table+4,x  ; Get item type
-    cmp #$0000
-    beq .normal_item
-    cmp #$0001
-    beq .increment_item
-    cmp #$0002
-    beq .bottle_item
-    cmp #$0003
-    beq .piece_of_heart
-    cmp #$0004
-    beq .rupees_jmp
-    cmp #$0005
-    beq .boots_jmp
-    cmp #$0006
-    beq .flippers_jmp
-    jmp .end
-
-.rupees_jmp
-    jmp .rupees
-.boots_jmp
-    jmp .boots
-.flippers_jmp
-    jmp .flippers
-
-.normal_item
-    lda.l alttp_item_table+2,x  ; Get Item value
-    phx
-    tyx
-    %a8()
-    cmp.l $a06000,x             ; Prevent downgrades
-    bcc .stop_downgrade
-    sta.l $a06000,x             ; Save value to ALTTP SRAM
-    sta.l $a06f00,x
-
-.stop_downgrade
-    %a16()
-    plx
-    jmp .end
-
-.increment_item
-    lda.l alttp_item_table+2,x
-    phx
-    tyx
-    %a8()
-    clc
-    adc.l $a06000,x
-    sta.l $a06000,x
-    sta.l $a06f00,x
-    %a16()
-    plx
-    jmp .end
-
-.bottle_item
-    phx
-    tyx
-    lda #$0000
-    %a8()
-    lda.l $a06000,x             ; Load current amount of bottles
-    inc a
-    sta.l $a06000,x             ; Increment bottle amount
-    sta.l $a06f00,x
-    tay
-    plx
-    lda alttp_item_table+2,x    ; Get bottle value
-    phx
-    tyx
-    sta.l $a0635b,x             ; Store bottle value to the correct bottle index
-    sta.l $a0635b+$f00,x    
-    %a16()
-    plx
-    jmp .end
-
-.piece_of_heart
-    %a8()
-    phx
-    tyx
-    lda.l $a06000,x             ; Load amount of heart pieces
-    inc a                       ; Increment
-    cmp.b #$03                  ; Oh we got 4, then give a real heartpiece
-    bne .no_heartpiece
-    lda #$00
-    sta.l $a06000,x             ; Reset heartpieces
-    sta.l $a06f00,x
-    lda.l $a0636C               
-    clc
-    adc #$08
-    sta.l $a0636C               ; Give a heartpiece
-    sta.l $a0636C+$0f00
-    bra .piece_end
-
-.no_heartpiece
-    sta.l $a06000,x             ; Store heartpieces
-    sta.l $a06f00,x
-.piece_end
-    %a16()
-    plx
-    bra .end
-
-.rupees
-    lda.l alttp_item_table+2,x  ; 16-bit add
-    phx
-    tyx
-    clc
-    adc.l $a06000+$2,x
-    sta.l $a06000,x
-    sta.l $a06f00,x
-    sta.l $a06000+$2,x
-    sta.l $a06f00+$2,x
-    plx
-    bra .end
-
-.boots
-    lda.l alttp_item_table+2,x  ; Get Item value
-    phx
-    tyx
-    %a8()
-    sta.l $a06000,x             ; Save value to ALTTP SRAM
-    sta.l $a06f00,x
-    lda.l $a06379
-    ora #$04
-    sta.l $a06379               ; Set dash bit
-    sta.l $a06379+$0f00
-    %a16()    
-    plx
-    bra .end
-
-.flippers
-    lda.l alttp_item_table+2,x  ; Get Item value
-    phx
-    tyx
-    %a8()
-    sta.l $a06000,x             ; Save value to ALTTP SRAM
-    sta.l $a06f00,x
-    lda.l $a06379
-    ora #$02
-    sta.l $a06379               ; Set swim bit
-    sta.l $a06379+$0f00
-    %a16()    
-    plx
-    bra .end
-
-.end
-    lda #$0168
-    jsl $82e118                 ; Music fix
-    lda.l alttp_item_table+6,x  ; Load message pointer
-    and #$00ff
-    jsl $858080                 ; Display message
-    jsl zelda_fix_checksum      ; Fix SRAM checksum
-    plp
-    ply
-    plx
+    jsl alttp_item_pickup
     rts
 
 CLIPCHECK:
@@ -1203,8 +1114,192 @@ SETFX:
 	RTS
 
 org $f30000
-!SM_INVENTORY_SWAP = $a0638c
-!SM_INVENTORY_SWAP_2 = $a0638e
+;!SM_INVENTORY_SWAP = $a0638c
+;!SM_INVENTORY_SWAP_2 = $a0638e
+
+!SM_INVENTORY_SWAP = !SRAM_ALTTP_ITEM_BUF+$8c
+!SM_INVENTORY_SWAP_2 = !SRAM_ALTTP_ITEM_BUF+$8e
+
+
+alttp_item_pickup:
+    phx
+    phy
+    php
+    lda $7ffb00,x               ; Load previously saved item index
+    jsl check_item_swap         ; Set correct item swap flag if needed
+    asl : asl : asl             ; Value * 8 to get a table index
+    tax
+    lda.l alttp_item_table,x    ; Get ALTTP SRAM index
+    tay                         ; Store Index in Y
+    lda.l alttp_item_table+4,x  ; Get item type
+    
+    cmp #$0000
+    beq .normal_item_jmp
+    cmp #$0001
+    beq .increment_item_jmp
+    cmp #$0002
+    beq .bottle_item_jmp
+    cmp #$0003
+    beq .piece_of_heart_jmp
+    cmp #$0004
+    beq .rupees_jmp
+    cmp #$0005
+    beq .boots_jmp
+    cmp #$0006
+    beq .flippers_jmp
+    cmp #$0007
+    beq .silvers_jmp
+    jmp .end
+
+.normal_item_jmp
+    jmp .normal_item
+.increment_item_jmp
+    jmp .increment_item
+.bottle_item_jmp
+    jmp .bottle_item
+.piece_of_heart_jmp
+    jmp .piece_of_heart
+.rupees_jmp
+    jmp .rupees
+.boots_jmp
+    jmp .boots
+.flippers_jmp
+    jmp .flippers
+.silvers_jmp
+    jmp .silvers
+
+.normal_item
+    lda.l alttp_item_table+2,x  ; Get Item value
+    phx
+    tyx
+    %a8()
+    cmp.l !SRAM_ALTTP_ITEM_BUF,x             ; Prevent downgrades
+    bcc .stop_downgrade
+    sta.l !SRAM_ALTTP_ITEM_BUF,x             ; Save value to ALTTP SRAM
+
+.stop_downgrade
+    %a16()
+    plx
+    jmp .end
+
+.increment_item
+    lda.l alttp_item_table+2,x
+    phx
+    tyx
+    %a8()
+    clc
+    adc.l !SRAM_ALTTP_ITEM_BUF,x
+    sta.l !SRAM_ALTTP_ITEM_BUF,x
+    %a16()
+    plx
+    jmp .end
+
+.bottle_item
+    phx
+    tyx
+    lda #$0000
+    %a8()
+    lda.l !SRAM_ALTTP_ITEM_BUF,x             ; Load current amount of bottles
+    inc a
+    sta.l !SRAM_ALTTP_ITEM_BUF,x             ; Increment bottle amount
+    tay
+    plx
+    lda alttp_item_table+2,x    ; Get bottle value
+    phx
+    tyx
+    sta.l !SRAM_ALTTP_ITEM_BUF+$5b,x ;$a0635b,x             ; Store bottle value to the correct bottle index
+    %a16()
+    plx
+    jmp .end
+
+.piece_of_heart
+    %a8()
+    phx
+    tyx
+    lda.l !SRAM_ALTTP_ITEM_BUF,x             ; Load amount of heart pieces
+    inc a                       ; Increment
+    cmp.b #$03                  ; Oh we got 4, then give a real heartpiece
+    bne .no_heartpiece
+    lda #$00
+    sta.l !SRAM_ALTTP_ITEM_BUF,x             ; Reset heartpieces
+    lda.l !SRAM_ALTTP_ITEM_BUF+$6c      ;$a0636C               
+    clc
+    adc #$08
+    sta.l !SRAM_ALTTP_ITEM_BUF+$6c      ;$a0636C               ; Give a heartpiece
+    bra .piece_end
+
+.no_heartpiece
+    sta.l !SRAM_ALTTP_ITEM_BUF,x             ; Store heartpieces
+.piece_end
+    %a16()
+    plx
+    jmp .end
+
+.rupees
+    lda.l alttp_item_table+2,x  ; 16-bit add
+    phx
+    tyx
+    clc
+    adc.l !SRAM_ALTTP_ITEM_BUF+$2,x
+    sta.l !SRAM_ALTTP_ITEM_BUF,x
+    sta.l !SRAM_ALTTP_ITEM_BUF+$2,x
+    plx
+    jmp .end
+
+.boots
+    lda.l alttp_item_table+2,x  ; Get Item value
+    phx
+    tyx
+    %a8()
+    sta.l !SRAM_ALTTP_ITEM_BUF,x             ; Save value to ALTTP SRAM
+    lda.l !SRAM_ALTTP_ITEM_BUF+$79          ; $a06379
+    ora #$04
+    sta.l !SRAM_ALTTP_ITEM_BUF+$79          ;$a06379               ; Set dash bit
+    %a16()    
+    plx
+    jmp .end
+
+.flippers
+    lda.l alttp_item_table+2,x  ; Get Item value
+    phx
+    tyx
+    %a8()
+    sta.l !SRAM_ALTTP_ITEM_BUF,x             ; Save value to ALTTP SRAM
+    lda.l !SRAM_ALTTP_ITEM_BUF+$79          ; $a06379
+    ora #$02
+    sta.l !SRAM_ALTTP_ITEM_BUF+$79          ;$a06379               ; Set swim bit
+    %a16()    
+    plx
+    jmp .end
+
+.silvers
+    %a8()
+    lda.l !SRAM_ALTTP_ITEM_BUF+$40  ;$a06340               ; Load bow value
+    beq .nobow
+    clc
+    adc #$02
+    sta.l !SRAM_ALTTP_ITEM_BUF+$40               ; Store silver arrows and bow
+    %a16()
+    jmp .end
+
+.nobow
+    %a8()
+    lda.b #$01
+    sta.l !SRAM_ALTTP_ITEM_BUF+$76      ;$a06376               ; Give upgrade only silver arrows
+    %a16()
+    jmp .end
+
+.end
+    lda #$0168
+    jsl $82e118                 ; Music fix
+    lda.l alttp_item_table+6,x  ; Load message pointer
+    and #$00ff
+    jsl $858080                 ; Display message
+    jsl zelda_fix_checksum      ; Fix SRAM checksum
+    plp
+    ply
+    plx
+    rtl
 
 check_item_swap:
     pha
@@ -1230,20 +1325,13 @@ check_item_swap:
 	+ CPY.b #$10 : BNE + ; Flute (Inactive)
 		LDA !SM_INVENTORY_SWAP : ORA #$02 : STA !SM_INVENTORY_SWAP
 		BRL .incrementCounts
-	+ CPY.b #$01 : BNE + ; Bow & Arrows
+	+ CPY.b #$00 : BNE + ; Bow & Arrows
 		LDA !SM_INVENTORY_SWAP_2 : ORA #$80 : STA !SM_INVENTORY_SWAP_2
 		BRL .incrementCounts
-	+ CPY.b #$02 : BNE + ; Bow & Silver Arrows
-		LDA !SM_INVENTORY_SWAP_2 : ORA #$40 : STA !SM_INVENTORY_SWAP_2
-		BRL .incrementCounts
-	+ CPY.b #$ff : BNE + ; Upgrade-Only Silver Arrows
+	+ CPY.b #$01 : BNE + ; Silver Arrows
 		LDA !SM_INVENTORY_SWAP_2 : ORA #$40 : STA !SM_INVENTORY_SWAP_2
 	+ 
 .incrementCounts
-    LDA !SM_INVENTORY_SWAP
-    STA !SM_INVENTORY_SWAP+$0f00
-    LDA !SM_INVENTORY_SWAP_2
-    STA !SM_INVENTORY_SWAP_2+$0f00
     plp
     ply
     pla
@@ -1257,64 +1345,64 @@ namespace "alttp_item_"
     ; Message = Id of message box to show    
 
     ;  Offset Value  Type  Message
-    dw $0340, $0002, $0000, $001d       ; Bow
-    dw $0340, $0003, $0000, $001e       ; Silver Arrows
-    dw $0341, $0001, $0000, $001f       ; Blue Boomerang
-    dw $0341, $0002, $0000, $0020       ; Red Boomerang
-    dw $0342, $0001, $0000, $0021       ; Hookshot
-    dw $0375, $0001, $0001, $0022       ; Bomb 1
-    dw $0344, $0001, $0000, $0023       ; Mushroom
-    dw $0344, $0002, $0000, $0024       ; Powder
-    dw $0345, $0001, $0000, $0025       ; Firerod
-    dw $0346, $0001, $0000, $0026       ; Icerod
-    dw $0347, $0001, $0000, $0027       ; Bombos
-    dw $0348, $0001, $0000, $0028       ; Ether
-    dw $0349, $0001, $0000, $0029       ; Quake
-    dw $034A, $0001, $0000, $002A       ; Lamp
-    dw $034B, $0001, $0000, $002B       ; Hammer
-    dw $034C, $0001, $0000, $002C       ; Shovel
-    dw $034C, $0002, $0000, $002D       ; Flute
-    dw $034D, $0001, $0000, $002E       ; Net
-    dw $034E, $0001, $0000, $002F       ; Book
-    dw $034F, $0002, $0002, $0030       ; Bottle
-    dw $034F, $0003, $0002, $0031       ; Red Potion
-    dw $034F, $0004, $0002, $0032       ; Green Potion
-    dw $034F, $0005, $0002, $0033       ; Blue Potion
-    dw $034F, $0007, $0002, $0034       ; Bee
-    dw $034F, $0008, $0002, $0035       ; Good Bee
-    dw $034F, $0006, $0002, $0036       ; Fairy
-    dw $0350, $0001, $0000, $0037       ; Somaria
-    dw $0351, $0001, $0000, $0038       ; Byrna
-    dw $0352, $0001, $0000, $0039       ; Cape
-    dw $0353, $0002, $0000, $003A       ; Mirror
-    dw $0354, $0001, $0000, $003B       ; Glove
-    dw $0354, $0002, $0000, $003C       ; Mitt
-    dw $0355, $0001, $0005, $003D       ; Boots
-    dw $0356, $0001, $0006, $003E       ; Flippers
-    dw $0357, $0001, $0000, $003F       ; Pearl
-    dw $0359, $0002, $0000, $0040       ; Master Sword
-    dw $0359, $0003, $0000, $0041       ; Tempered Sword
-    dw $0359, $0004, $0000, $0042       ; Gold Sword
-    dw $035B, $0001, $0000, $0043       ; Blue Tunic
-    dw $035B, $0002, $0000, $0044       ; Red Tunic
-    dw $035A, $0001, $0000, $0045       ; Shield
-    dw $035A, $0002, $0000, $0046       ; Red Shield
-    dw $035A, $0003, $0000, $0047       ; Mirror Shield
-    dw $036B, $0001, $0003, $0048       ; Piece of Heart
-    dw $036C, $0008, $0001, $0049       ; Heart Container
-    dw $0376, $0001, $0001, $004A       ; 1 Arrow
-    dw $0376, $0005, $0001, $004B       ; 5 Arrows
-    dw $0376, $000A, $0001, $004C       ; 10 Arrows
-    dw $0375, $0003, $0001, $004D       ; 3 Bombs
-    dw $0375, $000A, $0001, $004E       ; 10 Bombs
-    dw $0360, $0001, $0004, $004F       ; 1 Rupee
-    dw $0360, $0005, $0004, $0050       ; 5 Rupees
-    dw $0360, $0014, $0004, $0051       ; 20 Rupees
-    dw $0360, $0032, $0004, $0052       ; 50 Rupees
-    dw $0360, $0064, $0004, $0053       ; 100 Rupees
-    dw $0360, $012C, $0004, $0054       ; 300 Rupees
-    dw $037B, $0001, $0000, $0055       ; Half Magic
-    dw $037B, $0002, $0000, $0056       ; Quarter Magic
+    dw $0040, $0002, $0000, $001d       ; Bow                       ; 00
+    dw $0040, $0003, $0007, $001e       ; Silver Arrows
+    dw $0041, $0001, $0000, $001f       ; Blue Boomerang
+    dw $0041, $0002, $0000, $0020       ; Red Boomerang
+    dw $0042, $0001, $0000, $0021       ; Hookshot
+    dw $0075, $0001, $0001, $0022       ; Bomb 1
+    dw $0044, $0001, $0000, $0023       ; Mushroom
+    dw $0044, $0002, $0000, $0024       ; Powder
+    dw $0045, $0001, $0000, $0025       ; Firerod
+    dw $0046, $0001, $0000, $0026       ; Icerod
+    dw $0047, $0001, $0000, $0027       ; Bombos
+    dw $0048, $0001, $0000, $0028       ; Ether
+    dw $0049, $0001, $0000, $0029       ; Quake
+    dw $004A, $0001, $0000, $002A       ; Lamp
+    dw $004B, $0001, $0000, $002B       ; Hammer
+    dw $004C, $0001, $0000, $002C       ; Shovel
+    dw $004C, $0002, $0000, $002D       ; Flute                      ; 10
+    dw $004D, $0001, $0000, $002E       ; Net
+    dw $004E, $0001, $0000, $002F       ; Book
+    dw $004F, $0002, $0002, $0030       ; Bottle
+    dw $004F, $0003, $0002, $0031       ; Red Potion
+    dw $004F, $0004, $0002, $0032       ; Green Potion
+    dw $004F, $0005, $0002, $0033       ; Blue Potion
+    dw $004F, $0007, $0002, $0034       ; Bee
+    dw $004F, $0008, $0002, $0035       ; Good Bee
+    dw $004F, $0006, $0002, $0036       ; Fairy
+    dw $0050, $0001, $0000, $0037       ; Somaria
+    dw $0051, $0001, $0000, $0038       ; Byrna
+    dw $0052, $0001, $0000, $0039       ; Cape
+    dw $0053, $0002, $0000, $003A       ; Mirror
+    dw $0054, $0001, $0000, $003B       ; Glove
+    dw $0054, $0002, $0000, $003C       ; Mitt
+    dw $0055, $0001, $0005, $003D       ; Boots                      ; 20
+    dw $0056, $0001, $0006, $003E       ; Flippers
+    dw $0057, $0001, $0000, $003F       ; Pearl
+    dw $0059, $0002, $0000, $0040       ; Master Sword
+    dw $0059, $0003, $0000, $0041       ; Tempered Sword
+    dw $0059, $0004, $0000, $0042       ; Gold Sword
+    dw $005B, $0001, $0000, $0043       ; Blue Tunic
+    dw $005B, $0002, $0000, $0044       ; Red Tunic
+    dw $005A, $0001, $0000, $0045       ; Shield
+    dw $005A, $0002, $0000, $0046       ; Red Shield
+    dw $005A, $0003, $0000, $0047       ; Mirror Shield
+    dw $006B, $0001, $0003, $0048       ; Piece of Heart
+    dw $006C, $0008, $0001, $0049       ; Heart Container
+    dw $0076, $0001, $0001, $004A       ; 1 Arrow
+    dw $0076, $0005, $0001, $004B       ; 5 Arrows
+    dw $0076, $000A, $0001, $004C       ; 10 Arrows
+    dw $0075, $0003, $0001, $004D       ; 3 Bombs                    ; 30
+    dw $0075, $000A, $0001, $004E       ; 10 Bombs
+    dw $0060, $0001, $0004, $004F       ; 1 Rupee
+    dw $0060, $0005, $0004, $0050       ; 5 Rupees
+    dw $0060, $0014, $0004, $0051       ; 20 Rupees
+    dw $0060, $0032, $0004, $0052       ; 50 Rupees
+    dw $0060, $0064, $0004, $0053       ; 100 Rupees
+    dw $0060, $012C, $0004, $0054       ; 300 Rupees
+    dw $007B, $0001, $0000, $0055       ; Half Magic
+    dw $007B, $0002, $0000, $0056       ; Quarter Magic              ; 39
 
 org $c59643
 base $859643
