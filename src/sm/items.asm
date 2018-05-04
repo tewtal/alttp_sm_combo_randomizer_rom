@@ -34,10 +34,10 @@
 !EmptyBig = #$877A
 
 org $cf8432
-    dw $efe0    ; Replace terminator e-tank with shovel
+;    dw $f040    ; Replace terminator e-tank with shovel
 
 org $cf86de
-    dw $efe4    ; Morph to progressive sword
+;    dw $efe4    ; Morph to progressive sword
 
 org $c4efe0     ; First free space in PLM block
 base $84efe0
@@ -238,6 +238,26 @@ plm_items:
     dw $ee64, c_progressive_swords   ; f2c0
     dw $ee8e, h_progressive_swords   ; f2c4
 
+    dw $ee64, v_bomb_upgrade_5       ; f2c8
+    dw $ee64, c_bomb_upgrade_5       ; f2cc
+    dw $ee8e, h_bomb_upgrade_5       ; f2d0
+
+    dw $ee64, v_bomb_upgrade_10      ; f2d4
+    dw $ee64, c_bomb_upgrade_10      ; f2d8
+    dw $ee8e, h_bomb_upgrade_10      ; f2dc
+
+    dw $ee64, v_arrow_upgrade_5      ; f2e0
+    dw $ee64, c_arrow_upgrade_5      ; f2e4
+    dw $ee8e, h_arrow_upgrade_5      ; f2e8
+
+    dw $ee64, v_arrow_upgrade_10     ; f2ec
+    dw $ee64, c_arrow_upgrade_10     ; f2f0
+    dw $ee8e, h_arrow_upgrade_10     ; f2f4
+
+    dw $ee64, v_sword_fighter        ; f2f8
+    dw $ee64, c_sword_fighter        ; f2fc
+    dw $ee8e, h_sword_fighter        ; f300
+
 v_bow:
     dw !ILoadSpecialGraphics, $9200 : db $00, $00, $00, $00, $00, $00, $00, $00
     dw !IAlttpVisibleItem, $0000
@@ -383,7 +403,7 @@ v_sword_master:
     dw !IAlttpVisibleItem, $0023
     
 v_sword_tempered:
-    dw !ILoadSpecialGraphics, $CB00 : db $00, $00, $00, $00, $00, $00, $00, $00
+    dw !ILoadSpecialGraphics, $CB00 : db $01, $01, $01, $01, $01, $01, $01, $01
     dw !IAlttpVisibleItem, $0024
     
 v_sword_gold:
@@ -470,9 +490,25 @@ v_magic_quarter:
     dw !ILoadSpecialGraphics, $E200 : db $01, $01, $01, $01, $01, $01, $01, $01
     dw !IAlttpVisibleItem, $0039
 
+v_bomb_upgrade_5:
+    dw !ILoadSpecialGraphics, $E300 : db $03, $03, $03, $03, $03, $03, $03, $03
+    dw !IAlttpVisibleItem, $003a
 
+v_bomb_upgrade_10:
+    dw !ILoadSpecialGraphics, $E400 : db $03, $03, $03, $03, $03, $03, $03, $03
+    dw !IAlttpVisibleItem, $003b
 
+v_arrow_upgrade_5:
+    dw !ILoadSpecialGraphics, $E500 : db $00, $00, $00, $00, $00, $00, $00, $00
+    dw !IAlttpVisibleItem, $003c
 
+v_arrow_upgrade_10:
+    dw !ILoadSpecialGraphics, $E600 : db $00, $00, $00, $00, $00, $00, $00, $00
+    dw !IAlttpVisibleItem, $003d
+
+v_sword_fighter:
+    dw !ILoadSpecialGraphics, $E700 : db $00, $00, $00, $00, $00, $00, $00, $00
+    dw !IAlttpVisibleItem, $003e
 
 
 c_bow:
@@ -616,7 +652,7 @@ c_pearl:
     dw !IAlttpChozoItem, $0022
     
 c_sword_master:
-    dw !ILoadSpecialGraphics, $CA00 : db $00, $00, $00, $00, $00, $00, $00, $00
+    dw !ILoadSpecialGraphics, $CA00 : db $01, $01, $01, $01, $01, $01, $01, $01
     dw !IAlttpChozoItem, $0023
     
 c_sword_tempered:
@@ -707,6 +743,25 @@ c_magic_quarter:
     dw !ILoadSpecialGraphics, $E200 : db $01, $01, $01, $01, $01, $01, $01, $01
     dw !IAlttpChozoItem, $0039
 
+c_bomb_upgrade_5:
+    dw !ILoadSpecialGraphics, $E300 : db $03, $03, $03, $03, $03, $03, $03, $03
+    dw !IAlttpChozoItem, $003a
+
+c_bomb_upgrade_10:
+    dw !ILoadSpecialGraphics, $E400 : db $03, $03, $03, $03, $03, $03, $03, $03
+    dw !IAlttpChozoItem, $003b
+
+c_arrow_upgrade_5:
+    dw !ILoadSpecialGraphics, $E500 : db $00, $00, $00, $00, $00, $00, $00, $00
+    dw !IAlttpChozoItem, $003c
+
+c_arrow_upgrade_10:
+    dw !ILoadSpecialGraphics, $E600 : db $00, $00, $00, $00, $00, $00, $00, $00
+    dw !IAlttpChozoItem, $003d
+
+c_sword_fighter:
+    dw !ILoadSpecialGraphics, $E700 : db $00, $00, $00, $00, $00, $00, $00, $00
+    dw !IAlttpChozoItem, $003e
 
 
 h_bow:
@@ -850,7 +905,7 @@ h_pearl:
     dw !IAlttpHiddenItem, $0022
     
 h_sword_master:
-    dw !ILoadSpecialGraphics, $CA00 : db $00, $00, $00, $00, $00, $00, $00, $00
+    dw !ILoadSpecialGraphics, $CA00 : db $01, $01, $01, $01, $01, $01, $01, $01
     dw !IAlttpHiddenItem, $0023
     
 h_sword_tempered:
@@ -941,6 +996,26 @@ h_magic_quarter:
     dw !ILoadSpecialGraphics, $E200 : db $01, $01, $01, $01, $01, $01, $01, $01
     dw !IAlttpHiddenItem, $0039
 
+h_bomb_upgrade_5:
+    dw !ILoadSpecialGraphics, $E300 : db $03, $03, $03, $03, $03, $03, $03, $03
+    dw !IAlttpHiddenItem, $003a
+
+h_bomb_upgrade_10:
+    dw !ILoadSpecialGraphics, $E400 : db $03, $03, $03, $03, $03, $03, $03, $03
+    dw !IAlttpHiddenItem, $003b
+
+h_arrow_upgrade_5:
+    dw !ILoadSpecialGraphics, $E500 : db $00, $00, $00, $00, $00, $00, $00, $00
+    dw !IAlttpHiddenItem, $003c
+
+h_arrow_upgrade_10:
+    dw !ILoadSpecialGraphics, $E600 : db $00, $00, $00, $00, $00, $00, $00, $00
+    dw !IAlttpHiddenItem, $003d
+
+h_sword_fighter:
+    dw !ILoadSpecialGraphics, $E700 : db $00, $00, $00, $00, $00, $00, $00, $00
+    dw !IAlttpHiddenItem, $003e
+
 v_progressive_gloves:
     dw !IProgressiveItem, $0054, v_glove, v_mitt
 
@@ -952,13 +1027,13 @@ h_progressive_gloves:
 
 
 v_progressive_swords:
-    dw !IProgressiveItem, $0059, v_sword_master, v_sword_master, v_sword_tempered, v_sword_gold
+    dw !IProgressiveItem, $0059, v_sword_fighter, v_sword_master, v_sword_tempered, v_sword_gold
 
 c_progressive_swords:
-    dw !IProgressiveItem, $0059, c_sword_master, c_sword_master, c_sword_tempered, c_sword_gold
+    dw !IProgressiveItem, $0059, c_sword_fighter, c_sword_master, c_sword_tempered, c_sword_gold
 
 h_progressive_swords:
-    dw !IProgressiveItem, $0059, h_sword_master, h_sword_master, h_sword_tempered, h_sword_gold
+    dw !IProgressiveItem, $0059, h_sword_fighter, h_sword_master, h_sword_tempered, h_sword_gold
 
 
 v_progressive_shields:
@@ -1038,21 +1113,6 @@ i_loop:
     dw !IDrawCustom2
     dw !IGoto, i_loop    
 
-i_progressive_item:
-    phx
-    lda $0000,y                 ; Load SRAM offset of progressive item
-    iny : iny                         ; Y points to value of first progressive item
-    sty $89
-    tax
-    lda !SRAM_ALTTP_ITEM_BUF,x               ; Load current item value
-    and #$00ff
-    asl a                       ; Shift left for table lookup
-    clc : adc $89
-    tax
-    ldy $0000,x                 ; Set Y to next instruction by lookup table
-    plx
-    rts
-
 i_visible_item:
     lda $0000,y
     sta $7ffb00,x               ; Store ALTTP item index to temp memory
@@ -1075,6 +1135,14 @@ i_pickup:
     jsl alttp_item_pickup
     rts
 
+i_progressive_item:
+    jsl alttp_progressive_item
+    rts
+
+warnpc $850000
+
+org $c498e3
+base $8498e3
 CLIPCHECK:
 	LDA $05D7
 	CMP #$0002
@@ -1113,6 +1181,8 @@ SETFX:
 	INY
 	RTS
 
+warnpc $849953
+
 org $f30000
 ;!SM_INVENTORY_SWAP = $a0638c
 ;!SM_INVENTORY_SWAP_2 = $a0638e
@@ -1120,6 +1190,20 @@ org $f30000
 !SM_INVENTORY_SWAP = !SRAM_ALTTP_ITEM_BUF+$8c
 !SM_INVENTORY_SWAP_2 = !SRAM_ALTTP_ITEM_BUF+$8e
 
+alttp_progressive_item:
+    phx
+    lda $0000,y                 ; Load SRAM offset of progressive item
+    iny : iny                         ; Y points to value of first progressive item
+    sty $89
+    tax
+    lda !SRAM_ALTTP_ITEM_BUF,x               ; Load current item value
+    and #$00ff
+    asl a                       ; Shift left for table lookup
+    clc : adc $89
+    tax
+    ldy $0000,x                 ; Set Y to next instruction by lookup table
+    plx
+    rtl
 
 alttp_item_pickup:
     phx
@@ -1199,15 +1283,26 @@ alttp_item_pickup:
     tyx
     lda #$0000
     %a8()
-    lda.l !SRAM_ALTTP_ITEM_BUF,x             ; Load current amount of bottles
-    inc a
-    sta.l !SRAM_ALTTP_ITEM_BUF,x             ; Increment bottle amount
-    tay
+    lda.b #$01
+    sta.l !SRAM_ALTTP_ITEM_BUF,x    ; Set we have bottles flag
+    ldx #$0000
+
+-
+    lda.l !SRAM_ALTTP_ITEM_BUF+$5c,x
+    beq .found_bottle_index
+    inx
+    cpx #$0004
+    bne -
+    %a16()
     plx
-    lda alttp_item_table+2,x    ; Get bottle value
+    jmp .end                                ; Bail out if we have all bottles already
+.found_bottle_index
+    txy
+    plx
+    lda.l alttp_item_table+2,x    ; Get bottle value
     phx
     tyx
-    sta.l !SRAM_ALTTP_ITEM_BUF+$5b,x ;$a0635b,x             ; Store bottle value to the correct bottle index
+    sta.l !SRAM_ALTTP_ITEM_BUF+$5c,x ;$a0635b,x             ; Store bottle value to the correct bottle index
     %a16()
     plx
     jmp .end
@@ -1403,6 +1498,12 @@ namespace "alttp_item_"
     dw $0060, $012C, $0004, $0054       ; 300 Rupees
     dw $007B, $0001, $0000, $0055       ; Half Magic
     dw $007B, $0002, $0000, $0056       ; Quarter Magic              ; 39
+    dw $0070, $0005, $0001, $0057       ; +5 Bombs
+    dw $0070, $000A, $0001, $0058       ; +10 Bombs
+    dw $0071, $0005, $0001, $0059       ; +5 Arrows
+    dw $0071, $000A, $0001, $005A       ; +10 Arrows
+    dw $0059, $0001, $0000, $005B       ; Fighter Sword
+    
 
 org $c59643
 base $859643
@@ -1464,6 +1565,11 @@ base $859643
     dw !EmptySmall, !Small, rupees_300
     dw !EmptySmall, !Small, magic_half
     dw !EmptySmall, !Small, magic_quarter
+    dw !EmptySmall, !Small, bomb_upgrade_5
+    dw !EmptySmall, !Small, bomb_upgrade_10
+    dw !EmptySmall, !Small, arrow_upgrade_5
+    dw !EmptySmall, !Small, arrow_upgrade_10
+    dw !EmptySmall, !Small, sword_fighter
     dw !EmptySmall, !Small, btn_array
 
 table box.tbl,rtl
@@ -1584,11 +1690,23 @@ magic_half:
     dw "______    HALF MAGIC     _______"
 magic_quarter:
     dw "______   QUARTER MAGIC   _______"
+bomb_upgrade_5:
+    dw "______  5 BOMB CAPACITY  _______"
+bomb_upgrade_10:
+    dw "______ 10 BOMB CAPACITY  _______"
+arrow_upgrade_5:
+    dw "______  5 ARROW CAPACITY _______"
+arrow_upgrade_10:
+    dw "______ 10 ARROW CAPACITY _______"
+sword_fighter:
+    dw "______   FIGHTER SWORD   _______"
+
 cleartable
 
 btn_array:
 	DW $0000, $012A, $012A, $012C, $012C, $012C, $0000, $0000, $0000, $0000, $0000, $0000, $0120, $0000, $0000
 	DW $0000, $0000, $0000, $012A, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
+    DW $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
     DW $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
     DW $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
     DW $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
