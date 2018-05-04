@@ -1017,43 +1017,43 @@ h_sword_fighter:
     dw !IAlttpHiddenItem, $003e
 
 v_progressive_gloves:
-    dw !IProgressiveItem, $0054, v_glove, v_mitt
+    dw !IProgressiveItem, $0054, v_glove, v_mitt, v_mitt
 
 c_progressive_gloves:
-    dw !IProgressiveItem, $0054, c_glove, c_mitt
+    dw !IProgressiveItem, $0054, c_glove, c_mitt, c_mitt
 
 h_progressive_gloves:
-    dw !IProgressiveItem, $0054, h_glove, h_mitt
+    dw !IProgressiveItem, $0054, h_glove, h_mitt, h_mitt
 
 
 v_progressive_swords:
-    dw !IProgressiveItem, $0059, v_sword_fighter, v_sword_master, v_sword_tempered, v_sword_gold
+    dw !IProgressiveItem, $0059, v_sword_fighter, v_sword_master, v_sword_tempered, v_sword_gold, v_sword_gold
 
 c_progressive_swords:
-    dw !IProgressiveItem, $0059, c_sword_fighter, c_sword_master, c_sword_tempered, c_sword_gold
+    dw !IProgressiveItem, $0059, c_sword_fighter, c_sword_master, c_sword_tempered, c_sword_gold, c_sword_gold
 
 h_progressive_swords:
-    dw !IProgressiveItem, $0059, h_sword_fighter, h_sword_master, h_sword_tempered, h_sword_gold
+    dw !IProgressiveItem, $0059, h_sword_fighter, h_sword_master, h_sword_tempered, h_sword_gold, h_sword_gold
 
 
 v_progressive_shields:
-    dw !IProgressiveItem, $005A, v_shield_blue, v_shield_red, v_shield_mirror
+    dw !IProgressiveItem, $005A, v_shield_blue, v_shield_red, v_shield_mirror, v_shield_mirror
 
 c_progressive_shields:
-    dw !IProgressiveItem, $005A, c_shield_blue, c_shield_red, c_shield_mirror
+    dw !IProgressiveItem, $005A, c_shield_blue, c_shield_red, c_shield_mirror, c_shield_mirror
 
 h_progressive_shields:
-    dw !IProgressiveItem, $005A, h_shield_blue, h_shield_red, h_shield_mirror
+    dw !IProgressiveItem, $005A, h_shield_blue, h_shield_red, h_shield_mirror, h_shield_mirror
 
 
 v_progressive_armor:
-    dw !IProgressiveItem, $005B, v_tunic_blue, v_tunic_red
+    dw !IProgressiveItem, $005B, v_tunic_blue, v_tunic_red, v_tunic_red
 
 c_progressive_armor:
-    dw !IProgressiveItem, $005B, c_tunic_blue, c_tunic_red
+    dw !IProgressiveItem, $005B, c_tunic_blue, c_tunic_red, c_tunic_red
 
 h_progressive_armor:
-    dw !IProgressiveItem, $005B, h_tunic_blue, h_tunic_red
+    dw !IProgressiveItem, $005B, h_tunic_blue, h_tunic_red, h_tunic_red
 
 
 p_visible_item:
