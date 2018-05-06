@@ -1238,6 +1238,8 @@ alttp_item_pickup:
     beq .flippers_jmp
     cmp #$0007
     beq .silvers_jmp
+    cmp #$0008
+    beq .shields_jmp
     jmp .end
 
 .normal_item_jmp
@@ -1256,6 +1258,8 @@ alttp_item_pickup:
     jmp .flippers
 .silvers_jmp
     jmp .silvers
+.shields_jmp
+    jmp .shields
 
 .normal_item
     lda.l alttp_item_table+2,x  ; Get Item value
@@ -1389,6 +1393,21 @@ alttp_item_pickup:
     %a16()
     jmp .end
 
+.shields
+    lda.l alttp_item_table+2,x  ; Get Item value
+    phx
+    tyx
+    %a8()
+    cmp.l !SRAM_ALTTP_ITEM_BUF,x             ; Prevent downgrades
+    bcc .shield_stop_downgrade
+    sta.l !SRAM_ALTTP_ITEM_BUF,x             ; Save value to ALTTP SRAM
+    sta.l $a06416                            ; Store to progressive shield value
+
+.shield_stop_downgrade
+    %a16()
+    plx
+    jmp .end
+
 .end
     lda #$0168
     jsl $82e118                 ; Music fix
@@ -1485,9 +1504,9 @@ namespace "alttp_item_"
     dw $0059, $0004, $0000, $0042       ; Gold Sword
     dw $005B, $0001, $0000, $0043       ; Blue Tunic
     dw $005B, $0002, $0000, $0044       ; Red Tunic
-    dw $005A, $0001, $0000, $0045       ; Shield
-    dw $005A, $0002, $0000, $0046       ; Red Shield
-    dw $005A, $0003, $0000, $0047       ; Mirror Shield
+    dw $005A, $0001, $0008, $0045       ; Shield
+    dw $005A, $0002, $0008, $0046       ; Red Shield
+    dw $005A, $0003, $0008, $0047       ; Mirror Shield
     dw $006B, $0001, $0003, $0048       ; Piece of Heart
     dw $006C, $0008, $0001, $0049       ; Heart Container
     dw $0076, $0001, $0001, $004A       ; 1 Arrow
