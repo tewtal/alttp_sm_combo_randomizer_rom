@@ -34,10 +34,14 @@
 !EmptyBig = #$877A
 
 org $cf8432
-;    dw $f040    ; Replace terminator e-tank with shovel
+;    dw $f0c0    ; Replace terminator e-tank with shovel
 
 org $cf86de
 ;    dw $efe4    ; Morph to progressive sword
+
+org $c98000      ; New item graphics
+base $898000
+    incbin "data/newitems.bin"
 
 org $c4efe0     ; First free space in PLM block
 base $84efe0
@@ -1131,13 +1135,6 @@ i_hidden_item:
     ldy #p_hidden_item
     rts
 
-i_pickup:
-    jsl alttp_item_pickup
-    rts
-
-i_progressive_item:
-    jsl alttp_progressive_item
-    rts
 
 warnpc $850000
 
@@ -1180,6 +1177,14 @@ SETFX:
 	LDA $0000,y
 	INY
 	RTS
+
+i_pickup:
+    jsl alttp_item_pickup
+    rts
+
+i_progressive_item:
+    jsl alttp_progressive_item
+    rts
 
 warnpc $849953
 
@@ -1577,7 +1582,7 @@ table box.tbl,rtl
 bow:
     dw "______        BOW        _______"
 silver_arrows:
-    dw "______  SILVER ARROWS    _______"
+    dw "______   SILVER ARROWS   _______"
 blue_boomerang:
     dw "______  BLUE BOOMERANG   _______"
 red_boomerang:
@@ -1589,7 +1594,7 @@ bomb_1:
 mushroom:
     dw "______     MUSHROOM      _______"
 powder:
-    dw "______      POWDER       _______"
+    dw "______   MAGIC POWDER    _______"
 firerod:
     dw "______     FIRE ROD      _______"
 icerod:
@@ -1609,9 +1614,9 @@ shovel:
 flute:
     dw "______      FLUTE        _______"
 net:
-    dw "______       NET         _______"
+    dw "______ BUG-CATCHING NET  _______"
 book:
-    dw "______       BOOK        _______"
+    dw "______  BOOK OF MUDORA   _______"
 bottle_empty:
     dw "______      BOTTLE       _______"
 bottle_red:
@@ -1627,23 +1632,23 @@ bottle_good_bee:
 bottle_fairy:
     dw "______      FAIRY        _______"
 somaria:
-    dw "______      SOMARIA      _______"
+    dw "______  CANE OF SOMARIA  _______"
 byrna:
-    dw "______      BYNRA        _______"
+    dw "______   CANE OF BYRNA   _______"
 cape:
-    dw "______       CAPE        _______"
+    dw "______    MAGIC CAPE     _______"
 mirror:
     dw "______      MIRROR       _______"
 glove:
-    dw "______      GLOVES       _______"
+    dw "______    POWER GLOVE    _______"
 mitt:
-    dw "______      MITTS        _______"
+    dw "______   TITAN'S MITT    _______"
 boots:
-    dw "______      BOOTS        _______"
+    dw "______   PEGASUS BOOTS   _______"
 flippers:
-    dw "______     FLIPPERS      _______"
+    dw "______  ZORA'S FLIPPERS  _______"
 pearl:
-    dw "______      PEARL        _______"
+    dw "______    MOON PEARL     _______"
 sword_master:
     dw "______   MASTER SWORD    _______"
 sword_tempered:
@@ -1651,9 +1656,9 @@ sword_tempered:
 sword_gold:
     dw "______    GOLD SWORD     _______"
 tunic_blue:
-    dw "______    BLUE TUNIC     _______"
+    dw "______     BLUE MAIL     _______"
 tunic_red:
-    dw "______     RED TUNIC     _______"
+    dw "______      RED MAIL     _______"
 shield:
     dw "______      SHIELD       _______"
 shield_red:
@@ -1699,7 +1704,7 @@ arrow_upgrade_5:
 arrow_upgrade_10:
     dw "______ 10 ARROW CAPACITY _______"
 sword_fighter:
-    dw "______   FIGHTER SWORD   _______"
+    dw "______  FIGHTER'S SWORD  _______"
 
 cleartable
 

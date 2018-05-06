@@ -28,10 +28,19 @@ introskip_doorflags:
     ora.w #$0001
     sta $7ed8b2
 
+    ; Unlock crateria map station door
+    lda $7ed8b0
+    ora.w #$0020
+    sta $7ed8b0
+
     ; Unlock norfair map station door
     lda $7ed8b8
     ora.w #$1000
     sta $7ed8b8
+
+    ; Set up open mode event bit flags
+    lda #$0801
+    sta $7ed820
     
     ; Call the save code to create a new file
     lda $7e0952

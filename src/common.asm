@@ -1,6 +1,16 @@
 ; Common routines used by both games
-;
 
+; SNES ROM HEADER
+
+org $00ffc0
+    ;   0              f01234
+    db "ALTTP+SM RANDOMIZER  "
+    db $35, $02, $0D, $04, $00, $01, $00, $B1, $BC, $4E, $43
+
+org $c0ffc0
+    ;   0              f01234
+    db "ALTTP+SM RANDOMIZER  "
+    db $35, $02, $0D, $04, $00, $01, $00, $B1, $BC, $4E, $43
 
 ; Repoint all vectors so we can control in software what game to run
 ; SRAM $a26000 toggles the game and interrupt vectors
