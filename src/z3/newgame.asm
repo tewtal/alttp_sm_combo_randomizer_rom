@@ -20,7 +20,7 @@ alttp_new_game:
     bne -
 
     jsl zelda_fix_checksum
-
+    
     plp
     ply
     plx

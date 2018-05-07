@@ -39,7 +39,7 @@ introskip_doorflags:
     sta $7ed8b8
 
     ; Set up open mode event bit flags
-    lda #$0801
+    lda #$0001
     sta $7ed820
     
     ; Call the save code to create a new file
@@ -47,12 +47,12 @@ introskip_doorflags:
     jsl $818000
 
     lda #$0000
-    sta !SRAM_SM_COMPLETED
-    sta !SRAM_ALTTP_EQUIPMENT_1
-    sta !SRAM_ALTTP_EQUIPMENT_2
-    sta !SRAM_ALTTP_COMPLETED
-    sta !SRAM_ALTTP_RANDOMIZER_SAVED
-
+    sta.l !SRAM_SM_COMPLETED
+    sta.l !SRAM_ALTTP_EQUIPMENT_1
+    sta.l !SRAM_ALTTP_EQUIPMENT_2
+    sta.l !SRAM_ALTTP_COMPLETED
+    sta.l !SRAM_ALTTP_RANDOMIZER_SAVED
+    
     jsl alttp_new_game  ; Setup new game for ALTTP
     jsl sm_copy_alttp_items ; Copy alttp items into temporary SRAM buffer
     jsl zelda_fix_checksum  ; Fix alttp checksum

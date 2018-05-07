@@ -83,6 +83,10 @@ transition_to_zelda:
 
     %a8()
 
+    lda $7ef35a
+    asl #6
+    sta $7ef416                 ; Set progressive shield flag
+
     lda !SRAM_ALTTP_EQUIPMENT_1
     sta $000202
     lda !SRAM_ALTTP_EQUIPMENT_2
