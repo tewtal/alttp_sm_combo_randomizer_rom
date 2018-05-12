@@ -14,12 +14,16 @@ introskip_doorflags:
     ; Make sure game mode is 1f
     lda $7e0998
     cmp.w #$001f
-    bne .ret
-    
+    beq +
+    jmp .ret
++
+
     ; Check if samus saved energy is 00, if it is, run startup code
     lda $7ed7e2
-    bne .ret
-    
+    beq +
+    jmp .ret
+
++
     ; Set construction zone and red tower elevator doors to blue
     lda $7ed8b6
     ora.w #$0004
@@ -42,20 +46,27 @@ introskip_doorflags:
     lda #$0001
     sta $7ed820
     
-    ; Call the save code to create a new file
-    lda $7e0952
-    jsl $818000
-
     lda #$0000
     sta.l !SRAM_SM_COMPLETED
     sta.l !SRAM_ALTTP_EQUIPMENT_1
     sta.l !SRAM_ALTTP_EQUIPMENT_2
     sta.l !SRAM_ALTTP_COMPLETED
     sta.l !SRAM_ALTTP_RANDOMIZER_SAVED
+    sta.l !door_timer_tmp
+    sta.l !door_adjust_tmp
+    sta.l !add_time_tmp
+    sta.l !region_timer_tmp
+    sta.l !region_tmp
+    sta.l !transition_tmp
     
-    jsl alttp_new_game  ; Setup new game for ALTTP
+    jsl stats_clear_values  ; Clear SM stats
+    jsl alttp_new_game      ; Setup new game for ALTTP
     jsl sm_copy_alttp_items ; Copy alttp items into temporary SRAM buffer
     jsl zelda_fix_checksum  ; Fix alttp checksum
+
+    ; Call the save code to create a new file
+    lda $7e0952
+    jsl $818000
 
 .ret:   
     lda #$0000

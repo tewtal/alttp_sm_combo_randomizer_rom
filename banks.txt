@@ -72,6 +72,7 @@ Bank            Mirror banks    Content
 9F:8000-F73F    DF              SM Bank #9F
 A0:8000-F7DF    E0              SM Bank #A0
 A1:8000-EBDF    E1              SM Bank #A1
+A1:EC00-FFFF    E1              -- SM Stat tracking code --
 A2:8000-F49F    E2              SM Bank #A2
 A3:8000-F31F    E3              SM Bank #A3
 A4:8000-F6BF    E4              SM Bank #A4
@@ -151,9 +152,19 @@ F2:4000-7FFF    --              -- SM Teleport Code and Tables --
 
 F3:0000-7FFF    --              -- SM Item table for ALTTP Items --
 
-F4:0000-7FFF    --              -- Free space --
+F4:0000-7FFF    --              -- Common routines (VRAM DMA etc) --
+
+F5:0000-7FFF    --              -- SPC Player Routines and SPC header --
+F6:0000-7FFF    --              -- SPC Data (first 32kb) --
+F7:0000-7FFF    --              -- SPC Data (last 32kb) --
+
+F8:0000-7FFF    --              -- Free space --
 ...                             -- Free space --
-FF:0000-7FFF    --              -- Free space --
+FC:0000-7FFF    --              -- Free space --
+
+FD:0000-7FFF    --              -- Common credits tilemap --
+FE:0000-7FFF    --              -- Common credits graphics --
+FF:0000-7FFF    --              -- Common credits code and data --
 
 
 ===============================================================================

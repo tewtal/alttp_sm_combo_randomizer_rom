@@ -12,13 +12,13 @@ RTL
 RTL
 ;--------------------------------------------------------------------------------
 RigChestRNG:
-	;JSL.l DecrementChestCounter
+	JSL.l DecrementChestCounter
 	LDA $04C4 : CMP.l ChestGameRNG : BEQ .forceHeart
 	.normalItem
 	JSL $0DBA71 ; GetRandomInt
 	AND.b #$07 ; restrict values to 0-7
 	CMP #$07 : BEQ .notHeart
-	;JSL.l DecrementItemCounter
+	JSL.l DecrementItemCounter
 RTL
 	.forceHeart
 	LDA #$33 : STA $C8 ; assure the correct state if player talked to shopkeeper
@@ -26,7 +26,7 @@ RTL
 	LDA #$07 ; give prize item
 RTL
 	.notHeart
-	;JSL.l DecrementItemCounter
+	JSL.l DecrementItemCounter
 	;LDA #$00 ; bullshit rupee farming in chest game
 	
 	JSL $0DBA71 ; GetRandomInt ; spam RNG until we stop getting the prize item

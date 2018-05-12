@@ -5,7 +5,7 @@ DarkWorldSaveFix:
 	LDA.b #$a0 : PHA : PLB ; thing we wrote over - data bank change
 	JSL.l DarkWorldFlagSet
 	JSL.l MasterSwordFollowerClear
-	;JSL.l StatSaveCounter  ;TODO FIX
+	JSL.l StatSaveCounter
 RTL
 ;--------------------------------------------------------------------------------
 DarkWorldLoadFix:

@@ -85,10 +85,11 @@ incsrc roomloading.asm
 incsrc icepalacegraphics.asm
 incsrc rngfixes.asm
 incsrc openmode.asm
+incsrc stats.asm
 
-;org $1C8000 ; text tables for translation
-;incbin data/i18n_en.bin
-;warnpc $1CF356
+org $1C8000 ; text tables for translation
+incbin data/i18n_en.bin
+warnpc $1CF356
 
 org $c7fa00
 base $87fa00

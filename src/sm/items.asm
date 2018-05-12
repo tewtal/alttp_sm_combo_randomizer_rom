@@ -1198,10 +1198,10 @@ org $f30000
 alttp_progressive_item:
     phx
     lda $0000,y                 ; Load SRAM offset of progressive item
-    iny : iny                         ; Y points to value of first progressive item
+    iny : iny                   ; Y points to value of first progressive item
     sty $89
     tax
-    lda !SRAM_ALTTP_ITEM_BUF,x               ; Load current item value
+    lda !SRAM_ALTTP_ITEM_BUF,x  ; Load current item value
     and #$00ff
     asl a                       ; Shift left for table lookup
     clc : adc $89

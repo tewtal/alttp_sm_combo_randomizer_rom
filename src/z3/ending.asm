@@ -4,6 +4,9 @@
 org $02b797     ; Hook Link entering triforce room
     jml alttp_check_ending
 
+org $0ee645
+    jml alttp_setup_credits
+
 org $f7fe00
 base $b7fe00
 alttp_check_ending:
@@ -34,5 +37,20 @@ alttp_check_ending:
 .exit
     plb
     rtl
+
+alttp_setup_credits:
+    %ai16()
+    sei
+    lda #$0000
+    sta $4200
+
+    %a8()
+    jsl $00894a ; Save ALTTP SRAM so stats are updated
+
+    ; Reset SPC and put it into upload mode
+    jsl sm_spc_reset
+
+    ; Call credits
+    jml credits_init  
 
 

@@ -13,6 +13,10 @@ org $c09E1C
 org $e9B33C
     jml sm_check_ending_mb_anim
 
+org $cbde80
+    jml sm_setup_credits
+
+
 org $f7fd00
 base $b7fd00
 sm_check_ending_door:        ; Check if ALTTP has been beaten, and only then activate the escape.
@@ -77,3 +81,15 @@ sm_check_ending_mb_anim:
     jml $a9b341
 +
     jml $A9B345
+
+sm_setup_credits:
+    %ai16()
+    sei
+    lda #$0000
+    sta $4200
+
+    ; Reset SPC and put it into upload mode
+    jsl zelda_spc_reset
+
+    ; Call credits
+    jml credits_init

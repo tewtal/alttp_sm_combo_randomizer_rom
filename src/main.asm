@@ -6,6 +6,8 @@ incsrc "sram.asm"                           ; SRAM Variable definitions
 
 ; --- Common code ---
 incsrc "common.asm"                         ; Common routines
+incsrc "credits.asm"                        ; Common credits scroller
+incsrc "spc_play.asm"                       ; Common SPC player
 
 ; --- Super Metroid code ---            
 incsrc "sm/hirom.asm"                       ; Super Metroid ExHiROM patch

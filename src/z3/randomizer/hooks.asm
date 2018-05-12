@@ -130,63 +130,63 @@ JSL.l SpawnZelda : NOP #2
 ; JSL.l CheckGanonHammerDamage : NOP
 ; ;--------------------------------------------------------------------------------
 
-; ;================================================================================
-; ; Stat Hooks
-; ;--------------------------------------------------------------------------------
-; org $079202 ; 39202 <- Bank07.asm : 2859 (JSL AddDashTremor)
-; JSL.l StatBonkCounter
-; ;--------------------------------------------------------------------------------
-; org $02B797 ; <- 13797 - Bank02.asm : 8712 (LDA.b #$19 : STA $10)
-; JSL.l StatsFinalPrep
-; ;--------------------------------------------------------------------------------
-; org $07A95B ; <- 3A95B - Bank07.asm : 6565 (JSL Dungeon_SaveRoomData)
-; JSL.l IncrementUWMirror
-; ;--------------------------------------------------------------------------------
-; org $0288D1 ; <- 108D1 - Bank02.asm : 1690 (STZ $0646)
-; JSL.l IndoorSubtileTransitionCounter
-; NOP #2
-; ;--------------------------------------------------------------------------------
-; org $07B574 ; <- 3B574 - Bank07.asm : 8519 (LDA.b #$01 : STA $02E9)
-; JSL.l IncrementChestCounter
-; NOP
-; ;--------------------------------------------------------------------------------
-; ;org $05FC7E ; <- 2FC7E - sprite_dash_item.asm : 118 (LDA $7EF36F : INC A : STA $7EF36F)
-; ;JSL.l IncrementSmallKeys
-; ;--------------------------------------------------------------------------------
-; ;org $06D18D ; <- 3518D - sprite_absorbable.asm : 274 (LDA $7EF36F : INC A : STA $7EF36F)
-; org $06D192 ; <- 35192 - sprite_absorbable.asm : 274 (STA $7EF36F)
-; JSL.l IncrementSmallKeysNoPrimary
-; ;--------------------------------------------------------------------------------
-; org $00F945 ; <- 7945 - Bank00.asm : 8557 (JSL SavePalaceDeaths)
-; JSL.l StatTransitionCounter ; we're not bothering to restore the instruction we wrote over
-; ;--------------------------------------------------------------------------------
-; org $09F443 ; <- 4F443 - module_death.asm : 257 (STA $7EF35C, X)
-; JSL.l IncrementFairyRevivalCounter
-; ;--------------------------------------------------------------------------------
-; org $02B6F3 ; <- 136F3 - Bank02.asm : 8600 (LDA.b #$0F : STA $10)
-; JSL.l DungeonExitTransition
-; ;--------------------------------------------------------------------------------
-; org $1BBD6A ; <- DBD6A - Bank1B.asm : 301 (LDA.b #$0F : STA $10)
-; JSL.l DungeonExitTransition
-; ;--------------------------------------------------------------------------------
-; org $01C3A7 ; <- C3A7 - Bank01.asm : 9733 (JSL Dungeon_SaveRoomQuadrantData)
-; JSL.l DungeonStairsTransition
-; ;--------------------------------------------------------------------------------
-; org $0BFFAC ; <- 5FFAC - Bank0B.asm : 170 (JSL Dungeon_SaveRoomQuadrantData)
-; JSL.l DungeonStairsTransition
-; ;--------------------------------------------------------------------------------
-; org $029A17 ; <- 11A17 - Bank02.asm : 4770 (JSL EnableForceBlank)
-; JSL.l DungeonHoleEntranceTransition
-; ;--------------------------------------------------------------------------------
-; org $0794EB ; <- 394EB - Bank07.asm : 3325 (LDA $01C31F, X : STA $0476)
-; JSL.l DungeonHoleWarpTransition
-; ;--------------------------------------------------------------------------------
-; org $0CC999 ; <- 64999 - Bank0C.asm : 1087 (LDA.b #$0F : STA $13)
-; NOP #4
-; ;--------------------------------------------------------------------------------
-; org $01ED75 ; <- ED75 - Bank01.asm : 13963 (JSL Dungeon_SaveRoomQuadrantData)
-; JSL.l IncrementBigChestCounter
-; ;--------------------------------------------------------------------------------
+;================================================================================
+; Stat Hooks
+;--------------------------------------------------------------------------------
+org $079202 ; 39202 <- Bank07.asm : 2859 (JSL AddDashTremor)
+JSL.l StatBonkCounter
+;--------------------------------------------------------------------------------
+org $02B797 ; <- 13797 - Bank02.asm : 8712 (LDA.b #$19 : STA $10)
+JSL.l StatsFinalPrep
+;--------------------------------------------------------------------------------
+org $07A95B ; <- 3A95B - Bank07.asm : 6565 (JSL Dungeon_SaveRoomData)
+JSL.l IncrementUWMirror
+;--------------------------------------------------------------------------------
+org $0288D1 ; <- 108D1 - Bank02.asm : 1690 (STZ $0646)
+JSL.l IndoorSubtileTransitionCounter
+NOP #2
+;--------------------------------------------------------------------------------
+org $07B574 ; <- 3B574 - Bank07.asm : 8519 (LDA.b #$01 : STA $02E9)
+JSL.l IncrementChestCounter
+NOP
+;--------------------------------------------------------------------------------
+;org $05FC7E ; <- 2FC7E - sprite_dash_item.asm : 118 (LDA $7EF36F : INC A : STA $7EF36F)
+;JSL.l IncrementSmallKeys
+;--------------------------------------------------------------------------------
+;org $06D18D ; <- 3518D - sprite_absorbable.asm : 274 (LDA $7EF36F : INC A : STA $7EF36F)
+org $06D192 ; <- 35192 - sprite_absorbable.asm : 274 (STA $7EF36F)
+JSL.l IncrementSmallKeysNoPrimary
+;--------------------------------------------------------------------------------
+org $00F945 ; <- 7945 - Bank00.asm : 8557 (JSL SavePalaceDeaths)
+JSL.l StatTransitionCounter ; we're not bothering to restore the instruction we wrote over
+;--------------------------------------------------------------------------------
+org $09F443 ; <- 4F443 - module_death.asm : 257 (STA $7EF35C, X)
+JSL.l IncrementFairyRevivalCounter
+;--------------------------------------------------------------------------------
+org $02B6F3 ; <- 136F3 - Bank02.asm : 8600 (LDA.b #$0F : STA $10)
+JSL.l DungeonExitTransition
+;--------------------------------------------------------------------------------
+org $1BBD6A ; <- DBD6A - Bank1B.asm : 301 (LDA.b #$0F : STA $10)
+JSL.l DungeonExitTransition
+;--------------------------------------------------------------------------------
+org $01C3A7 ; <- C3A7 - Bank01.asm : 9733 (JSL Dungeon_SaveRoomQuadrantData)
+JSL.l DungeonStairsTransition
+;--------------------------------------------------------------------------------
+org $0BFFAC ; <- 5FFAC - Bank0B.asm : 170 (JSL Dungeon_SaveRoomQuadrantData)
+JSL.l DungeonStairsTransition
+;--------------------------------------------------------------------------------
+org $029A17 ; <- 11A17 - Bank02.asm : 4770 (JSL EnableForceBlank)
+JSL.l DungeonHoleEntranceTransition
+;--------------------------------------------------------------------------------
+org $0794EB ; <- 394EB - Bank07.asm : 3325 (LDA $01C31F, X : STA $0476)
+JSL.l DungeonHoleWarpTransition
+;--------------------------------------------------------------------------------
+org $0CC999 ; <- 64999 - Bank0C.asm : 1087 (LDA.b #$0F : STA $13)
+NOP #4
+;--------------------------------------------------------------------------------
+org $01ED75 ; <- ED75 - Bank01.asm : 13963 (JSL Dungeon_SaveRoomQuadrantData)
+JSL.l IncrementBigChestCounter
+;--------------------------------------------------------------------------------
 
 ;================================================================================
 ; Dialog Override
@@ -305,18 +305,18 @@ NOP #2
 ; JSL CheckStunItemAction : NOP
 ; ;--------------------------------------------------------------------------------
 
-; ;================================================================================
-; ; Misc Stats
-; ;--------------------------------------------------------------------------------
-; org $029E2E ; <- 11E2E - module_ganon_emerges.asm : 59 (JSL Dungeon_SaveRoomData.justKeys)
-; JSL.l OnAga2Defeated
-; ;--------------------------------------------------------------------------------
-; org $0DDBDE ; <- 6DBDE - headsup_display.asm : 105 (DEC A : BPL .subtractRupees)
-; JSL.l IncrementSpentRupees
-; NOP #6
-; ;org $0DDBF7 ; <- 6DBF7 - headsup_display.asm : 121 (STA $7EF362)
-; ;RefillLogic_subtractRupees:
-; ;--------------------------------------------------------------------------------
+;================================================================================
+; Misc Stats
+;--------------------------------------------------------------------------------
+org $029E2E ; <- 11E2E - module_ganon_emerges.asm : 59 (JSL Dungeon_SaveRoomData.justKeys)
+JSL.l OnAga2Defeated
+;--------------------------------------------------------------------------------
+org $0DDBDE ; <- 6DBDE - headsup_display.asm : 105 (DEC A : BPL .subtractRupees)
+JSL.l IncrementSpentRupees
+NOP #6
+;org $0DDBF7 ; <- 6DBF7 - headsup_display.asm : 121 (STA $7EF362)
+;RefillLogic_subtractRupees:
+;--------------------------------------------------------------------------------
 
 ;================================================================================
 ; Remove Item Menu Text
@@ -1242,8 +1242,7 @@ org $00F97E ; <- 797E - Bank00.asm:8586 - (LDA $7EF3CA : EOR.b #$40 : STA $7EF3C
 JSL.l FlipLWDWFlag : NOP #6
 ;================================================================================
 org $02B162 ; <- 13162 - Bank02.asm:7672 - (LDA $7EF3CA : EOR.b #$40 : STA $7EF3CA)
-;JSL.l IncrementOWMirror
-NOP #4
+JSL.l IncrementOWMirror
 JSL.l FlipLWDWFlag
 NOP #2
 ;================================================================================
@@ -1980,8 +1979,7 @@ JSL.l OnEnterWater : NOP
 ;--------------------------------------------------------------------------------
 org $0AB8E5 ; <- 538E5
 JSL.l FloodGateAndMasterSwordFollowerReset
-;JSL.l IncrementFlute
-NOP #4
+JSL.l IncrementFlute
 NOP #32
 ;--------------------------------------------------------------------------------
 org $02AA87 ; <- 12A87

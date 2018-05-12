@@ -36,7 +36,7 @@ transition_to_sm:
     lda #$8f
     sta $002100                 ; Enable PPU force blank
 
-    jsr sm_spc_reset            ; Kill the ALTTP music engine and put the SPC in IPL upload mode
+    jsl sm_spc_reset            ; Kill the ALTTP music engine and put the SPC in IPL upload mode
                                 ; Gotta do this before switching RAM contents
 
 -
@@ -101,6 +101,12 @@ transition_to_sm:
     lda #$e29e
     sta $099c
 
+    lda #$0001
+    sta.l $7fff10               ; Set this transition to not count for stats
+
+    lda #$001b                  ; Add transition to SM
+    jsl inc_stat
+
     %a8()
 
     lda $84
@@ -121,6 +127,7 @@ transition_to_sm:
 sm_spc_reset:
     pha
     php
+    %a8()
     lda #$ff                    ; Send N-SPC into "upload mode"
     sta $2140
 
@@ -134,7 +141,7 @@ sm_spc_reset:
     jsl alttp_load_music        ; Call the alttp SPC upload routine
     plp
     pla
-    rts
+    rtl
 
 sm_spc_load:
     jsl $80800a                 ; Call the SM SPC upload routine with the parameter set to
@@ -185,6 +192,7 @@ sm_save_hook:
     plb
     plb
     jsl sm_save_alttp_items
+    jsl stats_save_sram
     jml $81800b
 
 sm_load_hook:
@@ -193,6 +201,7 @@ sm_load_hook:
     plb
     plb
     jsl sm_copy_alttp_items
+    jsl stats_load_sram
     jml $81808f
 
 sm_copy_alttp_items: ; Copies ALTTP items into a temporary SRAM buffer used when SM writes data to ALTTP (so that when Samus dies, alttp progress doesn't stay)

@@ -136,7 +136,7 @@ RTL
 OnOWTransition:
 	JSL.l FloodGateReset
 	JSL.l FlipperFlag
-	;JSL.l StatTransitionCounter
+	JSL.l StatTransitionCounter
 	PHP
 	SEP #$20 ; set 8-bit accumulator
 	LDA.b #$FF : STA !RNG_ITEM_LOCK_IN ; clear lock-in

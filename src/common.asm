@@ -54,26 +54,37 @@ brk:
 	jml $808573
 
 nmi:
-	pha
-	lda !SRAM_CURRENT_GAME	
-	bne +	
-	pla
+	pha : php
+    sep #$20
+	lda !SRAM_CURRENT_GAME
+    beq .alttp
+	bmi .sm
+    bpl .credits 
+.alttp
+    plp : pla
 	jml $0080c9
-+
-	pla
+.sm
+    plp : pla
 	jml $809583
+.credits
+    plp : pla
+    jml credits_nmi
 
 reset:              ; Always reset to SM
 	sei
 	clc
 	xce
+    lda #$00
+    sta !SRAM_CURRENT_GAME+1
     lda #$ff
+;    lda #$11
     sta !SRAM_CURRENT_GAME
 ;	lda !SRAM_CURRENT_GAME
 ;	bne +
 ;	jml $008000
 ;+
 	jml $80841c
+;    jml credits_init
 
 irq:
     jml irq_fastrom
@@ -114,7 +125,7 @@ irq_fastrom:
     plb
     jml $0082db    
 
-org $ff0000
+org $f40000
 copy_to_wram:       ; Copies 4 banks of ROM data to WRAM (start bank in X)
 
     %a8()           ; Make sure that NMI/IRQ's are off and PPU is off before calling this

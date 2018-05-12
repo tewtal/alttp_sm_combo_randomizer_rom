@@ -22,7 +22,7 @@ transition_to_zelda:
     lda #$8f
     sta $002100                 ; Enable PPU force blank
 
-    jsr zelda_spc_reset         ; Kill the ALTTP music engine and put the SPC in IPL upload mode
+    jsl zelda_spc_reset         ; Kill the SM music engine and put the SPC in IPL upload mode
                                 ; Gotta do this before switching RAM contents
 
 -
@@ -100,7 +100,7 @@ transition_to_zelda:
     jsl $09c499                 ; Load all overworld sprites
     plp
 
-
+    jsl $1cf37a                 ; Regenerate dialog pointers
 
     lda #$ff
     sta $4201
@@ -201,6 +201,7 @@ transition_to_zelda:
 zelda_spc_reset:
     pha
     php
+    %a8()
     lda #$ff                    ; Send N-SPC into "upload mode"
     sta $2140
 
@@ -214,7 +215,7 @@ zelda_spc_reset:
 
     plp
     pla
-    rts
+    rtl
 
 zelda_spc_load:
     pha

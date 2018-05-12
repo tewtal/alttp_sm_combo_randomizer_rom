@@ -271,9 +271,9 @@ base $82E126
 	JSL CLIPCHECK
 	BRA $08
 
-org $c58089
-base $858089
-	BRA $02
+;org $c58089
+;base $858089
+;	BRA $02
 
 org $c48BF2
 base $848BF2

@@ -1,5 +1,5 @@
 LoadRoomHook:
-    ;JSL.l IndoorTileTransitionCounter
+    JSL.l IndoorTileTransitionCounter
 
     .noStats
     JSL Dungeon_LoadRoom
