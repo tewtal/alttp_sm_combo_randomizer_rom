@@ -559,40 +559,44 @@ RTL
 
 .stampSword
 	REP #$20 ; set 16-bit accumulator
+	JSL get_total_frame_time
 	LDA !SWORD_TIME : BNE +
 	LDA !SWORD_TIME+2 : BNE +
-		LDA !NMI_TIME : STA !SWORD_TIME
-		LDA !NMI_TIME+2 : STA !SWORD_TIME+2
+		LDA !SRAM_TIMER1 : STA !SWORD_TIME
+		LDA !SRAM_TIMER2 : STA !SWORD_TIME+2
 	+
 	SEP #$20 ; set 8-bit accumulator
 RTS
 
 .stampBoots
 	REP #$20 ; set 16-bit accumulator
+	JSL get_total_frame_time
 	LDA !BOOTS_TIME : BNE +
 	LDA !BOOTS_TIME+2 : BNE +
-		LDA !NMI_TIME : STA !BOOTS_TIME
-		LDA !NMI_TIME+2 : STA !BOOTS_TIME+2
+		LDA !SRAM_TIMER1 : STA !BOOTS_TIME
+		LDA !SRAM_TIMER2 : STA !BOOTS_TIME+2
 	+
 	SEP #$20 ; set 8-bit accumulator
 RTS
 
 .stampFlute
 	REP #$20 ; set 16-bit accumulator
+	JSL get_total_frame_time
 	LDA !FLUTE_TIME : BNE +
 	LDA !FLUTE_TIME+2 : BNE +
-		LDA !NMI_TIME : STA !FLUTE_TIME
-		LDA !NMI_TIME+2 : STA !FLUTE_TIME+2
+		LDA !SRAM_TIMER1 : STA !FLUTE_TIME
+		LDA !SRAM_TIMER2 : STA !FLUTE_TIME+2
 	+
 	SEP #$20 ; set 8-bit accumulator
 RTS
 
 .stampMirror
 	REP #$20 ; set 16-bit accumulator
+	JSL get_total_frame_time
 	LDA !MIRROR_TIME : BNE +
 	LDA !MIRROR_TIME+2 : BNE +
-		LDA !NMI_TIME : STA !MIRROR_TIME
-		LDA !NMI_TIME+2 : STA !MIRROR_TIME+2
+		LDA !SRAM_TIMER1 : STA !MIRROR_TIME
+		LDA !SRAM_TIMER2 : STA !MIRROR_TIME+2
 	+
 	SEP #$20 ; set 8-bit accumulator
 RTS

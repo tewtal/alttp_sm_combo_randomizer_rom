@@ -33,10 +33,13 @@
 !AimUp = #$8773
 !EmptyBig = #$877A
 
-org $cf8432
-;    dw $f2b0    ; Replace terminator e-tank with shovel
+org $01E9BC
+    db $02
 
-org $cf86de
+;org $cf8432
+;    dw $f020    ; Replace terminator e-tank with shovel
+
+;org $cf86de
 ;    dw $efe4    ; Morph to progressive sword
 
 org $c98000      ; New item graphics
@@ -1409,33 +1412,101 @@ check_item_swap:
     tay
 	CPY.b #$02 : BNE + ; Blue Boomerang
 		LDA !SM_INVENTORY_SWAP : ORA #$80 : STA !SM_INVENTORY_SWAP
-		BRL .incrementCounts
+		BRL .done
 	+ CPY.b #$03 : BNE + ; Red Boomerang
 		LDA !SM_INVENTORY_SWAP : ORA #$40 : STA !SM_INVENTORY_SWAP
-		BRL .incrementCounts
+		BRL .done
 	+ CPY.b #$06 : BNE + ; Mushroom
 		LDA !SM_INVENTORY_SWAP : ORA #$20 : STA !SM_INVENTORY_SWAP
-		BRL .incrementCounts
+		BRL .done
 	+ CPY.b #$07 : BNE + ; Magic Powder
 		LDA !SM_INVENTORY_SWAP : ORA #$10 : STA !SM_INVENTORY_SWAP
-		BRL .incrementCounts
+		BRL .done
 	+ CPY.b #$0F : BNE + ; Shovel
 		LDA !SM_INVENTORY_SWAP : ORA #$04 : STA !SM_INVENTORY_SWAP
-		BRL .incrementCounts
+		BRL .done
 	+ CPY.b #$10 : BNE + ; Flute (Inactive)
+		JSR .stampFlute
 		LDA !SM_INVENTORY_SWAP : ORA #$02 : STA !SM_INVENTORY_SWAP
-		BRL .incrementCounts
+		BRL .done
 	+ CPY.b #$00 : BNE + ; Bow & Arrows
 		LDA !SM_INVENTORY_SWAP_2 : ORA #$80 : STA !SM_INVENTORY_SWAP_2
-		BRL .incrementCounts
+		BRL .done
 	+ CPY.b #$01 : BNE + ; Silver Arrows
 		LDA !SM_INVENTORY_SWAP_2 : ORA #$40 : STA !SM_INVENTORY_SWAP_2
-	+ 
-.incrementCounts
+	+ CPY.b #$3f : BNE + ; Fighter's Sword
+		JSR .stampSword
+		BRL .done
+	+ CPY.b #$23 : BNE + ; Master Sword
+		JSR .stampSword
+		BRL .done
+	+ CPY.b #$24 : BNE + ; Tempered Sword
+		JSR .stampSword
+		BRL .done
+	+ CPY.b #$25 : BNE + ; Golden Sword
+		JSR .stampSword
+		BRL .done
+	+ CPY.b #$20 : BNE + ; Pegasus Boots
+		JSR .stampBoots
+		BRL .done
+	+ CPY.b #$1D : BNE + ; Magic Mirror
+		JSR .stampMirror
+		BRL .done
+    + 
+.done
     plp
     ply
     pla
     rtl
+
+!SWORD_TIME = "$a06458"
+!BOOTS_TIME = "$a0645C"
+!FLUTE_TIME = "$a06460"
+!MIRROR_TIME = "$a06464"
+
+.stampSword
+	REP #$20 ; set 16-bit accumulator
+	JSL get_total_frame_time
+	LDA.l !SWORD_TIME : BNE +
+	LDA.l !SWORD_TIME+2 : BNE +
+		LDA.l !SRAM_TIMER1 : STA.l !SWORD_TIME
+		LDA.l !SRAM_TIMER2 : STA.l !SWORD_TIME+2
+	+
+	SEP #$20 ; set 8-bit accumulator
+RTS
+
+.stampBoots
+	REP #$20 ; set 16-bit accumulator
+	JSL get_total_frame_time
+	LDA.l !BOOTS_TIME : BNE +
+	LDA.l !BOOTS_TIME+2 : BNE +
+		LDA.l !SRAM_TIMER1 : STA.l !BOOTS_TIME
+		LDA.l !SRAM_TIMER2 : STA.l !BOOTS_TIME+2
+	+
+	SEP #$20 ; set 8-bit accumulator
+RTS
+
+.stampFlute
+	REP #$20 ; set 16-bit accumulator
+	JSL get_total_frame_time
+	LDA.l !FLUTE_TIME : BNE +
+	LDA.l !FLUTE_TIME+2 : BNE +
+		LDA.l !SRAM_TIMER1 : STA.l !FLUTE_TIME
+		LDA.l !SRAM_TIMER2 : STA.l !FLUTE_TIME+2
+	+
+	SEP #$20 ; set 8-bit accumulator
+RTS
+
+.stampMirror
+	REP #$20 ; set 16-bit accumulator
+	JSL get_total_frame_time
+	LDA.l !MIRROR_TIME : BNE +
+	LDA.l !MIRROR_TIME+2 : BNE +
+		LDA.l !SRAM_TIMER1 : STA.l !MIRROR_TIME
+		LDA.l !SRAM_TIMER2 : STA.l !MIRROR_TIME+2
+	+
+	SEP #$20 ; set 8-bit accumulator
+RTS
 
 alttp_item_table:
 namespace "alttp_item_"

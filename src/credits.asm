@@ -843,6 +843,7 @@ write_stats:
     sta $7ffc3e
 
     lda $a06423         ; Sum collected items
+    and #$00ff
     clc
     adc $7ffc3a
     sta $7ffc3a
@@ -962,13 +963,13 @@ write_stats:
     jmp .continue
 
 .alttp_shiftnumber
+    lda stats+6,x      ; Load bitshift mask
+    sta $04
     lda stats+4,x      ; ALTTP stat address
     phx
     tax
     lda $a06000,x      ; Load value from ALTTP SRAM
     sta $02
-    lda stats+6,x      ; Load bitshift mask
-    sta $04
     jsr alttp_shift_stat
     plx
     phy
@@ -994,6 +995,8 @@ alttp_shift_stat:
     and #$ff00
     xba
     tax             ; number of shifts in X
+    lda $02
+    and #$00ff
 
 -    
     cpx #$0000

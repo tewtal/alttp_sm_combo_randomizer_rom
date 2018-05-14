@@ -10,6 +10,7 @@
 !region_timer_tmp = $7fff06
 !region_tmp = $7fff08
 !transition_tmp = $7fff10
+!ALTTP_NMI_COUNTER = $7EF43E
 
 ; -------------------------------
 ; HIJACKS
@@ -92,28 +93,56 @@ base $809602
 ; -------------------------------
 org $e1ec00
 base $a1ec00
-stats:
-    ; STAT ID, ADDRESS,    TYPE (1 = Number, 2 = Time, 3 = Full time), UNUSED
-    dw $00,       0,  3, 0          ; Full RTA Time
-    dw $02,       0,  1, 0          ; Door transitions
-    dw $03,       0,  3, 0          ; Time in doors
-    dw $05,       0,  2, 0          ; Time adjusting doors
-    dw $07,       0,  3, 0          ; Crateria
-    dw $09,       0,  3, 0          ; Brinstar
-    dw $0b,       0,  3, 0          ; Norfair
-    dw $0d,       0,  3, 0          ; Wrecked Ship
-    dw $0f,       0,  3, 0          ; Maridia
-    dw $11,       0,  3, 0          ; Tourian
-    dw $14,       0,  1, 0          ; Charged Shots
-    dw $15,       0,  1, 0          ; Special Beam Attacks
-    dw $16,       0,  1, 0          ; Missiles
-    dw $17,       0,  1, 0          ; Super Missiles
-    dw $18,       0,  1, 0          ; Power Bombs
-    dw $1a,       0,  1, 0          ; Bombs
-    dw $1b,       0,  1, 0          ; Transitions to SM
-    dw $1c,       0,  1, 0          ; Transitions to ALTTP
-    dw $1d,       0,  1, 0          ; Collected items
-    dw 0,         0,  0, 0          ; end of table
+get_total_frame_time:
+    pha : phx : php
+    %ai16()
+    lda !SRAM_CURRENT_GAME
+    beq .alttp
+
+    lda !timer1
+    clc
+    adc $a0643e
+    sta !SRAM_TIMER1
+    lda !timer2
+    adc $a06440
+    sta !SRAM_TIMER2
+    jmp .end    
+
+.alttp
+    lda !ALTTP_NMI_COUNTER
+    clc
+    adc !SRAM_SM_STATS
+    sta !SRAM_TIMER1
+    lda !ALTTP_NMI_COUNTER+2
+    adc !SRAM_SM_STATS+2
+    sta !SRAM_TIMER2
+
+.end
+    plp : plx : pla
+    rtl
+
+; stats:
+;     ; STAT ID, ADDRESS,    TYPE (1 = Number, 2 = Time, 3 = Full time), UNUSED
+;     dw $00,       0,  3, 0          ; Full RTA Time
+;     dw $02,       0,  1, 0          ; Door transitions
+;     dw $03,       0,  3, 0          ; Time in doors
+;     dw $05,       0,  2, 0          ; Time adjusting doors
+;     dw $07,       0,  3, 0          ; Crateria
+;     dw $09,       0,  3, 0          ; Brinstar
+;     dw $0b,       0,  3, 0          ; Norfair
+;     dw $0d,       0,  3, 0          ; Wrecked Ship
+;     dw $0f,       0,  3, 0          ; Maridia
+;     dw $11,       0,  3, 0          ; Tourian
+;     dw $14,       0,  1, 0          ; Charged Shots
+;     dw $15,       0,  1, 0          ; Special Beam Attacks
+;     dw $16,       0,  1, 0          ; Missiles
+;     dw $17,       0,  1, 0          ; Super Missiles
+;     dw $18,       0,  1, 0          ; Power Bombs
+;     dw $1a,       0,  1, 0          ; Bombs
+;     dw $1b,       0,  1, 0          ; Transitions to SM
+;     dw $1c,       0,  1, 0          ; Transitions to ALTTP
+;     dw $1d,       0,  1, 0          ; Collected items
+;     dw 0,         0,  0, 0          ; end of table
 
 ; Helper function to add a time delta, X = stat to add to, A = value to check against
 ; This uses 4-bytes for each time delta
