@@ -33,8 +33,8 @@
 !AimUp = #$8773
 !EmptyBig = #$877A
 
-org $01E9BC
-    db $02
+;org $01E9BC
+;    db $02
 
 ;org $cf8432
 ;    dw $f020    ; Replace terminator e-tank with shovel
