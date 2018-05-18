@@ -27,4 +27,4 @@ incsrc "z3/randomizer/randomizer.asm"       ; ALTTP Randomizer patches (github.c
 incsrc "z3/items.asm"                       ; ALTTP Super Metroid Items
 incsrc "z3/ending.asm"                      ; ALTTP Ending Conditions
 incsrc "z3/newgame.asm"                     ; ALTTP New Game Initialization
-
+incsrc "z3/textskips.asm"
