@@ -19,16 +19,14 @@ zelda_check_teleport:
     inx
     inx
     inx
+    inx
+    inx
     bne -
     jmp .no_teleport
 .teleport
-    lda $a0
-    cmp #$0115              ; Fairy cave
-    bne +
     lda $7ec140
-    cmp #$0070              ; Check that we're in mire
+    cmp.l zelda_teleport_table+4,x
     bne .no_teleport
-+
     jmp zelda_do_teleport
 .no_teleport
     pla
@@ -94,9 +92,9 @@ zelda_restore_randomizer_ram:
 
 
 zelda_teleport_table:
-    ; cave_id, door_id
-    dw $0122, $8bce                 ; Links house -> Parlor (from Crateria Map station)
-    dw $00e5, $97c2                 ; Death mountain cave -> Norfair map station
-    dw $010e, $a894                 ; Dark world ice rod cave -> Maridia missile refill
-    dw $0115, $98a6                 ; Misery mire right side -> LN GT Refill
+    ; cave_id, door_id, 
+    dw $0122, $8bce, $0035  ; Links house -> Parlor (from Crateria Map station)
+    dw $00e5, $97c2, $0003  ; Death mountain cave -> Norfair map station
+    dw $010e, $a894, $0077  ; Dark world ice rod cave -> Maridia missile refill
+    dw $0115, $98a6, $0070  ; Misery mire right side -> LN GT Refill
     dw $0000

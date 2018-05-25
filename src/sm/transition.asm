@@ -84,6 +84,8 @@ transition_to_sm:
     lda #$0000
     jsl $818085                 ; Load SRAM contents back into RAM
 
+    jsl $80858c                 ; Update map
+
     jsl $809a79                 ; Redraw HUD
 
     jsr sm_spc_load             ; Load SM's music engine

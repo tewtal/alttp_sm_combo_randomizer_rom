@@ -102,6 +102,9 @@ transition_to_zelda:
 
     jsl $1cf37a                 ; Regenerate dialog pointers
 
+    jsl DecompSwordGfx          ; Update sword graphics
+    jsl DecompShieldGfx         ; Update shield graphics
+
     lda #$ff
     sta $4201
 
@@ -178,6 +181,7 @@ transition_to_zelda:
     sta $10
     stz $11
     stz $b0
+
 
     %ai16()
 

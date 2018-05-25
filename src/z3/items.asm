@@ -64,15 +64,12 @@ alttp_receive_sm_item:
     lda.l sm_item_table,x       ; Load SRAM offset
     tay
     lda.l sm_item_table+4,X     ; Load value
-    pha
     tyx
     clc
-    adc.l $a16010,x
-    sta.l $a16010,x
-    pla
-    clc
     adc.l $a16010+$2,x
-    sta.l $a16010+$2,x    
+    sta.l $a16010+$2,x
+    lda.l $a16010+$2,x
+    sta.l $a16010,x             ; Refill Samus health fully when grabbing an e-tank 
     bra .end
 
 .empty_tank

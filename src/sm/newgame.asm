@@ -64,6 +64,19 @@ introskip_doorflags:
     jsl sm_copy_alttp_items ; Copy alttp items into temporary SRAM buffer
     jsl zelda_fix_checksum  ; Fix alttp checksum
 
+    ; set all map stations as "acquired," in other words the maps will always show up
+    %a8()
+    lda.b #$FF
+    sta.l $7ED908
+    sta.l $7ED909
+    sta.l $7ED90A
+    sta.l $7ED90B
+    sta.l $7ED90C
+    sta.l $7ED90D
+    sta.l $7ED90E
+    sta.l $7ED90F  
+    %a16()
+
     ; Call the save code to create a new file
     lda $7e0952
     jsl $818000
