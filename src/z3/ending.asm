@@ -28,6 +28,8 @@ alttp_check_ending:
     lda.b #$ff : sta $29 : sta $c7
     stz $3d : stz $5e : stz $032b : stz $0372
     lda.b #$00 : sta $5d
+
+    lda.b #$00 : sta $0abd  ; Set Link to not use alternate palette
     bra .exit
 
 .sm_completed

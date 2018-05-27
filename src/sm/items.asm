@@ -1310,7 +1310,7 @@ alttp_item_pickup:
     lda.l alttp_item_table+2,x    ; Get bottle value
     phx
     tyx
-    sta.l !SRAM_ALTTP_ITEM_BUF+$5c,x ;$a0635b,x             ; Store bottle value to the correct bottle index
+    sta.l !SRAM_ALTTP_ITEM_BUF+$5c,x         ; $a0635b,x             ; Store bottle value to the correct bottle index
     %a16()
     plx
     jmp .end
@@ -1320,15 +1320,17 @@ alttp_item_pickup:
     phx
     tyx
     lda.l !SRAM_ALTTP_ITEM_BUF,x             ; Load amount of heart pieces
-    inc a                       ; Increment
-    cmp.b #$03                  ; Oh we got 4, then give a real heartpiece
+    inc a                                    ; Increment
+    cmp.b #$04                               ; Oh we got 4, then give a real heartpiece
     bne .no_heartpiece
     lda #$00
     sta.l !SRAM_ALTTP_ITEM_BUF,x             ; Reset heartpieces
-    lda.l !SRAM_ALTTP_ITEM_BUF+$6c      ;$a0636C               
+    lda.l !SRAM_ALTTP_ITEM_BUF+$6c           ; $a0636C               
     clc
     adc #$08
-    sta.l !SRAM_ALTTP_ITEM_BUF+$6c      ;$a0636C               ; Give a heartpiece
+    sta.l !SRAM_ALTTP_ITEM_BUF+$6c           ; $a0636C               ; Give a heartpiece
+    lda.l !SRAM_ALTTP_ITEM_BUF+$6c
+    sta.l !SRAM_ALTTP_ITEM_BUF+$6d           ; Refill Link's Health
     bra .piece_end
 
 .no_heartpiece
