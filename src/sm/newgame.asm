@@ -64,17 +64,20 @@ introskip_doorflags:
     jsl sm_copy_alttp_items ; Copy alttp items into temporary SRAM buffer
     jsl zelda_fix_checksum  ; Fix alttp checksum
 
-    ; set all map stations as "acquired," in other words the maps will always show up
+    ; begin Leno edits here!
+    LDA #$FFFF  ; decrement the accumulator by 1, making it #$FFFF
+    sta.l $7ED908  ; activate Crateria and Brinstar maps
+    ; sta.l $7ED909
+    sta.l $7ED90A  ; activate Norfair and Wrecked Ship maps
+    ; sta.l $7ED90B
+    sta.l $7ED90C  ; activate Maridia and Tourian maps
+    ; sta.l $7ED90D
+    ; sta.l $7ED90E  Ceres and debug maps
+    ; sta.l $7ED90F
+    
     %a8()
-    lda.b #$FF
-    sta.l $7ED908
-    sta.l $7ED909
-    sta.l $7ED90A
-    sta.l $7ED90B
-    sta.l $7ED90C
-    sta.l $7ED90D
-    sta.l $7ED90E
-    sta.l $7ED90F  
+    lda.b #$01
+    sta $0789  ; this is used for the minimap, so blue tiles can show up on it. this also lets the main map scroll
     %a16()
 
     ; Call the save code to create a new file
