@@ -75,3 +75,45 @@ OldMountainMan_TransitionFromTagalong_Edit:
         JML $09A6B6 ; <- 4A6B6 tagalong.asm:1194 (SEP #$30 : RTS)
 }
 
+;--------------------------------------------------------------------------------
+DialogEtherTablet:
+	PHA
+	LDA $0202 : CMP.b #$0F : BEQ + ; Show normal text if book is not equipped
+	-
+	PLA : JSL Sprite_ShowMessageUnconditional ; Wacky Hylian Text
+RTL
+	+
+	BIT $F4 : BVC - ; Show normal text if Y is not pressed
+	LDA.l AllowHammerTablets : BEQ ++
+		LDA $7EF34B : BEQ .yesText : BRA .noText
+	++
+		LDA $7EF359 : CMP.b #$FF : BEQ .yesText : CMP.b #$02 : !BGE .noText
+	;++
+	.yesText
+	;%LoadDialogAddress(EtherTabletText)
+	PLA : JSL Sprite_ShowMessageUnconditional ; Text From MSPedestalText (tables.asm) ~~!
+RTL
+	.noText
+	PLA
+RTL
+;--------------------------------------------------------------------------------
+DialogBombosTablet:
+	PHA
+	LDA $0202 : CMP.b #$0F : BEQ + ; Show normal text if book is not equipped
+	-
+	PLA : JSL Sprite_ShowMessageUnconditional ; Wacky Hylian Text
+RTL
+	+
+	BIT $F4 : BVC - ; Show normal text if Y is not pressed
+	LDA.l AllowHammerTablets : BEQ ++
+		LDA $7EF34B : BEQ .yesText : BRA .noText
+	++
+		LDA $7EF359 : CMP.b #$FF : BEQ .yesText : CMP.b #$02 : !BGE .noText
+	;++
+	.yesText
+	;%LoadDialogAddress(BombosTabletText)
+	PLA : JSL Sprite_ShowMessageUnconditional ; Text From MSPedestalText (tables.asm) ~~!
+RTL
+	.noText
+	PLA
+RTL
