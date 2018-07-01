@@ -327,7 +327,6 @@ RTL
 		LDA $7EF359 : CMP.b #$FF : BEQ .yesText : CMP.b #$02 : !BGE .noText
 	;++
 	.yesText
-	%LoadDialogAddress(EtherTabletText)
 	PLA : JSL Sprite_ShowMessageUnconditional ; Text From MSPedestalText (tables.asm)
 RTL
 	.noText
@@ -348,7 +347,6 @@ RTL
 		LDA $7EF359 : CMP.b #$FF : BEQ .yesText : CMP.b #$02 : !BGE .noText
 	;++
 	.yesText
-	%LoadDialogAddress(BombosTabletText)
 	PLA : JSL Sprite_ShowMessageUnconditional ; Text From MSPedestalText (tables.asm)
 RTL
 	.noText
