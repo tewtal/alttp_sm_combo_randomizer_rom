@@ -84,7 +84,9 @@ transition_to_sm:
     lda #$0000
     jsl $818085                 ; Load SRAM contents back into RAM
 
-    jsl $80858c                 ; Update map
+    ; jsl $80858c                 ; Update map
+    ; removing this call because the region is not set correctly at this point
+    ; we will be moving it to another location
 
     jsl $809a79                 ; Redraw HUD
 
@@ -275,8 +277,10 @@ sm_setup_door:
     jsr $dfc7
     jsr $ddf1
     jsr $de12
+    jsr $de6f  ; ADDING this call here. it will set the region number. this is called every door transition
     jsr $def2
     jsr $d961
+    jsl $80858c  ; and then we're adding in the map restoration here
 
     plb
     plp
