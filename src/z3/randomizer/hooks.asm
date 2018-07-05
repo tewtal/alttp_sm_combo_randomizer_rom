@@ -1961,8 +1961,11 @@ LinkDamaged_linkNotDamaged:
 org $0794FB ; <- 394FB - Bank07.asm:3336 (LDA.b #$14 : STA $11)
 JSL.l OnLinkDamagedFromPit
 ;--------------------------------------------------------------------------------
-org $01FFE7 ; <- FFE7 - Bank01.asm:16375 (LDA $7EF36D)
-JSL.l OnLinkDamagedFromPitOutdoors
+; org $01FFE7 ; <- FFE7 - Bank01.asm:16375 (LDA $7EF36D)
+; JSL.l OnLinkDamagedFromPitOutdoors
+; commenting this out, since it is for OHKO-mode in LttP. it jumps to an RTL
+; which currently does nothing. as a result, it sets Link's hearts to 4.5
+; when you jump off the bridge on death mountain
 ;--------------------------------------------------------------------------------
 org $078F27 ; <- 38F27
 JSL.l FlipperReset
