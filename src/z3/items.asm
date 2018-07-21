@@ -100,7 +100,8 @@ alttp_receive_sm_item:
 
 .end
     %ai16()
-    jsl sm_fix_checksum        ; Correct SM's savefile checksum
+    ; jsl sm_fix_checksum        ; Correct SM's savefile checksum
+    ; No need to fix checksum here since items don't save to the real SRAM anymore
 .no_item
     pla
     plp

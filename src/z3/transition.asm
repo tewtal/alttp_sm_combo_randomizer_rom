@@ -375,7 +375,7 @@ zelda_copy_sm_items:
     pha
     phx
     php
-    %a16()
+    %ai16()
     ldx #$0000
 -
     lda.l !SRAM_SM_START,x        
@@ -393,14 +393,16 @@ zelda_save_sm_items:        ; Restores SM items to the real SRAM
     pha
     phx
     php
-    %a16()
+    %ai16()
     ldx #$0000
 -
-    lda.l !SRAM_ALTTP_ITEM_BUF,X    
-    sta.l !SRAM_ALTTP_START,x       
+    lda.l !SRAM_SM_ITEM_BUF,X    
+    sta.l !SRAM_SM_START,x       
     inx : inx
     cpx #$0040
     bne -
+
+    jsl sm_fix_checksum     ; Update SM checksum so the savefile doesn't get deleted
 
     plp
     plx
