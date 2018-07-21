@@ -6,12 +6,14 @@ DarkWorldSaveFix:
 	JSL.l DarkWorldFlagSet
 	JSL.l MasterSwordFollowerClear
 	JSL.l StatSaveCounter
+	JSL.l zelda_save_sm_items	; ALTTSM - Move items from temporary buffer to real SM SRAM
 RTL
 ;--------------------------------------------------------------------------------
 DarkWorldLoadFix:
 	SEP #$20 ; set 8 bit accumulator
 	JSL.l OnFileLoad ;TODO FIX
 	REP #$20 ; restore 16 bit accumulator
+	JSL.l zelda_copy_sm_items	; ALTTSM - Copy items from real SM SRAM to ALTTP temp buffer
 	LDA.w #$0007 : STA $7EC00D : STA $7EC013 ; thing we wrote over - sets up some graphics timers
 RTL
 ;--------------------------------------------------------------------------------

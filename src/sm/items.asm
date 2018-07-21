@@ -34,10 +34,10 @@
 !EmptyBig = #$877A
 
 ;org $01E9BC
-;    db $02
+;    db $c0
 
 ;org $cf8432
-;    dw $f020    ; Replace terminator e-tank with shovel
+;    dw $f08c    ; Replace terminator e-tank with shovel
 
 ;org $cf86de
 ;    dw $efe4    ; Morph to progressive sword
@@ -1224,6 +1224,8 @@ alttp_item_pickup:
     lda.l alttp_item_table,x    ; Get ALTTP SRAM index
     tay                         ; Store Index in Y
     lda.l alttp_item_table+4,x  ; Get item type
+    sta.l $89                   ; Store item type in temp variable
+    and #$00ff
     
     cmp #$0000
     beq .normal_item_jmp
@@ -1261,18 +1263,58 @@ alttp_item_pickup:
     jmp .silvers
 
 .normal_item
-    lda.l alttp_item_table+2,x  ; Get Item value
+    lda.l alttp_item_table+2,x               ; Get Item value
     phx
     tyx
     %a8()
     cmp.l !SRAM_ALTTP_ITEM_BUF,x             ; Prevent downgrades
-    bcc .stop_downgrade
+    bcc .normal_item_end
+    beq .check_progressive
     sta.l !SRAM_ALTTP_ITEM_BUF,x             ; Save value to ALTTP SRAM
 
-.stop_downgrade
+.normal_item_end
     %a16()
     plx
     jmp .end
+
+.check_progressive
+    pha
+    lda $8a
+    and #$01
+    cmp #$01
+    beq +
+    pla
+    sta.l !SRAM_ALTTP_ITEM_BUF,x
+    bra .normal_item_end
+
++
+    pla   ; Progressive item that we already have, force upgrade
+    inc a
+    sta.l !SRAM_ALTTP_ITEM_BUF,x
+    %a16()
+    and #$00ff
+    sta $89
+    plx
+    lda.l alttp_item_table,x
+    sta $87
+    
+    ; find the new index to the alttp_item_table so we can show the correct text box
+    ldx #$0000
+-
+    lda.l alttp_item_table,x
+    cmp.l $87
+    bne +
+    lda.l alttp_item_table+2,x
+    cmp.l $89
+    bne +
+    jmp .end
++    
+    txa
+    clc
+    adc #$0008
+    tax
+    bra -
+
 
 .increment_item
     lda.l alttp_item_table+2,x
@@ -1548,18 +1590,18 @@ namespace "alttp_item_"
     dw $0051, $0001, $0000, $0038       ; Byrna
     dw $0052, $0001, $0000, $0039       ; Cape
     dw $0053, $0002, $0000, $003A       ; Mirror
-    dw $0054, $0001, $0000, $003B       ; Glove
+    dw $0054, $0001, $0100, $003B       ; Glove
     dw $0054, $0002, $0000, $003C       ; Mitt
     dw $0055, $0001, $0005, $003D       ; Boots                      ; 20
     dw $0056, $0001, $0006, $003E       ; Flippers
     dw $0057, $0001, $0000, $003F       ; Pearl
-    dw $0059, $0002, $0000, $0040       ; Master Sword
-    dw $0059, $0003, $0000, $0041       ; Tempered Sword
+    dw $0059, $0002, $0100, $0040       ; Master Sword
+    dw $0059, $0003, $0100, $0041       ; Tempered Sword
     dw $0059, $0004, $0000, $0042       ; Gold Sword
-    dw $005B, $0001, $0000, $0043       ; Blue Tunic
+    dw $005B, $0001, $0100, $0043       ; Blue Tunic
     dw $005B, $0002, $0000, $0044       ; Red Tunic
-    dw $005A, $0001, $0000, $0045       ; Shield
-    dw $005A, $0002, $0000, $0046       ; Red Shield
+    dw $005A, $0001, $0100, $0045       ; Shield
+    dw $005A, $0002, $0100, $0046       ; Red Shield
     dw $005A, $0003, $0000, $0047       ; Mirror Shield
     dw $006B, $0001, $0003, $0048       ; Piece of Heart
     dw $006C, $0008, $0001, $0049       ; Heart Container
@@ -1580,7 +1622,7 @@ namespace "alttp_item_"
     dw $0070, $000A, $0001, $0058       ; +10 Bombs
     dw $0071, $0005, $0001, $0059       ; +5 Arrows
     dw $0071, $000A, $0001, $005A       ; +10 Arrows
-    dw $0059, $0001, $0000, $005B       ; Fighter Sword
+    dw $0059, $0001, $0100, $005B       ; Fighter Sword
     
 
 org $c59643

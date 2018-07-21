@@ -49,11 +49,12 @@ transition_to_zelda:
 
     jsr zelda_copy_sram         ; Copy SRAM back to RAM
     jsl zelda_fix_checksum
+    jsl zelda_copy_sm_items     ; Copy SM items to temp buffer
     jsr zelda_spc_load          ; Load Zelda's music engine
     jsr zelda_blank_cgram       ; Blank out CGRAM
     jsr zelda_restore_dmaregs   ; Restore ALTTP DMA regs
     
-    ;jsl zelda_restore_randomizer_ram
+    jsl zelda_restore_randomizer_ram
 
     lda !SRAM_ALTTP_EXIT
     sta $a0                     ; Store links house as exit
@@ -206,6 +207,7 @@ zelda_spc_reset:
     pha
     php
     %a8()
+    
     lda #$ff                    ; Send N-SPC into "upload mode"
     sta $2140
 
@@ -368,6 +370,42 @@ zelda_restore_dmaregs:
     bne -
     plp
     rts
+
+zelda_copy_sm_items:        
+    pha
+    phx
+    php
+    %a16()
+    ldx #$0000
+-
+    lda.l !SRAM_SM_START,x        
+    sta.l !SRAM_SM_ITEM_BUF,X      ; save to temporary buffer
+    inx : inx
+    cpx #$0040
+    bne -
+
+    plp
+    plx
+    pla
+    rtl
+
+zelda_save_sm_items:        ; Restores SM items to the real SRAM
+    pha
+    phx
+    php
+    %a16()
+    ldx #$0000
+-
+    lda.l !SRAM_ALTTP_ITEM_BUF,X    
+    sta.l !SRAM_ALTTP_START,x       
+    inx : inx
+    cpx #$0040
+    bne -
+
+    plp
+    plx
+    pla
+    rtl
 
 ;zelda_cgram:
 ;    incbin "../data/zelda-cgram.bin"

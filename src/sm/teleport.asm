@@ -54,7 +54,7 @@ sm_do_teleport:
 
     lda #$0000
     sta.l $00078b
-    sta.l $00079f                    ; Set these values to 0 to force load from the ship if samus dies
+    sta.l $00079f                   ; Set these values to 0 to force load from the ship if samus dies
     
     lda #$001c                      ; Add transition to ALTTP
     jsl inc_stat

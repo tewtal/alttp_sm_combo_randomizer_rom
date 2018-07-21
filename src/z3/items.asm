@@ -36,7 +36,9 @@ alttp_receive_sm_item:
     beq .empty_tank
     cmp #$0003
     beq .spazplaz
-    bra .no_item
+    cmp #$0004
+    beq .ammo
+    jmp .no_item
 
 .equipment
     lda.l sm_item_table,x       ; Load SRAM offset
@@ -44,11 +46,11 @@ alttp_receive_sm_item:
     lda.l sm_item_table+4,x     ; Load value
     pha
     tyx
-    ora.l $a16010,x
-    sta.l $a16010,x
+    ora.l !SRAM_SM_ITEM_BUF,x
+    sta.l !SRAM_SM_ITEM_BUF,x
     pla
-    ora.l $a16010+$2,x
-    sta.l $a16010+$2,x    
+    ora.l !SRAM_SM_ITEM_BUF+$2,x
+    sta.l !SRAM_SM_ITEM_BUF+$2,x    
     bra .end
 
 .spazplaz
@@ -56,8 +58,8 @@ alttp_receive_sm_item:
     tay
     lda.l sm_item_table+4,x     ; Load value
     tyx
-    ora.l $a16010+$2,x
-    sta.l $a16010+$2,x    
+    ora.l !SRAM_SM_ITEM_BUF+$2,x
+    sta.l !SRAM_SM_ITEM_BUF+$2,x    
     bra .end
 
 .tank
@@ -66,10 +68,10 @@ alttp_receive_sm_item:
     lda.l sm_item_table+4,X     ; Load value
     tyx
     clc
-    adc.l $a16010+$2,x
-    sta.l $a16010+$2,x
-    lda.l $a16010+$2,x
-    sta.l $a16010,x             ; Refill Samus health fully when grabbing an e-tank 
+    adc.l !SRAM_SM_ITEM_BUF+$2,x
+    sta.l !SRAM_SM_ITEM_BUF+$2,x
+    lda.l !SRAM_SM_ITEM_BUF+$2,x
+    sta.l !SRAM_SM_ITEM_BUF,x             ; Refill Samus health fully when grabbing an e-tank 
     bra .end
 
 .empty_tank
@@ -78,10 +80,23 @@ alttp_receive_sm_item:
     lda.l sm_item_table+4,X     ; Load value
     tyx
     clc
-    adc.l $a16010,x
-    sta.l $a16010,x
+    adc.l !SRAM_SM_ITEM_BUF,x
+    sta.l !SRAM_SM_ITEM_BUF,x
     bra .end
-
+.ammo
+    lda.l sm_item_table,x       ; Load SRAM offset
+    tay
+    lda.l sm_item_table+4,X     ; Load value
+    pha
+    tyx
+    clc
+    adc.l !SRAM_SM_ITEM_BUF,x
+    sta.l !SRAM_SM_ITEM_BUF,x
+    pla
+    clc
+    adc.l !SRAM_SM_ITEM_BUF+$2,x
+    sta.l !SRAM_SM_ITEM_BUF+$2,x
+    bra .end
 
 .end
     %ai16()
@@ -116,9 +131,9 @@ sm_item_table:
     dw $0020, $0001,   100, $0000      ; E-Tank
     dw $0032, $0002,   100, $0000      ; Reserve-tank
 
-    dw $0024, $0001,     5, $0000      ; Missiles
-    dw $0028, $0001,     5, $0000      ; Super Missiles
-    dw $002c, $0001,     5, $0000      ; Power Bombs
+    dw $0024, $0004,     5, $0000      ; Missiles
+    dw $0028, $0004,     5, $0000      ; Super Missiles
+    dw $002c, $0004,     5, $0000      ; Power Bombs
 
 alttp_skip_item_text:
     lda $000c5e,x

@@ -45,9 +45,9 @@ zelda_do_teleport:
     sta !SRAM_ALTTP_EQUIPMENT_1
     lda $000303
     sta !SRAM_ALTTP_EQUIPMENT_2
-    jsl $00894a                     ; Autosave ALTTP state
+    jsl $00894a                           ; Autosave ALTTP state
 
-    ;jsr zelda_save_randomizer_ram
+    jsr zelda_save_randomizer_ram
     jml transition_to_sm
 
 

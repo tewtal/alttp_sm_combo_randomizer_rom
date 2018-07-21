@@ -783,7 +783,7 @@ db #$00 ; #00 = Dungeon-Specific Keys (Default) - #$01 = Generic Keys
 ;================================================================================
 org $400173 ; PC 0x180173
 Bob:
-db #$01 ; #00 = Off - #$01 = On (Default)
+db #$00 ; #00 = Off - #$01 = On (Default)
 ;================================================================================
 org $400174 ; PC 0x180174
 ; Flag to fix Fake Light World/Fake Dark World as caused by leaving the underworld
@@ -882,7 +882,7 @@ db $E4 ; Hera Basement Key (Set to programmable HP $EB) (set to $E4 for original
 ;================================================================================
 org $400210 ; PC 0x180210
 RandomizerSeedType:
-db #$00 ; #$00 = Casual (default) - #$01 = Glitched - #$02 = Speedrunner - #$FF = Not Randomizer
+db #$A0 ; #$00 = Casual (default) - #$01 = Glitched - #$02 = Speedrunner - #$FF = Not Randomizer
 ;--------------------------------------------------------------------------------
 org $400211 ; PC 0x180211
 GameType:
