@@ -6,7 +6,6 @@ DarkWorldSaveFix:
 	JSL.l DarkWorldFlagSet
 	JSL.l MasterSwordFollowerClear
 	JSL.l StatSaveCounter
-	JSL.l zelda_save_sm_items	; ALTTSM - Move items from temporary buffer to real SM SRAM
 RTL
 ;--------------------------------------------------------------------------------
 DarkWorldLoadFix:

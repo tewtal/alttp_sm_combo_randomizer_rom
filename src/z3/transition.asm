@@ -1,8 +1,10 @@
 ; Transition into Zelda
 
+
 ; Place all the transition code in upper bank B8/F8 (free space in SM)
 org $eaf800     
 base $aaf800
+
 
 ; exit id in !SRAM_ALTTP_EXIT
 ; darkworld flag in !SRAM_ALTTP_DARKWORLD
@@ -392,7 +394,9 @@ zelda_copy_sm_items:
 zelda_save_sm_items:        ; Restores SM items to the real SRAM
     pha
     phx
+    phy
     php
+
     %ai16()
     ldx #$0000
 -
@@ -405,8 +409,15 @@ zelda_save_sm_items:        ; Restores SM items to the real SRAM
     jsl sm_fix_checksum     ; Update SM checksum so the savefile doesn't get deleted
 
     plp
+    ply
     plx
     pla
+    rtl
+
+zelda_save_done_hook:
+    jsl zelda_save_sm_items
+    sep #$30
+    plb
     rtl
 
 ;zelda_cgram:

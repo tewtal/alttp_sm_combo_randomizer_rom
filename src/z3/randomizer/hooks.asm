@@ -1729,6 +1729,11 @@ dw $05AC, $04FC, $0001, $0027, $00F0 ; Zelda in the water room
 ;LDA #$00 : NOP #4
 ;--------------------------------------------------------------------------------
 
+; Hook end of Z3 save routine and save SM items/checksum
+; Has to be at the end of the routine or NMI will disrupt the saving routine
+org $0089be
+	jml zelda_save_done_hook
+
 ;================================================================================
 ; Dark World Spawn Location Fix & Follower Fixes
 ;--------------------------------------------------------------------------------

@@ -158,14 +158,14 @@ sm_fix_checksum:
     phy
     php
 
-    %ai16()
+     %ai16()
     
     lda $14
     pha
     stz $14
     ldx #$0010
--
-    lda $a16000,x
+ -
+    lda.l $a16000,x
     clc
     adc $14
     sta $14
@@ -176,11 +176,11 @@ sm_fix_checksum:
 
     ldx #$0000
     lda $14
-    sta $a16000,x
-    sta $a17ff0,x
+    sta.l $a16000,x
+    sta.l $a17ff0,x
     eor #$ffff
-    sta $a16008,x
-    sta $a17ff8,x
+    sta.l $a16008,x
+    sta.l $a17ff8,x
     pla
     sta $14
 
