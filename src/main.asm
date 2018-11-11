@@ -9,7 +9,7 @@ incsrc "common.asm"                         ; Common routines
 incsrc "credits.asm"                        ; Common credits scroller
 incsrc "spc_play.asm"                       ; Common SPC player
 
-; --- Super Metroid code ---            
+; --- Super Metroid code ---
 incsrc "sm/hirom.asm"                       ; Super Metroid ExHiROM patch
 incsrc "sm/transition.asm"                  ; Super Metroid Transition patch
 incsrc "sm/teleport.asm"                    ; Super Metroid Teleport patch
@@ -18,6 +18,7 @@ incsrc "sm/items.asm"                       ; Super Metroid ALTTP Items patch
 incsrc "sm/ending.asm"                      ; Super Metroid Ending conditions
 incsrc "sm/newgame.asm"                     ; Super Metroid New Game Initialization
 incsrc "sm/nofanfare.asm"                   ; Super Metroid Remove Item fanfares
+incsrc "sm/minorfixes.asm"                  ; Super Metroid some softlock removals etc
 
 ; --- ALTTP code ---
 incsrc "z3/hirom.asm"	                    ; ALTTP ExHiROM patch
