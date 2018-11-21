@@ -9,7 +9,7 @@ base $818087
     jml sm_load_hook
 
 
-; Place all the transition code in upper bank B8/F8 (free space in SM)
+; Place all the transition code in the top of the upper bank AA/EA (free space in SM)
 org $eafd00
 base $aafd00
 

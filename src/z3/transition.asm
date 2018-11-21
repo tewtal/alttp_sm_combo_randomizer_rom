@@ -1,7 +1,7 @@
 ; Transition into Zelda
 
 
-; Place all the transition code in upper bank B8/F8 (free space in SM)
+; Place all the transition code in the top of the upper bank AA/EA (free space in SM)
 org $eaf800     
 base $aaf800
 

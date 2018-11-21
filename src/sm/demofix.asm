@@ -1,5 +1,3 @@
-hirom
-
 org $CB9F2C
 base $8B9F2C
 
