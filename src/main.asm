@@ -20,6 +20,7 @@ incsrc "sm/newgame.asm"                     ; Super Metroid New Game Initializat
 incsrc "sm/nofanfare.asm"                   ; Super Metroid Remove Item fanfares
 incsrc "sm/minorfixes.asm"                  ; Super Metroid some softlock removals etc
 incsrc "sm/demofix.asm"                     ; Super Metroid Stop demos from playing
+incsrc "sm/maps.asm"                        ; Super Metroid map pause screen and HUD changes
 
 ; --- ALTTP code ---
 incsrc "z3/hirom.asm"	                    ; ALTTP ExHiROM patch
