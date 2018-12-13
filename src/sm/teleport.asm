@@ -51,10 +51,6 @@ sm_do_teleport:
     iny
     cpy #$0032
     bne -
-
-    lda #$0000
-    sta.l $00078b
-    sta.l $00079f                   ; Set these values to 0 to force load from the ship if samus dies
     
     lda #$001c                      ; Add transition to ALTTP
     jsl inc_stat
@@ -63,6 +59,11 @@ sm_do_teleport:
 
     lda #$0000
     jsl $818000                     ; Save SRAM
+
+    lda #$0000
+    sta.l $a16166
+    sta.l $a16168                   ; Set these values to 0 to force load from the ship if samus dies
+    jsl sm_fix_checksum             ; Fix SRAM checksum (otherwise SM deletes the file on load)
 
     jml transition_to_zelda         ; Call transition routine to ALTTP
 
