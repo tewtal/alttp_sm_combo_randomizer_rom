@@ -80,4 +80,4 @@ org $F58000  ; location in crossover
 base $B58000
 ; org $B58000  ; location in vanilla SM
 
-incbin "data/SM_maps.bin"  ; add in all of our necessary map changes
+incbin "data/sm_maps.bin"  ; add in all of our necessary map changes
