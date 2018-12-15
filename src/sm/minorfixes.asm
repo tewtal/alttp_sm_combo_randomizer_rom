@@ -1,3 +1,7 @@
+;Fix music coming into the maridia portal
+org $CFD924
+    db $1B, $05
+
 ;Fix for escape bomb block softlock by Capn
 ;Hijack the door ASM
 org $cfe4cf
