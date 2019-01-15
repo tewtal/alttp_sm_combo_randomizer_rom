@@ -37,7 +37,7 @@ org $d0b9a1
     jml charged_beam
 
 ; Firing SBAs
-org $d0ccca
+org $d0ccd2
     jml fire_sba
 
 ; Missiles/supers fired
@@ -250,13 +250,20 @@ charged_beam:
 
 ; Firing SBAs
 fire_sba:
-    lda #$0015
+    lda.l $90cc21, x
+    beq .nosba      ; If the table lookup for the PB amount to remove is just 0, then exit right away
+
+    lda #$0015      ; SBA happening, increment stat
     jsl inc_stat
 
-    ; Run hijacked code and return
-    lda $09a6
-    and #$000f
-    jml $90ccd0
+    dec $09ce       ; Cheat and don't use the table for the amount of PB's to remove
+    bpl +           ; since it'll always cost one
+    stz $09ce       ; Handle underflow if it somehow can happen
++
+    jml $90cce1     ; Jump to SBA triggering code
+
+.nosba
+    jml $90ccef     ; Jump to RTS (don't trigger SBA)
 
 ; MissilesSupers used
 missiles_fired:
