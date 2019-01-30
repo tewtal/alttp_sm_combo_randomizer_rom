@@ -291,7 +291,14 @@ pbs_laid:
 
 ; Bombs laid
 bombs_laid:
+    lda $09d2       ; Check HUD selection index for PB selected
+    cmp #$0003          
+    beq .powerbomb
     lda #$001a
+    bra .end
+.powerbomb
+    lda #$0018
+.end
     jsl inc_stat
 
     ;run hijacked code and return
