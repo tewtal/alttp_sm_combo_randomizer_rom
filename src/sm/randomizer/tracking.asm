@@ -319,6 +319,8 @@ item_collected:
     beq .noitem
     cmp #$0018
     beq .noitem
+    cmp #$001c
+    beq .noitem
 
     lda #$001d
     jsl inc_stat
