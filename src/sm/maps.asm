@@ -66,14 +66,14 @@ DW $FFFF
 
 
 ; these two lines are just the graphics for the portal indicator
-; org $9AB2E0  ; location in vanilla SM
-org $DAB2E0  ; location in crossover
-base $9AB2E0
+; org $9AB3A0  ; location in vanilla SM
+org $DAB3A0  ; location in crossover
+base $9AB3A0
 DB $00,$E0,$60,$95,$7C,$80,$7C,$80,$7C,$80,$7C,$80,$60,$95,$00,$E0
 
-; org $B681C0  ; location in vanilla SM
-org $F681C0  ; location in crossover
-base $B681C0
+; org $B68340  ; location in vanilla SM
+org $F68340  ; location in crossover
+base $B68340
 DB $00,$E0,$60,$95,$7C,$80,$7C,$80,$7C,$80,$7C,$80,$60,$95,$00,$E0
 
 org $F58000  ; location in crossover
