@@ -42,6 +42,10 @@
 ;org $cf86de
 ;    dw $efe4    ; Morph to progressive sword
 
+org $C22D7C   ; Patch to Crateria surface palette for Z3 items e.g. PoH, Pearl
+base $822D7C  ; this may be way wrong
+    incbin "data/Crateria_palette.bin"
+
 org $c98000      ; New item graphics
 base $898000
     incbin "data/newitems.bin"
@@ -282,7 +286,7 @@ v_red_boomerang:
     dw !IAlttpVisibleItem, $0003
 
 v_hookshot:
-    dw !ILoadSpecialGraphics, $9100 : db $01, $01, $01, $01, $01, $01, $01, $01
+    dw !ILoadSpecialGraphics, $9100 : db $00, $00, $00, $00, $00, $00, $00, $00
     dw !IAlttpVisibleItem, $0004
 
 v_bomb_1:
@@ -298,11 +302,11 @@ v_powder:
     dw !IAlttpVisibleItem, $0007
 
 v_fire_rod:
-    dw !ILoadSpecialGraphics, $AF00 : db $02, $02, $02, $02, $02, $02, $02, $02
+    dw !ILoadSpecialGraphics, $AF00 : db $02, $00, $00, $00, $02, $00, $00, $00
     dw !IAlttpVisibleItem, $0008
 
 v_ice_rod:
-    dw !ILoadSpecialGraphics, $B000 : db $03, $03, $03, $03, $03, $03, $03, $03
+    dw !ILoadSpecialGraphics, $B000 : db $00, $03, $00, $00, $00, $03, $00, $00
     dw !IAlttpVisibleItem, $0009
 
 v_bombos:
@@ -350,7 +354,7 @@ v_bottle_red:
     dw !IAlttpVisibleItem, $0014
     
 v_bottle_green:
-    dw !ILoadSpecialGraphics, $BC00 : db $02, $02, $02, $02, $02, $02, $02, $02
+    dw !ILoadSpecialGraphics, $BC00 : db $01, $01, $01, $01, $01, $01, $01, $01
     dw !IAlttpVisibleItem, $0015
     
 v_bottle_blue:
@@ -426,7 +430,7 @@ v_tunic_red:
     dw !IAlttpVisibleItem, $0027
     
 v_shield_blue:
-    dw !ILoadSpecialGraphics, $CF00 : db $00, $00, $00, $00, $00, $00, $00, $00
+    dw !ILoadSpecialGraphics, $CF00 : db $03, $03, $03, $03, $03, $03, $03, $03
     dw !IAlttpVisibleItem, $0028
     
 v_shield_red:
@@ -535,7 +539,7 @@ c_red_boomerang:
     dw !IAlttpChozoItem, $0003
 
 c_hookshot:
-    dw !ILoadSpecialGraphics, $9100 : db $01, $01, $01, $01, $01, $01, $01, $01
+    dw !ILoadSpecialGraphics, $9100 : db $00, $00, $00, $00, $00, $00, $00, $00
     dw !IAlttpChozoItem, $0004
 
 c_bomb_1:
@@ -551,11 +555,11 @@ c_powder:
     dw !IAlttpChozoItem, $0007
 
 c_fire_rod:
-    dw !ILoadSpecialGraphics, $AF00 : db $02, $02, $02, $02, $02, $02, $02, $02
+    dw !ILoadSpecialGraphics, $AF00 : db $02, $00, $00, $00, $02, $00, $00, $00
     dw !IAlttpChozoItem, $0008
 
 c_ice_rod:
-    dw !ILoadSpecialGraphics, $B000 : db $03, $03, $03, $03, $03, $03, $03, $03
+    dw !ILoadSpecialGraphics, $B000 : db $00, $03, $00, $00, $00, $03, $00, $00
     dw !IAlttpChozoItem, $0009
 
 c_bombos:
@@ -603,7 +607,7 @@ c_bottle_red:
     dw !IAlttpChozoItem, $0014
     
 c_bottle_green:
-    dw !ILoadSpecialGraphics, $BC00 : db $02, $02, $02, $02, $02, $02, $02, $02
+    dw !ILoadSpecialGraphics, $BC00 : db $01, $01, $01, $01, $01, $01, $01, $01
     dw !IAlttpChozoItem, $0015
     
 c_bottle_blue:
@@ -679,7 +683,7 @@ c_tunic_red:
     dw !IAlttpChozoItem, $0027
     
 c_shield_blue:
-    dw !ILoadSpecialGraphics, $CF00 : db $00, $00, $00, $00, $00, $00, $00, $00
+    dw !ILoadSpecialGraphics, $CF00 : db $03, $03, $03, $03, $03, $03, $03, $03
     dw !IAlttpChozoItem, $0028
     
 c_shield_red:
@@ -788,7 +792,7 @@ h_red_boomerang:
     dw !IAlttpHiddenItem, $0003
 
 h_hookshot:
-    dw !ILoadSpecialGraphics, $9100 : db $01, $01, $01, $01, $01, $01, $01, $01
+    dw !ILoadSpecialGraphics, $9100 : db $00, $00, $00, $00, $00, $00, $00, $00
     dw !IAlttpHiddenItem, $0004
 
 h_bomb_1:
@@ -804,11 +808,11 @@ h_powder:
     dw !IAlttpHiddenItem, $0007
 
 h_fire_rod:
-    dw !ILoadSpecialGraphics, $AF00 : db $02, $02, $02, $02, $02, $02, $02, $02
+    dw !ILoadSpecialGraphics, $AF00 : db $02, $00, $00, $00, $02, $00, $00, $00
     dw !IAlttpHiddenItem, $0008
 
 h_ice_rod:
-    dw !ILoadSpecialGraphics, $B000 : db $03, $03, $03, $03, $03, $03, $03, $03
+    dw !ILoadSpecialGraphics, $B000 : db $00, $03, $00, $00, $00, $03, $00, $00
     dw !IAlttpHiddenItem, $0009
 
 h_bombos:
@@ -856,7 +860,7 @@ h_bottle_red:
     dw !IAlttpHiddenItem, $0014
     
 h_bottle_green:
-    dw !ILoadSpecialGraphics, $BC00 : db $02, $02, $02, $02, $02, $02, $02, $02
+    dw !ILoadSpecialGraphics, $BC00 : db $01, $01, $01, $01, $01, $01, $01, $01
     dw !IAlttpHiddenItem, $0015
     
 h_bottle_blue:
@@ -932,7 +936,7 @@ h_tunic_red:
     dw !IAlttpHiddenItem, $0027
     
 h_shield_blue:
-    dw !ILoadSpecialGraphics, $CF00 : db $00, $00, $00, $00, $00, $00, $00, $00
+    dw !ILoadSpecialGraphics, $CF00 : db $03, $03, $03, $03, $03, $03, $03, $03
     dw !IAlttpHiddenItem, $0028
     
 h_shield_red:
