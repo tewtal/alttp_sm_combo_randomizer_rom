@@ -426,7 +426,7 @@ v_tunic_red:
     dw !IAlttpVisibleItem, $0027
     
 v_shield_blue:
-    dw !ILoadSpecialGraphics, $CF00 : db $00, $00, $00, $00, $00, $00, $00, $00
+    dw !ILoadSpecialGraphics, $CF00 : db $03, $03, $03, $03, $03, $03, $03, $03
     dw !IAlttpVisibleItem, $0028
     
 v_shield_red:
@@ -603,7 +603,7 @@ c_bottle_red:
     dw !IAlttpChozoItem, $0014
     
 c_bottle_green:
-    dw !ILoadSpecialGraphics, $BC00 : db $02, $02, $02, $02, $02, $02, $02, $02
+    dw !ILoadSpecialGraphics, $BC00 : db $01, $01, $01, $01, $01, $01, $01, $01
     dw !IAlttpChozoItem, $0015
     
 c_bottle_blue:
@@ -679,7 +679,7 @@ c_tunic_red:
     dw !IAlttpChozoItem, $0027
     
 c_shield_blue:
-    dw !ILoadSpecialGraphics, $CF00 : db $00, $00, $00, $00, $00, $00, $00, $00
+    dw !ILoadSpecialGraphics, $CF00 : db $03, $03, $03, $03, $03, $03, $03, $03
     dw !IAlttpChozoItem, $0028
     
 c_shield_red:
@@ -856,7 +856,7 @@ h_bottle_red:
     dw !IAlttpHiddenItem, $0014
     
 h_bottle_green:
-    dw !ILoadSpecialGraphics, $BC00 : db $02, $02, $02, $02, $02, $02, $02, $02
+    dw !ILoadSpecialGraphics, $BC00 : db $01, $01, $01, $01, $01, $01, $01, $01
     dw !IAlttpHiddenItem, $0015
     
 h_bottle_blue:
@@ -932,7 +932,7 @@ h_tunic_red:
     dw !IAlttpHiddenItem, $0027
     
 h_shield_blue:
-    dw !ILoadSpecialGraphics, $CF00 : db $00, $00, $00, $00, $00, $00, $00, $00
+    dw !ILoadSpecialGraphics, $CF00 : db $03, $03, $03, $03, $03, $03, $03, $03
     dw !IAlttpHiddenItem, $0028
     
 h_shield_red:
