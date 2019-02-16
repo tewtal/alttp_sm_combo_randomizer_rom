@@ -350,7 +350,7 @@ v_bottle_red:
     dw !IAlttpVisibleItem, $0014
     
 v_bottle_green:
-    dw !ILoadSpecialGraphics, $BC00 : db $02, $02, $02, $02, $02, $02, $02, $02
+    dw !ILoadSpecialGraphics, $BC00 : db $01, $01, $01, $01, $01, $01, $01, $01
     dw !IAlttpVisibleItem, $0015
     
 v_bottle_blue:
