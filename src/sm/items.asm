@@ -534,7 +534,7 @@ c_red_boomerang:
     dw !ILoadSpecialGraphics, $E000 : db $02, $02, $02, $02, $02, $02, $02, $02
     dw !IAlttpChozoItem, $0003
 
-hookshot:
+c_hookshot:
     dw !ILoadSpecialGraphics, $9100 : db $00, $00, $00, $00, $00, $00, $00, $00
     dw !IAlttpChozoItem, $0004
 
