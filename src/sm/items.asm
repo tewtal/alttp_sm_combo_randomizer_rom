@@ -42,6 +42,10 @@
 ;org $cf86de
 ;    dw $efe4    ; Morph to progressive sword
 
+org $C22D7C   ; Patch to Crateria surface palette for Z3 items e.g. PoH, Pearl
+base $822D7C  ; this may be way wrong
+    incbin "data/Crateria_palette.bin"
+
 org $c98000      ; New item graphics
 base $898000
     incbin "data/newitems.bin"
