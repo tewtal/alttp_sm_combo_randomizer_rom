@@ -1216,8 +1216,8 @@ tilemap_data:
     dw "  ALTTP RANDOMIZER DEVELOPERS   "
     !BIG
     dw "                                "
-    dw "  VEETORP   KARKAT   DESSYREQT  "
-    dw "  veetorp   karkat   dessyreqt  "
+    dw " VEETORP KATDEVSGAMES DESSYREQT "
+    dw " veetorp katdevsgames dessyreqt "
     dw "                                "
     dw "  SMALLHACKER     CHRISTOSOWEN  "
     dw "  smallhacker     christosowen  "
