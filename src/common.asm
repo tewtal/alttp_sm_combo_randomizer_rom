@@ -83,6 +83,8 @@ reset:              ; Always reset to SM
 ;	bne +
 ;	jml $008000
 ;+
+    jsl mw_init             ; Init multiworld
+    jsl init_randolive      ; Init randolive
 	jml $80841c
 ;    jml credits_init
 

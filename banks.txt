@@ -161,7 +161,12 @@ F5:0000-7FFF    --              -- SPC Player Routines and SPC header --
 F6:0000-7FFF    --              -- SPC Data (first 32kb) --
 F7:0000-7FFF    --              -- SPC Data (last 32kb) --
 
-F8:0000-7FFF    --              -- Free space --
+F8:0000-0FFF    --              -- Multiworld common code --
+F8:1000-2FFF    --              -- Multiworld ALTTP code --
+F8:3000-4EFF    --              -- Multiworld SM code --
+F8:4F00-7FFF    --              -- Multiworld data tables --
+
+F9:0000-7FFF    --              -- Free space --
 ...                             -- Free space --
 FC:0000-7FFF    --              -- Free space --
 

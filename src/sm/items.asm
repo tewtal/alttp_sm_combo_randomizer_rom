@@ -31,7 +31,9 @@
 !ItemSelect = #$8764
 !AimDown = #$876B
 !AimUp = #$8773
-!EmptyBig = #$877A
+
+!EmptyBig = #EmptyBig
+!PlaceholderBig = #PlaceholderBig
 
 ;org $01E9BC
 ;    db $c0
@@ -1142,7 +1144,6 @@ i_hidden_item:
     ldy #p_hidden_item
     rts
 
-
 warnpc $850000
 
 org $c498e3
@@ -1193,6 +1194,15 @@ i_progressive_item:
     jsl alttp_progressive_item
     rts
 
+sm_mw_call_receive:
+    phx : phy
+    jsr SETFX
+    lda #$0037
+    jsl $809049
+    ply : plx
+    jsr ($0000,x)
+    rtl
+    
 warnpc $849953
 
 org $f30000
@@ -1694,6 +1704,8 @@ base $859643
     dw !EmptySmall, !Small, arrow_upgrade_5
     dw !EmptySmall, !Small, arrow_upgrade_10
     dw !EmptySmall, !Small, sword_fighter
+    dw !PlaceholderBig, !Big, sm_item_sent
+    dw !PlaceholderBig, !Big, sm_item_received
     dw !EmptySmall, !Small, btn_array
 
 table box.tbl,rtl
@@ -1825,6 +1837,18 @@ arrow_upgrade_10:
 sword_fighter:
     dw "______  FIGHTER'S SWORD  _______"
 
+sm_item_sent:
+    dw "___         YOU FOUND        ___"
+    dw "___      ITEM NAME HERE      ___"
+    dw "___           FOR            ___"
+    dw "___          PLAYER          ___"
+
+sm_item_received:
+    dw "___       YOU RECEIVED       ___"
+    dw "___      ITEM NAME HERE      ___"
+    dw "___           FROM           ___"
+    dw "___          PLAYER          ___"
+
 cleartable
 
 btn_array:
@@ -1838,41 +1862,170 @@ btn_array:
     DW $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
     DW $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
 
+table box_yellow.tbl,rtl
+item_names:
+    dw "___      AN ENERGY TANK      ___"
+    dw "___         MISSILES         ___"
+    dw "___       SUPER MISSILES     ___"
+    dw "___        POWER BOMBS       ___"
+    dw "___          BOMBS           ___"
+    dw "___       CHARGE BEAM        ___"
+    dw "___         ICE BEAM         ___"
+    dw "___       HI-JUMP BOOTS      ___"
+    dw "___       SPEED BOOSTER      ___"
+    dw "___        WAVE BEAM         ___"
+    dw "___       S P A Z E R        ___"
+    dw "___       SPRING BALL        ___"
+    dw "___        VARIA SUIT        ___"
+    dw "___       GRAVITY SUIT       ___"
+    dw "___       X-RAY SCOPE        ___"
+    dw "___       PLASMA BEAM        ___"
+    dw "___      GRAPPLING BEAM      ___"
+    dw "___        SPACE JUMP        ___"
+    dw "___       SCREW ATTACK       ___"
+    dw "___       MORPHING BALL      ___"
+    dw "___      A RESERVE TANK      ___"
+    dw "______        BOW        _______"
+    dw "______   SILVER ARROWS   _______"
+    dw "______  BLUE BOOMERANG   _______"
+    dw "______   RED BOOMERANG   _______"
+    dw "______     HOOKSHOT      _______"
+    dw "______      1 BOMB       _______"
+    dw "______     MUSHROOM      _______"
+    dw "______   MAGIC POWDER    _______"
+    dw "______     FIRE ROD      _______"
+    dw "______     ICE ROD       _______"
+    dw "______      BOMBOS       _______"
+    dw "______      ETHER        _______"
+    dw "______      QUAKE        _______"
+    dw "______       LAMP        _______"
+    dw "______      HAMMER       _______"
+    dw "______      SHOVEL       _______"
+    dw "______      FLUTE        _______"
+    dw "______ BUG-CATCHING NET  _______"
+    dw "______  BOOK OF MUDORA   _______"
+    dw "______      BOTTLE       _______"
+    dw "______    RED POTION     _______"
+    dw "______   GREEN POTION    _______"
+    dw "______   BLUE POTION     _______"
+    dw "______       BEE         _______"
+    dw "______     GOOD BEE      _______"
+    dw "______      FAIRY        _______"
+    dw "______  CANE OF SOMARIA  _______"
+    dw "______   CANE OF BYRNA   _______"
+    dw "______    MAGIC CAPE     _______"
+    dw "______      MIRROR       _______"
+    dw "______    POWER GLOVE    _______"
+    dw "______   TITAN'S MITT    _______"
+    dw "______   PEGASUS BOOTS   _______"
+    dw "______  ZORA'S FLIPPERS  _______"
+    dw "______    MOON PEARL     _______"
+    dw "______   MASTER SWORD    _______"
+    dw "______  TEMPERED SWORD   _______"
+    dw "______    GOLD SWORD     _______"
+    dw "______     BLUE MAIL     _______"
+    dw "______      RED MAIL     _______"
+    dw "______      SHIELD       _______"
+    dw "______    RED SHIELD     _______"
+    dw "______   MIRROR SHIELD   _______"
+    dw "______   HEART PIECE     _______"
+    dw "______  HEART CONTAINER  _______"
+    dw "______     1 ARROW       _______"
+    dw "______     5 ARROWS      _______"
+    dw "______     10 ARROWS     _______"
+    dw "______      3 BOMBS      _______"
+    dw "______     10 BOMBS      _______"
+    dw "______      1 RUPEE      _______"
+    dw "______     5 RUPEES      _______"
+    dw "______     20 RUPEES     _______"
+    dw "______     50 RUPEES     _______"
+    dw "______    100 RUPEES     _______"
+    dw "______    300 RUPEES     _______"
+    dw "______    HALF MAGIC     _______"
+    dw "______   QUARTER MAGIC   _______"
+    dw "______  5 BOMB CAPACITY  _______"
+    dw "______ 10 BOMB CAPACITY  _______"
+    dw "______  5 ARROW CAPACITY _______"
+    dw "______ 10 ARROW CAPACITY _______"
+    dw "______  FIGHTER'S SWORD  _______"
+cleartable
+
+write_placeholders:
+    phx : phy
+    lda $1c1f
+    cmp #$001d
+    beq .adjust
+    cmp #$001e
+    beq .adjust
+    bra .end
+
+.adjust
+    lda $c1                 ; Load item id
+    asl #6 : tay
+    ldx #$0000
+-
+    lda item_names, y       ; Write item name to box
+    sta.l $7e3280, x
+    inx #2 : iny #2
+    cpx #$0040
+    bne -
+
+    lda $c3                 ; Load player 1
+    asl #4 : tax
+    ldy #$0000
+-
+    lda.l rando_player_table, x
+    and #$00ff
+    phx
+    asl : tax               ; Put char table offset in X
+    lda char_table-$40, x 
+    tyx
+    sta.l $7e3314, x
+    iny #2
+    plx
+    inx
+    cpy #$0018
+    bne -
+    rep #$30
+
+.end
+    ply : plx
+    lda #$0020
+    rts
+
+char_table:
+    ;  <sp>     !      "      #      $      %      %      '      (      )      *      +      ,      -      .      /
+    dw $384E, $38FF, $38FD, $38FE, $38FE, $380A, $38FE, $38FD, $38FE, $38FE, $38FE, $38FE, $38FB, $38FC, $38FA, $38FE
+    ;    0      1      2      3      4      5      6      7      8      9      :      ;      <      =      >      ?
+    dw $3809, $3800, $3801, $3802, $3803, $3804, $3805, $3806, $3807, $3808, $38FE, $38FE, $38FE, $38FE, $38FE, $38FE
+    ;    @      A      B      C      D      E      F      G      H      I      J      K      L      M      N      O 
+    dw $38FE, $38E0, $38E1, $38E2, $38E3, $38E4, $38E5, $38E6, $38E7, $38E8, $38E9, $38EA, $38EB, $38EC, $38ED, $38EE
+    ;    P      Q      R      S      T      U      V      W      X      Y      Z      [      \      ]      ^      _   
+    dw $38EF, $38F0, $38F1, $38F2, $38F3, $38F4, $38F5, $38F6, $38F7, $38F8, $38F9, $38FE, $38FE, $38FE, $38FE, $38FE
 
 org $c58749
 base $858749
 fix_1c1f:
-	LDA $1C1F
+    LDA $CE     ; if $CE is set, it overrides the message box
+    BEQ +
+    STA $1C1F
+    STZ $CE     ; Clear $CE
++	LDA $1C1F
 	CMP #$001D
 	BPL +
 	RTS
 +
 	ADC #$027F
 	RTS
-
-; ;Jump
-; 	REP #30
-; 	LDA $09B4
-; 	BRA $1A
-; ;ItemCancel
-; 	REP #30
-; 	LDA $09B8
-; 	BRA $13
-; ;ItemSelect
-; 	REP #30
-; 	LDA $09BA
-; 	BRA $0C
-; ;AimDown
-; 	REP #30
-; 	LDA $09BC
-; 	BRA $05
-; ;AimUp
-; 	REP #30
-; 	LDA $09BE
-; 	JMP $83D1
-; ;EmptyBig
-; 	REP #30
-; 	JMP $8409
+EmptyBig:
+	REP #$30
+    LDY #$0000
+	JMP $841D
+PlaceholderBig:
+    REP #$30
+    JSR write_placeholders
+    LDY #$0000
+    JMP $841D
 
 org $c58243
 base $858243

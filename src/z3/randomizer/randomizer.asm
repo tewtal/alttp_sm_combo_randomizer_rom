@@ -35,6 +35,11 @@
 !ITEM_LIMIT_COUNTS = "$7EF390"
 !SHOP_PURCHASE_COUNTS = "$7EF3A0"
 
+!MULTIWORLD_SWAP = $06F8
+!MULTIWORLD_PICKUP = $06FA
+!MULTIWORLD_DIALOG = $06FC
+!MULTIWORLD_PLAYER = $06FE
+
 incsrc hooks.asm
 incsrc treekid.asm
 incsrc spriteswap.asm

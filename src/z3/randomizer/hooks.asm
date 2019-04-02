@@ -2463,3 +2463,19 @@ dw $0168, $04F8, $0002, $0028, $00F0 ; Zelda room before sanctuary
 dw $1BD8, $16FC, $0001, $0122, $00F0 ; Blind (maiden) "don't take me outside!"
 dw $1520, $167C, $0001, $0122, $00F0 ; Blind (maiden) "don't take me outside!"
 dw $05AC, $04FC, $0001, $0027, $00F0 ; Zelda in the water room
+
+
+;=====================================================
+;-- Multiworld dialog override hook for item pickups
+;=====================================================
+org $0eee88
+    jml alttp_multiworld_dialog
+
+;=====================================================
+;-- Multiworld gameplay hooks for message queue
+;=====================================================
+org $02a499 ; Overworld (JSL Player_Main)
+    jsl alttp_mw_handle_queue
+org $028849 ; Dungeon (JSL Player_Main)
+    jsl alttp_mw_handle_queue
+

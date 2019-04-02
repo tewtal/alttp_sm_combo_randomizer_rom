@@ -184,6 +184,7 @@ endmacro
 ; 	PLA : STA $00
 ; RTS
 ;--------------------------------------------------------------------------------
+print "ariegi", pc
 AddReceivedItemExpandedGetItem:
 	PHX
 	
@@ -194,6 +195,31 @@ AddReceivedItemExpandedGetItem:
 	;	BRL .done
 	;++
 	;STA $FFFFFF
+
+	; If this is a multiworld item for someone else, skip picking the item up and just play
+	; the animation, also, write this item to the outgoing queue
+	lda !MULTIWORLD_PICKUP
+	cmp #$01
+	bne +
+	plx
+	lda $02e9 : cmp #$01 : bne .notChest
+	.notChest
+	ldy #$01
+	lda $02d8 : cmp #$20 : bne .notCrystal
+	ldy #$02
+	.notCrystal
+	tya : sta $02e4
+	pla : pla : pla ; Align the stack by popping the return value off it (so we can JML instead of RTL)
+
+	lda $02D8
+	jsl alttp_mw_send_item
+
+	lda $72 : pha
+	lda $73 : pha
+	phx
+	jml $098763		; Skip all code that gives Link the item and just show the graphics
++
+
 	LDA $02D8 ; check inventory
 	;JSL.l FreeDungeonItemNotice
 	CMP.b #$0B : BNE + ; Bow
@@ -322,7 +348,7 @@ AddReceivedItemExpandedGetItem:
 			++
 			BRL .done
 	+
-	.done
+	.done	
 	jsl alttp_receive_sm_item	; Check for SM items
 	PLX
 	LDA $02E9 : CMP.b #$01 ; thing we wrote over
@@ -823,8 +849,9 @@ Link_ReceiveItemAlternatesExpanded:
 	PHB : PHK : PLB
 		;TYA : JSR IncrementItemCounters
 		;LDA Link_ReceiveItemAlternatesExpanded, Y : STA $03
-		TYA : JSR AttemptItemSubstitution : STA $03
-		CPY $03 : BNE + : LDA.b #$FF : STA $03 : +
+		;TYA : JSR AttemptItemSubstitution : STA $03 
+		;CPY $03 : BNE + : LDA.b #$FF : STA $03 : +
+		lda.b #$ff : sta $03
 	PLB
 RTL
 ;--------------------------------------------------------------------------------
@@ -991,29 +1018,33 @@ IncrementItemCounters:
 	PLA : PLX
 RTS
 ;--------------------------------------------------------------------------------
+print pc
 AttemptItemSubstitution:
-	PHX : PHA
-	LDX.b #$00
-	-
-		LDA.l ItemSubstitutionRules, X
-		CMP.b #$FF : BEQ .exit
-		CMP 1,s : BNE .noMatch
-			.match
-				PHX
-					TXA : LSR #2 : TAX
-					LDA.l !ITEM_LIMIT_COUNTS, X
-				PLX
-				CMP.l ItemSubstitutionRules+1, X : !BLT +
-					LDA.l ItemSubstitutionRules+2, X : STA 1,s
-				+
+	PHX
+	JSL alttp_multiworld_replace_item	; Replace item from multiworld table if needed
+; 	PHA
+; 	LDX.b #$00
+; 	-
+; 		LDA.l ItemSubstitutionRules, X
+; 		CMP.b #$FF : BEQ .exit
+; 		CMP 1,s : BNE .noMatch
+; 			.match
+; 				PHX
+; 					TXA : LSR #2 : TAX
+; 					LDA.l !ITEM_LIMIT_COUNTS, X
+; 				PLX
+; 				CMP.l ItemSubstitutionRules+1, X : !BLT +
+; 					LDA.l ItemSubstitutionRules+2, X : STA 1,s
+; 				+
 				
-				BEQ .exit
-			.noMatch
-				INX #4
-	BRA -
-.exit
-	PLA : PLX
-RTS
+; 				BEQ .exit
+; 			.noMatch
+; 				INX #4
+; 	BRA -
+; .exit
+; 	PLA : 
+	PLX
+	RTS
 
 AttemptItemSubstitutionLong:
 	JSR AttemptItemSubstitution

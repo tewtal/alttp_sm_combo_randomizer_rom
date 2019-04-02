@@ -9,6 +9,9 @@ incsrc "common.asm"                         ; Common routines
 incsrc "credits.asm"                        ; Common credits scroller
 incsrc "spc_play.asm"                       ; Common SPC player
 
+; --- Multiworld / Randolive ---
+incsrc "multiworld/multiworld.asm"          ; Common multiworld features
+
 ; --- Super Metroid code ---
 incsrc "sm/hirom.asm"                       ; Super Metroid ExHiROM patch
 incsrc "sm/transition.asm"                  ; Super Metroid Transition patch
@@ -22,6 +25,7 @@ incsrc "sm/minorfixes.asm"                  ; Super Metroid some softlock remova
 incsrc "sm/demofix.asm"                     ; Super Metroid Stop demos from playing
 incsrc "sm/maps.asm"                        ; Super Metroid map pause screen and HUD changes
 incsrc "sm/max_ammo.asm"                    ; Super Metroid max ammo patch by personitis, adapted by Leno for Crossover
+incsrc "sm/multiworld.asm"                  ; Super Metroid Multiworld support features
 
 ; --- ALTTP code ---
 incsrc "z3/hirom.asm"	                    ; ALTTP ExHiROM patch
@@ -31,3 +35,4 @@ incsrc "z3/randomizer/randomizer.asm"       ; ALTTP Randomizer patches (github.c
 incsrc "z3/items.asm"                       ; ALTTP Super Metroid Items
 incsrc "z3/ending.asm"                      ; ALTTP Ending Conditions
 incsrc "z3/newgame.asm"                     ; ALTTP New Game Initialization
+incsrc "z3/multiworld.asm"                  ; ALTTP Multiworld support features
