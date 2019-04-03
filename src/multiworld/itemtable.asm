@@ -42,7 +42,7 @@ rando_item_table:
 	dw $0000, $0001, $0000, $0000 ; 31 - Super Missile (green Brinstar bottom)
 	dw $0000, $0001, $0000, $0000 ; 32 - Unused
 	dw $0000, $0001, $0000, $0000 ; 33 - Energy Tank (pink Brinstar bottom)
-	dw $0000, $0001, $0000, $0000 ; 34 - Missile (blue Brinstar bottom)
+	dw $0001, $005F, $0001, $0000 ; 34 - Missile (blue Brinstar bottom)
 	dw $0000, $0001, $0000, $0000 ; 35 - Energy Tank (pink Brinstar top)
 	dw $0000, $0001, $0000, $0000 ; 36 - Missile (blue Brinstar top)
 	dw $0000, $0001, $0000, $0000 ; 37 - Missile (blue Brinstar behind missile)

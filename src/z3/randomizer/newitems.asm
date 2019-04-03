@@ -184,7 +184,6 @@ endmacro
 ; 	PLA : STA $00
 ; RTS
 ;--------------------------------------------------------------------------------
-print "ariegi", pc
 AddReceivedItemExpandedGetItem:
 	PHX
 	
@@ -1018,7 +1017,6 @@ IncrementItemCounters:
 	PLA : PLX
 RTS
 ;--------------------------------------------------------------------------------
-print pc
 AttemptItemSubstitution:
 	PHX
 	JSL alttp_multiworld_replace_item	; Replace item from multiworld table if needed

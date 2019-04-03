@@ -17,10 +17,10 @@ incsrc "sm/hirom.asm"                       ; Super Metroid ExHiROM patch
 incsrc "sm/transition.asm"                  ; Super Metroid Transition patch
 incsrc "sm/teleport.asm"                    ; Super Metroid Teleport patch
 incsrc "sm/randomizer/randomizer.asm"       ; Super Metroid Randomizer patches
+incsrc "sm/nofanfare.asm"                   ; Super Metroid Remove Item fanfares
 incsrc "sm/items.asm"                       ; Super Metroid ALTTP Items patch
 incsrc "sm/ending.asm"                      ; Super Metroid Ending conditions
 incsrc "sm/newgame.asm"                     ; Super Metroid New Game Initialization
-incsrc "sm/nofanfare.asm"                   ; Super Metroid Remove Item fanfares
 incsrc "sm/minorfixes.asm"                  ; Super Metroid some softlock removals etc
 incsrc "sm/demofix.asm"                     ; Super Metroid Stop demos from playing
 incsrc "sm/maps.asm"                        ; Super Metroid map pause screen and HUD changes

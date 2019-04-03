@@ -15,11 +15,18 @@
 !IJSR = #$8A2E
 !ISetCounter8 = #$874E
 !IGotoDecrement = #$873F
-!IAlttpPickup = #i_pickup
-!IAlttpVisibleItem = #i_visible_item
-!IAlttpChozoItem = #i_chozo_item
-!IAlttpHiddenItem = #i_hidden_item
-!IProgressiveItem = #i_progressive_item
+!IGotoIfDoorSet = #$8A72
+!ISleep = #$86B4
+!IVisibleItem = #i_visible_item
+!IChozoItem = #i_chozo_item
+!IHiddenItem = #i_hidden_item
+!ILoadCustomGraphics = #i_load_custom_graphics
+!IPickup = #i_pickup
+!IStartDrawLoop = #i_start_draw_loop
+!IStartHiddenDrawLoop = #i_start_hidden_draw_loop
+
+!ITEM_PLM_BUF = $7ffb00
+!SM_MULTIWORLD_PICKUP = $7ffafe
 
 !Big = #$825A
 !Small = #$8289
@@ -56,1056 +63,263 @@ org $c4efe0     ; First free space in PLM block
 base $84efe0
 
 plm_items:
-    dw $ee64, v_bow             ; efe0
-    dw $ee64, v_silver_arrows   ; efe4
-    dw $ee64, v_blue_boomerang  ; efe8
-    dw $ee64, v_red_boomerang   ; efec
-    dw $ee64, v_hookshot        ; eff0
-    dw $ee64, v_bomb_1          ; eff4
-    dw $ee64, v_mushroom        ; eff8
-    dw $ee64, v_powder          ; effc
-    dw $ee64, v_fire_rod        ; f000
-    dw $ee64, v_ice_rod         ; f004
-    dw $ee64, v_bombos          ; f008
-    dw $ee64, v_ether           ; f00c
-    dw $ee64, v_quake           ; f010
-    dw $ee64, v_lamp            ; f014
-    dw $ee64, v_hammer          ; f018
-    dw $ee64, v_shovel          ; f01c
-    dw $ee64, v_flute           ; f020
-    dw $ee64, v_net             ; f024
-    dw $ee64, v_book            ; f028
-    dw $ee64, v_bottle_empty    ; f02c
-    dw $ee64, v_bottle_red      ; f030
-    dw $ee64, v_bottle_green    ; f034
-    dw $ee64, v_bottle_blue     ; f038
-    dw $ee64, v_bottle_bee      ; f03c
-    dw $ee64, v_bottle_good_bee ; f040
-    dw $ee64, v_bottle_fairy    ; f044
-    dw $ee64, v_somaria         ; f048
-    dw $ee64, v_byrna           ; f04c
-    dw $ee64, v_cape            ; f050
-    dw $ee64, v_mirror          ; f054
-    dw $ee64, v_glove           ; f058
-    dw $ee64, v_mitt            ; f05c
-    dw $ee64, v_boots           ; f060
-    dw $ee64, v_flippers        ; f064
-    dw $ee64, v_pearl           ; f068
-    dw $ee64, v_sword_master    ; f06c
-    dw $ee64, v_sword_tempered  ; f070
-    dw $ee64, v_sword_gold      ; f074
-    dw $ee64, v_tunic_blue      ; f078
-    dw $ee64, v_tunic_red       ; f07c
-    dw $ee64, v_shield_blue     ; f080
-    dw $ee64, v_shield_red      ; f084
-    dw $ee64, v_shield_mirror   ; f088
-    dw $ee64, v_heart_piece     ; f08c
-    dw $ee64, v_heart_container ; f090
-    dw $ee64, v_arrow_1         ; f094
-    dw $ee64, v_arrow_5         ; f098
-    dw $ee64, v_arrow_10        ; f09c
-    dw $ee64, v_bomb_3          ; f0a0
-    dw $ee64, v_bomb_10         ; f0a4
-    dw $ee64, v_rupee_1         ; f0a8
-    dw $ee64, v_rupee_5         ; f0ac
-    dw $ee64, v_rupee_20        ; f0b0
-    dw $ee64, v_rupee_50        ; f0b4
-    dw $ee64, v_rupee_100       ; f0b8
-    dw $ee64, v_rupee_300       ; f0bc
-    dw $ee64, v_magic_half      ; f0c0
-    dw $ee64, v_magic_quarter   ; f0c4
-
-
-    dw $ee64, c_bow             ; efe0 + $e8
-    dw $ee64, c_silver_arrows   ; efe4
-    dw $ee64, c_blue_boomerang  ; efe8
-    dw $ee64, c_red_boomerang   ; efec
-    dw $ee64, c_hookshot        ; eff0
-    dw $ee64, c_bomb_1          ; eff4
-    dw $ee64, c_mushroom        ; eff8
-    dw $ee64, c_powder          ; effc
-    dw $ee64, c_fire_rod        ; f000
-    dw $ee64, c_ice_rod         ; f004
-    dw $ee64, c_bombos          ; f008
-    dw $ee64, c_ether           ; f00c
-    dw $ee64, c_quake           ; f010
-    dw $ee64, c_lamp            ; f014
-    dw $ee64, c_hammer          ; f018
-    dw $ee64, c_shovel          ; f01c
-    dw $ee64, c_flute           ; f020
-    dw $ee64, c_net             ; f024
-    dw $ee64, c_book            ; f028
-    dw $ee64, c_bottle_empty    ; f02c
-    dw $ee64, c_bottle_red      ; f030
-    dw $ee64, c_bottle_green    ; f034
-    dw $ee64, c_bottle_blue     ; f038
-    dw $ee64, c_bottle_bee      ; f03c
-    dw $ee64, c_bottle_good_bee ; f040
-    dw $ee64, c_bottle_fairy    ; f044
-    dw $ee64, c_somaria         ; f048
-    dw $ee64, c_byrna           ; f04c
-    dw $ee64, c_cape            ; f050
-    dw $ee64, c_mirror          ; f054
-    dw $ee64, c_glove           ; f058
-    dw $ee64, c_mitt            ; f05c
-    dw $ee64, c_boots           ; f060
-    dw $ee64, c_flippers        ; f064
-    dw $ee64, c_pearl           ; f068
-    dw $ee64, c_sword_master    ; f06c
-    dw $ee64, c_sword_tempered  ; f070
-    dw $ee64, c_sword_gold      ; f074
-    dw $ee64, c_tunic_blue      ; f078
-    dw $ee64, c_tunic_red       ; f07c
-    dw $ee64, c_shield_blue     ; f080
-    dw $ee64, c_shield_red      ; f084
-    dw $ee64, c_shield_mirror   ; f088
-    dw $ee64, c_heart_piece     ; f08c
-    dw $ee64, c_heart_container ; f090
-    dw $ee64, c_arrow_1         ; f094
-    dw $ee64, c_arrow_5         ; f098
-    dw $ee64, c_arrow_10        ; f09c
-    dw $ee64, c_bomb_3          ; f0a0
-    dw $ee64, c_bomb_10         ; f0a4
-    dw $ee64, c_rupee_1         ; f0a8
-    dw $ee64, c_rupee_5         ; f0ac
-    dw $ee64, c_rupee_20        ; f0b0
-    dw $ee64, c_rupee_50        ; f0b4
-    dw $ee64, c_rupee_100       ; f0b8
-    dw $ee64, c_rupee_300       ; f0bc
-    dw $ee64, c_magic_half      ; f0c0
-    dw $ee64, c_magic_quarter   ; f0c4
-
-
-    dw $ee8e, h_bow             ; efe0 + $1d0
-    dw $ee8e, h_silver_arrows   ; efe4
-    dw $ee8e, h_blue_boomerang  ; efe8
-    dw $ee8e, h_red_boomerang   ; efec
-    dw $ee8e, h_hookshot        ; eff0
-    dw $ee8e, h_bomb_1          ; eff4
-    dw $ee8e, h_mushroom        ; eff8
-    dw $ee8e, h_powder          ; effc
-    dw $ee8e, h_fire_rod        ; f000
-    dw $ee8e, h_ice_rod         ; f004
-    dw $ee8e, h_bombos          ; f008
-    dw $ee8e, h_ether           ; f00c
-    dw $ee8e, h_quake           ; f010
-    dw $ee8e, h_lamp            ; f014
-    dw $ee8e, h_hammer          ; f018
-    dw $ee8e, h_shovel          ; f01c
-    dw $ee8e, h_flute           ; f020
-    dw $ee8e, h_net             ; f024
-    dw $ee8e, h_book            ; f028
-    dw $ee8e, h_bottle_empty    ; f02c
-    dw $ee8e, h_bottle_red      ; f030
-    dw $ee8e, h_bottle_green    ; f034
-    dw $ee8e, h_bottle_blue     ; f038
-    dw $ee8e, h_bottle_bee      ; f03c
-    dw $ee8e, h_bottle_good_bee ; f040
-    dw $ee8e, h_bottle_fairy    ; f044
-    dw $ee8e, h_somaria         ; f048
-    dw $ee8e, h_byrna           ; f04c
-    dw $ee8e, h_cape            ; f050
-    dw $ee8e, h_mirror          ; f054
-    dw $ee8e, h_glove           ; f058
-    dw $ee8e, h_mitt            ; f05c
-    dw $ee8e, h_boots           ; f060
-    dw $ee8e, h_flippers        ; f064
-    dw $ee8e, h_pearl           ; f068
-    dw $ee8e, h_sword_master    ; f06c
-    dw $ee8e, h_sword_tempered  ; f070
-    dw $ee8e, h_sword_gold      ; f074
-    dw $ee8e, h_tunic_blue      ; f078
-    dw $ee8e, h_tunic_red       ; f07c
-    dw $ee8e, h_shield_blue     ; f080
-    dw $ee8e, h_shield_red      ; f084
-    dw $ee8e, h_shield_mirror   ; f088
-    dw $ee8e, h_heart_piece     ; f08c
-    dw $ee8e, h_heart_container ; f090
-    dw $ee8e, h_arrow_1         ; f094
-    dw $ee8e, h_arrow_5         ; f098
-    dw $ee8e, h_arrow_10        ; f09c
-    dw $ee8e, h_bomb_3          ; f0a0
-    dw $ee8e, h_bomb_10         ; f0a4
-    dw $ee8e, h_rupee_1         ; f0a8
-    dw $ee8e, h_rupee_5         ; f0ac
-    dw $ee8e, h_rupee_20        ; f0b0
-    dw $ee8e, h_rupee_50        ; f0b4
-    dw $ee8e, h_rupee_100       ; f0b8
-    dw $ee8e, h_rupee_300       ; f0bc
-    dw $ee8e, h_magic_half      ; f0c0
-    dw $ee8e, h_magic_quarter   ; f0c4
-
-    dw $ee64, v_progressive_armor    ; f298
-    dw $ee64, c_progressive_armor    ; f29c
-    dw $ee8e, h_progressive_armor    ; f2a0
-
-    dw $ee64, v_progressive_gloves   ; f2a4
-    dw $ee64, c_progressive_gloves   ; f2a8
-    dw $ee8e, h_progressive_gloves   ; f2ac
-
-    dw $ee64, v_progressive_shields  ; f2b0
-    dw $ee64, c_progressive_shields  ; f2b4
-    dw $ee8e, h_progressive_shields  ; f2b8
-
-    dw $ee64, v_progressive_swords   ; f2bc
-    dw $ee64, c_progressive_swords   ; f2c0
-    dw $ee8e, h_progressive_swords   ; f2c4
-
-    dw $ee64, v_bomb_upgrade_5       ; f2c8
-    dw $ee64, c_bomb_upgrade_5       ; f2cc
-    dw $ee8e, h_bomb_upgrade_5       ; f2d0
-
-    dw $ee64, v_bomb_upgrade_10      ; f2d4
-    dw $ee64, c_bomb_upgrade_10      ; f2d8
-    dw $ee8e, h_bomb_upgrade_10      ; f2dc
-
-    dw $ee64, v_arrow_upgrade_5      ; f2e0
-    dw $ee64, c_arrow_upgrade_5      ; f2e4
-    dw $ee8e, h_arrow_upgrade_5      ; f2e8
-
-    dw $ee64, v_arrow_upgrade_10     ; f2ec
-    dw $ee64, c_arrow_upgrade_10     ; f2f0
-    dw $ee8e, h_arrow_upgrade_10     ; f2f4
-
-    dw $ee64, v_sword_fighter        ; f2f8
-    dw $ee64, c_sword_fighter        ; f2fc
-    dw $ee8e, h_sword_fighter        ; f300
-
-v_bow:
-    dw !ILoadSpecialGraphics, $9200 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpVisibleItem, $0000
-
-v_silver_arrows:
-    dw !ILoadSpecialGraphics, $DE00 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpVisibleItem, $0001
-
-v_blue_boomerang:
-    dw !ILoadSpecialGraphics, $DF00 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpVisibleItem, $0002
-
-v_red_boomerang:
-    dw !ILoadSpecialGraphics, $E000 : db $02, $02, $02, $02, $02, $02, $02, $02
-    dw !IAlttpVisibleItem, $0003
-
-v_hookshot:
-    dw !ILoadSpecialGraphics, $9100 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpVisibleItem, $0004
-
-v_bomb_1:
-    dw !ILoadSpecialGraphics, $9400 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpVisibleItem, $0005
-
-v_mushroom:
-    dw !ILoadSpecialGraphics, $9600 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpVisibleItem, $0006
-
-v_powder:
-    dw !ILoadSpecialGraphics, $9700 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpVisibleItem, $0007
-
-v_fire_rod:
-    dw !ILoadSpecialGraphics, $AF00 : db $02, $00, $00, $00, $02, $00, $00, $00
-    dw !IAlttpVisibleItem, $0008
-
-v_ice_rod:
-    dw !ILoadSpecialGraphics, $B000 : db $00, $03, $00, $00, $00, $03, $00, $00
-    dw !IAlttpVisibleItem, $0009
-
-v_bombos:
-    dw !ILoadSpecialGraphics, $B100 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpVisibleItem, $000A
-
-v_ether:
-    dw !ILoadSpecialGraphics, $B200 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpVisibleItem, $000B
-
-v_quake:
-    dw !ILoadSpecialGraphics, $B300 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpVisibleItem, $000C
-
-v_lamp:
-    dw !ILoadSpecialGraphics, $B400 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpVisibleItem, $000D
-
-v_hammer:
-    dw !ILoadSpecialGraphics, $B500 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpVisibleItem, $000E
-
-v_shovel:
-    dw !ILoadSpecialGraphics, $B600 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpVisibleItem, $000F
-
-v_flute:
-    dw !ILoadSpecialGraphics, $B700 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpVisibleItem, $0010
-
-v_net:
-    dw !ILoadSpecialGraphics, $B800 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpVisibleItem, $0011
-    
-v_book:
-    dw !ILoadSpecialGraphics, $B900 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpVisibleItem, $0012
-    
-v_bottle_empty:
-    dw !ILoadSpecialGraphics, $BA00 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpVisibleItem, $0013
-    
-v_bottle_red:
-    dw !ILoadSpecialGraphics, $BB00 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpVisibleItem, $0014
-    
-v_bottle_green:
-    dw !ILoadSpecialGraphics, $BC00 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpVisibleItem, $0015
-    
-v_bottle_blue:
-    dw !ILoadSpecialGraphics, $BD00 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpVisibleItem, $0016
-    
-v_bottle_bee:
-    dw !ILoadSpecialGraphics, $BE00 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpVisibleItem, $0017
-    
-v_bottle_good_bee:
-    dw !ILoadSpecialGraphics, $BF00 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpVisibleItem, $0018
-    
-v_bottle_fairy:
-    dw !ILoadSpecialGraphics, $C000 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpVisibleItem, $0019
-    
-v_somaria:
-    dw !ILoadSpecialGraphics, $C100 : db $02, $02, $02, $02, $02, $02, $02, $02
-    dw !IAlttpVisibleItem, $001A
-    
-v_byrna:
-    dw !ILoadSpecialGraphics, $C200 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpVisibleItem, $001B
-    
-v_cape:
-    dw !ILoadSpecialGraphics, $C300 : db $02, $02, $02, $02, $02, $02, $02, $02
-    dw !IAlttpVisibleItem, $001C
-    
-v_mirror:
-    dw !ILoadSpecialGraphics, $C400 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpVisibleItem, $001D
-    
-v_glove:
-    dw !ILoadSpecialGraphics, $C500 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpVisibleItem, $001E
-    
-v_mitt:
-    dw !ILoadSpecialGraphics, $C600 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpVisibleItem, $001F
-    
-v_boots:
-    dw !ILoadSpecialGraphics, $C700 : db $02, $02, $02, $02, $02, $02, $02, $02
-    dw !IAlttpVisibleItem, $0020
-    
-v_flippers:
-    dw !ILoadSpecialGraphics, $C800 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpVisibleItem, $0021
-    
-v_pearl:
-    dw !ILoadSpecialGraphics, $C900 : db $02, $02, $02, $02, $02, $02, $02, $02
-    dw !IAlttpVisibleItem, $0022
-    
-v_sword_master:
-    dw !ILoadSpecialGraphics, $CA00 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpVisibleItem, $0023
-    
-v_sword_tempered:
-    dw !ILoadSpecialGraphics, $CB00 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpVisibleItem, $0024
-    
-v_sword_gold:
-    dw !ILoadSpecialGraphics, $CC00 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpVisibleItem, $0025
-    
-v_tunic_blue:
-    dw !ILoadSpecialGraphics, $CD00 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpVisibleItem, $0026
-    
-v_tunic_red:
-    dw !ILoadSpecialGraphics, $CE00 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpVisibleItem, $0027
-    
-v_shield_blue:
-    dw !ILoadSpecialGraphics, $CF00 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpVisibleItem, $0028
-    
-v_shield_red:
-    dw !ILoadSpecialGraphics, $D000 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpVisibleItem, $0029
-    
-v_shield_mirror:
-    dw !ILoadSpecialGraphics, $D100 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpVisibleItem, $002A
-    
-v_heart_piece:
-    dw !ILoadSpecialGraphics, $D200 : db $02, $02, $02, $02, $02, $02, $02, $02
-    dw !IAlttpVisibleItem, $002B
-    
-v_heart_container:
-    dw !ILoadSpecialGraphics, $D300 : db $02, $02, $02, $02, $02, $02, $02, $02
-    dw !IAlttpVisibleItem, $002C
-    
-v_arrow_1:
-    dw !ILoadSpecialGraphics, $D400 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpVisibleItem, $002D
-    
-v_arrow_5:
-    dw !ILoadSpecialGraphics, $D500 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpVisibleItem, $002E
-    
-v_arrow_10:
-    dw !ILoadSpecialGraphics, $D600 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpVisibleItem, $002F
-    
-v_bomb_3:
-    dw !ILoadSpecialGraphics, $D700 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpVisibleItem, $0030
-    
-v_bomb_10:
-    dw !ILoadSpecialGraphics, $D800 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpVisibleItem, $0031
-    
-v_rupee_1:
-    dw !ILoadSpecialGraphics, $D900 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpVisibleItem, $0032
-    
-v_rupee_5:
-    dw !ILoadSpecialGraphics, $DA00 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpVisibleItem, $0033
-    
-v_rupee_20:
-    dw !ILoadSpecialGraphics, $DB00 : db $02, $02, $02, $02, $02, $02, $02, $02
-    dw !IAlttpVisibleItem, $0034
-    
-v_rupee_50:
-    dw !ILoadSpecialGraphics, $DC00 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpVisibleItem, $0035
-    
-v_rupee_100:
-    dw !ILoadSpecialGraphics, $DD00 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpVisibleItem, $0036
-    
-v_rupee_300:
-    dw !ILoadSpecialGraphics, $9300 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpVisibleItem, $0037
-
-v_magic_half:
-    dw !ILoadSpecialGraphics, $E100 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpVisibleItem, $0038
-
-v_magic_quarter:
-    dw !ILoadSpecialGraphics, $E200 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpVisibleItem, $0039
-
-v_bomb_upgrade_5:
-    dw !ILoadSpecialGraphics, $E300 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpVisibleItem, $003a
-
-v_bomb_upgrade_10:
-    dw !ILoadSpecialGraphics, $E400 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpVisibleItem, $003b
-
-v_arrow_upgrade_5:
-    dw !ILoadSpecialGraphics, $E500 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpVisibleItem, $003c
-
-v_arrow_upgrade_10:
-    dw !ILoadSpecialGraphics, $E600 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpVisibleItem, $003d
-
-v_sword_fighter:
-    dw !ILoadSpecialGraphics, $E700 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpVisibleItem, $003e
-
-
-c_bow:
-    dw !ILoadSpecialGraphics, $9200 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpChozoItem, $0000
-
-c_silver_arrows:
-    dw !ILoadSpecialGraphics, $DE00 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpChozoItem, $0001
-
-c_blue_boomerang:
-    dw !ILoadSpecialGraphics, $DF00 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpChozoItem, $0002
-
-c_red_boomerang:
-    dw !ILoadSpecialGraphics, $E000 : db $02, $02, $02, $02, $02, $02, $02, $02
-    dw !IAlttpChozoItem, $0003
-
-c_hookshot:
-    dw !ILoadSpecialGraphics, $9100 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpChozoItem, $0004
-
-c_bomb_1:
-    dw !ILoadSpecialGraphics, $9400 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpChozoItem, $0005
-
-c_mushroom:
-    dw !ILoadSpecialGraphics, $9600 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpChozoItem, $0006
-
-c_powder:
-    dw !ILoadSpecialGraphics, $9700 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpChozoItem, $0007
-
-c_fire_rod:
-    dw !ILoadSpecialGraphics, $AF00 : db $02, $00, $00, $00, $02, $00, $00, $00
-    dw !IAlttpChozoItem, $0008
-
-c_ice_rod:
-    dw !ILoadSpecialGraphics, $B000 : db $00, $03, $00, $00, $00, $03, $00, $00
-    dw !IAlttpChozoItem, $0009
-
-c_bombos:
-    dw !ILoadSpecialGraphics, $B100 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpChozoItem, $000A
-
-c_ether:
-    dw !ILoadSpecialGraphics, $B200 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpChozoItem, $000B
-
-c_quake:
-    dw !ILoadSpecialGraphics, $B300 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpChozoItem, $000C
-
-c_lamp:
-    dw !ILoadSpecialGraphics, $B400 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpChozoItem, $000D
-
-c_hammer:
-    dw !ILoadSpecialGraphics, $B500 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpChozoItem, $000E
-
-c_shovel:
-    dw !ILoadSpecialGraphics, $B600 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpChozoItem, $000F
-
-c_flute:
-    dw !ILoadSpecialGraphics, $B700 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpChozoItem, $0010
-
-c_net:
-    dw !ILoadSpecialGraphics, $B800 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpChozoItem, $0011
-    
-c_book:
-    dw !ILoadSpecialGraphics, $B900 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpChozoItem, $0012
-    
-c_bottle_empty:
-    dw !ILoadSpecialGraphics, $BA00 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpChozoItem, $0013
-    
-c_bottle_red:
-    dw !ILoadSpecialGraphics, $BB00 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpChozoItem, $0014
-    
-c_bottle_green:
-    dw !ILoadSpecialGraphics, $BC00 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpChozoItem, $0015
-    
-c_bottle_blue:
-    dw !ILoadSpecialGraphics, $BD00 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpChozoItem, $0016
-    
-c_bottle_bee:
-    dw !ILoadSpecialGraphics, $BE00 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpChozoItem, $0017
-    
-c_bottle_good_bee:
-    dw !ILoadSpecialGraphics, $BF00 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpChozoItem, $0018
-    
-c_bottle_fairy:
-    dw !ILoadSpecialGraphics, $C000 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpChozoItem, $0019
-    
-c_somaria:
-    dw !ILoadSpecialGraphics, $C100 : db $02, $02, $02, $02, $02, $02, $02, $02
-    dw !IAlttpChozoItem, $001A
-    
-c_byrna:
-    dw !ILoadSpecialGraphics, $C200 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpChozoItem, $001B
-    
-c_cape:
-    dw !ILoadSpecialGraphics, $C300 : db $02, $02, $02, $02, $02, $02, $02, $02
-    dw !IAlttpChozoItem, $001C
-    
-c_mirror:
-    dw !ILoadSpecialGraphics, $C400 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpChozoItem, $001D
-    
-c_glove:
-    dw !ILoadSpecialGraphics, $C500 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpChozoItem, $001E
-    
-c_mitt:
-    dw !ILoadSpecialGraphics, $C600 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpChozoItem, $001F
-    
-c_boots:
-    dw !ILoadSpecialGraphics, $C700 : db $02, $02, $02, $02, $02, $02, $02, $02
-    dw !IAlttpChozoItem, $0020
-    
-c_flippers:
-    dw !ILoadSpecialGraphics, $C800 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpChozoItem, $0021
-    
-c_pearl:
-    dw !ILoadSpecialGraphics, $C900 : db $02, $02, $02, $02, $02, $02, $02, $02
-    dw !IAlttpChozoItem, $0022
-    
-c_sword_master:
-    dw !ILoadSpecialGraphics, $CA00 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpChozoItem, $0023
-    
-c_sword_tempered:
-    dw !ILoadSpecialGraphics, $CB00 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpChozoItem, $0024
-    
-c_sword_gold:
-    dw !ILoadSpecialGraphics, $CC00 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpChozoItem, $0025
-    
-c_tunic_blue:
-    dw !ILoadSpecialGraphics, $CD00 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpChozoItem, $0026
-    
-c_tunic_red:
-    dw !ILoadSpecialGraphics, $CE00 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpChozoItem, $0027
-    
-c_shield_blue:
-    dw !ILoadSpecialGraphics, $CF00 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpChozoItem, $0028
-    
-c_shield_red:
-    dw !ILoadSpecialGraphics, $D000 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpChozoItem, $0029
-    
-c_shield_mirror:
-    dw !ILoadSpecialGraphics, $D100 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpChozoItem, $002A
-    
-c_heart_piece:
-    dw !ILoadSpecialGraphics, $D200 : db $02, $02, $02, $02, $02, $02, $02, $02
-    dw !IAlttpChozoItem, $002B
-    
-c_heart_container:
-    dw !ILoadSpecialGraphics, $D300 : db $02, $02, $02, $02, $02, $02, $02, $02
-    dw !IAlttpChozoItem, $002C
-    
-c_arrow_1:
-    dw !ILoadSpecialGraphics, $D400 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpChozoItem, $002D
-    
-c_arrow_5:
-    dw !ILoadSpecialGraphics, $D500 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpChozoItem, $002E
-    
-c_arrow_10:
-    dw !ILoadSpecialGraphics, $D600 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpChozoItem, $002F
-    
-c_bomb_3:
-    dw !ILoadSpecialGraphics, $D700 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpChozoItem, $0030
-    
-c_bomb_10:
-    dw !ILoadSpecialGraphics, $D800 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpChozoItem, $0031
-    
-c_rupee_1:
-    dw !ILoadSpecialGraphics, $D900 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpChozoItem, $0032
-    
-c_rupee_5:
-    dw !ILoadSpecialGraphics, $DA00 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpChozoItem, $0033
-    
-c_rupee_20:
-    dw !ILoadSpecialGraphics, $DB00 : db $02, $02, $02, $02, $02, $02, $02, $02
-    dw !IAlttpChozoItem, $0034
-    
-c_rupee_50:
-    dw !ILoadSpecialGraphics, $DC00 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpChozoItem, $0035
-    
-c_rupee_100:
-    dw !ILoadSpecialGraphics, $DD00 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpChozoItem, $0036
-    
-c_rupee_300:
-    dw !ILoadSpecialGraphics, $9300 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpChozoItem, $0037
-
-c_magic_half:
-    dw !ILoadSpecialGraphics, $E100 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpChozoItem, $0038
-
-c_magic_quarter:
-    dw !ILoadSpecialGraphics, $E200 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpChozoItem, $0039
-
-c_bomb_upgrade_5:
-    dw !ILoadSpecialGraphics, $E300 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpChozoItem, $003a
-
-c_bomb_upgrade_10:
-    dw !ILoadSpecialGraphics, $E400 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpChozoItem, $003b
-
-c_arrow_upgrade_5:
-    dw !ILoadSpecialGraphics, $E500 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpChozoItem, $003c
-
-c_arrow_upgrade_10:
-    dw !ILoadSpecialGraphics, $E600 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpChozoItem, $003d
-
-c_sword_fighter:
-    dw !ILoadSpecialGraphics, $E700 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpChozoItem, $003e
-
-
-h_bow:
-    dw !ILoadSpecialGraphics, $9200 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpHiddenItem, $0000
-
-h_silver_arrows:
-    dw !ILoadSpecialGraphics, $DE00 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpHiddenItem, $0001
-
-h_blue_boomerang:
-    dw !ILoadSpecialGraphics, $DF00 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpHiddenItem, $0002
-
-h_red_boomerang:
-    dw !ILoadSpecialGraphics, $E000 : db $02, $02, $02, $02, $02, $02, $02, $02
-    dw !IAlttpHiddenItem, $0003
-
-h_hookshot:
-    dw !ILoadSpecialGraphics, $9100 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpHiddenItem, $0004
-
-h_bomb_1:
-    dw !ILoadSpecialGraphics, $9400 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpHiddenItem, $0005
-
-h_mushroom:
-    dw !ILoadSpecialGraphics, $9600 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpHiddenItem, $0006
-
-h_powder:
-    dw !ILoadSpecialGraphics, $9700 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpHiddenItem, $0007
-
-h_fire_rod:
-    dw !ILoadSpecialGraphics, $AF00 : db $02, $00, $00, $00, $02, $00, $00, $00
-    dw !IAlttpHiddenItem, $0008
-
-h_ice_rod:
-    dw !ILoadSpecialGraphics, $B000 : db $00, $03, $00, $00, $00, $03, $00, $00
-    dw !IAlttpHiddenItem, $0009
-
-h_bombos:
-    dw !ILoadSpecialGraphics, $B100 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpHiddenItem, $000A
-
-h_ether:
-    dw !ILoadSpecialGraphics, $B200 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpHiddenItem, $000B
-
-h_quake:
-    dw !ILoadSpecialGraphics, $B300 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpHiddenItem, $000C
-
-h_lamp:
-    dw !ILoadSpecialGraphics, $B400 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpHiddenItem, $000D
-
-h_hammer:
-    dw !ILoadSpecialGraphics, $B500 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpHiddenItem, $000E
-
-h_shovel:
-    dw !ILoadSpecialGraphics, $B600 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpHiddenItem, $000F
-
-h_flute:
-    dw !ILoadSpecialGraphics, $B700 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpHiddenItem, $0010
-
-h_net:
-    dw !ILoadSpecialGraphics, $B800 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpHiddenItem, $0011
-    
-h_book:
-    dw !ILoadSpecialGraphics, $B900 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpHiddenItem, $0012
-    
-h_bottle_empty:
-    dw !ILoadSpecialGraphics, $BA00 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpHiddenItem, $0013
-    
-h_bottle_red:
-    dw !ILoadSpecialGraphics, $BB00 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpHiddenItem, $0014
-    
-h_bottle_green:
-    dw !ILoadSpecialGraphics, $BC00 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpHiddenItem, $0015
-    
-h_bottle_blue:
-    dw !ILoadSpecialGraphics, $BD00 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpHiddenItem, $0016
-    
-h_bottle_bee:
-    dw !ILoadSpecialGraphics, $BE00 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpHiddenItem, $0017
-    
-h_bottle_good_bee:
-    dw !ILoadSpecialGraphics, $BF00 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpHiddenItem, $0018
-    
-h_bottle_fairy:
-    dw !ILoadSpecialGraphics, $C000 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpHiddenItem, $0019
-    
-h_somaria:
-    dw !ILoadSpecialGraphics, $C100 : db $02, $02, $02, $02, $02, $02, $02, $02
-    dw !IAlttpHiddenItem, $001A
-    
-h_byrna:
-    dw !ILoadSpecialGraphics, $C200 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpHiddenItem, $001B
-    
-h_cape:
-    dw !ILoadSpecialGraphics, $C300 : db $02, $02, $02, $02, $02, $02, $02, $02
-    dw !IAlttpHiddenItem, $001C
-    
-h_mirror:
-    dw !ILoadSpecialGraphics, $C400 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpHiddenItem, $001D
-    
-h_glove:
-    dw !ILoadSpecialGraphics, $C500 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpHiddenItem, $001E
-    
-h_mitt:
-    dw !ILoadSpecialGraphics, $C600 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpHiddenItem, $001F
-    
-h_boots:
-    dw !ILoadSpecialGraphics, $C700 : db $02, $02, $02, $02, $02, $02, $02, $02
-    dw !IAlttpHiddenItem, $0020
-    
-h_flippers:
-    dw !ILoadSpecialGraphics, $C800 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpHiddenItem, $0021
-    
-h_pearl:
-    dw !ILoadSpecialGraphics, $C900 : db $02, $02, $02, $02, $02, $02, $02, $02
-    dw !IAlttpHiddenItem, $0022
-    
-h_sword_master:
-    dw !ILoadSpecialGraphics, $CA00 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpHiddenItem, $0023
-    
-h_sword_tempered:
-    dw !ILoadSpecialGraphics, $CB00 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpHiddenItem, $0024
-    
-h_sword_gold:
-    dw !ILoadSpecialGraphics, $CC00 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpHiddenItem, $0025
-    
-h_tunic_blue:
-    dw !ILoadSpecialGraphics, $CD00 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpHiddenItem, $0026
-    
-h_tunic_red:
-    dw !ILoadSpecialGraphics, $CE00 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpHiddenItem, $0027
-    
-h_shield_blue:
-    dw !ILoadSpecialGraphics, $CF00 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpHiddenItem, $0028
-    
-h_shield_red:
-    dw !ILoadSpecialGraphics, $D000 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpHiddenItem, $0029
-    
-h_shield_mirror:
-    dw !ILoadSpecialGraphics, $D100 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpHiddenItem, $002A
-    
-h_heart_piece:
-    dw !ILoadSpecialGraphics, $D200 : db $02, $02, $02, $02, $02, $02, $02, $02
-    dw !IAlttpHiddenItem, $002B
-    
-h_heart_container:
-    dw !ILoadSpecialGraphics, $D300 : db $02, $02, $02, $02, $02, $02, $02, $02
-    dw !IAlttpHiddenItem, $002C
-    
-h_arrow_1:
-    dw !ILoadSpecialGraphics, $D400 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpHiddenItem, $002D
-    
-h_arrow_5:
-    dw !ILoadSpecialGraphics, $D500 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpHiddenItem, $002E
-    
-h_arrow_10:
-    dw !ILoadSpecialGraphics, $D600 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpHiddenItem, $002F
-    
-h_bomb_3:
-    dw !ILoadSpecialGraphics, $D700 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpHiddenItem, $0030
-    
-h_bomb_10:
-    dw !ILoadSpecialGraphics, $D800 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpHiddenItem, $0031
-    
-h_rupee_1:
-    dw !ILoadSpecialGraphics, $D900 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpHiddenItem, $0032
-    
-h_rupee_5:
-    dw !ILoadSpecialGraphics, $DA00 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpHiddenItem, $0033
-    
-h_rupee_20:
-    dw !ILoadSpecialGraphics, $DB00 : db $02, $02, $02, $02, $02, $02, $02, $02
-    dw !IAlttpHiddenItem, $0034
-    
-h_rupee_50:
-    dw !ILoadSpecialGraphics, $DC00 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpHiddenItem, $0035
-    
-h_rupee_100:
-    dw !ILoadSpecialGraphics, $DD00 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpHiddenItem, $0036
-    
-h_rupee_300:
-    dw !ILoadSpecialGraphics, $9300 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpHiddenItem, $0037
-
-h_magic_half:
-    dw !ILoadSpecialGraphics, $E100 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpHiddenItem, $0038
-
-h_magic_quarter:
-    dw !ILoadSpecialGraphics, $E200 : db $01, $01, $01, $01, $01, $01, $01, $01
-    dw !IAlttpHiddenItem, $0039
-
-h_bomb_upgrade_5:
-    dw !ILoadSpecialGraphics, $E300 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpHiddenItem, $003a
-
-h_bomb_upgrade_10:
-    dw !ILoadSpecialGraphics, $E400 : db $03, $03, $03, $03, $03, $03, $03, $03
-    dw !IAlttpHiddenItem, $003b
-
-h_arrow_upgrade_5:
-    dw !ILoadSpecialGraphics, $E500 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpHiddenItem, $003c
-
-h_arrow_upgrade_10:
-    dw !ILoadSpecialGraphics, $E600 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpHiddenItem, $003d
-
-h_sword_fighter:
-    dw !ILoadSpecialGraphics, $E700 : db $00, $00, $00, $00, $00, $00, $00, $00
-    dw !IAlttpHiddenItem, $003e
-
-v_progressive_gloves:
-    dw !IProgressiveItem, $0054, v_glove, v_mitt, v_mitt
-
-c_progressive_gloves:
-    dw !IProgressiveItem, $0054, c_glove, c_mitt, c_mitt
-
-h_progressive_gloves:
-    dw !IProgressiveItem, $0054, h_glove, h_mitt, h_mitt
-
-
-v_progressive_swords:
-    dw !IProgressiveItem, $0059, v_sword_fighter, v_sword_master, v_sword_tempered, v_sword_gold, v_sword_gold
-
-c_progressive_swords:
-    dw !IProgressiveItem, $0059, c_sword_fighter, c_sword_master, c_sword_tempered, c_sword_gold, c_sword_gold
-
-h_progressive_swords:
-    dw !IProgressiveItem, $0059, h_sword_fighter, h_sword_master, h_sword_tempered, h_sword_gold, h_sword_gold
-
-
-v_progressive_shields:
-    dw !IProgressiveItem, $005A, v_shield_blue, v_shield_red, v_shield_mirror, v_shield_mirror
-
-c_progressive_shields:
-    dw !IProgressiveItem, $005A, c_shield_blue, c_shield_red, c_shield_mirror, c_shield_mirror
-
-h_progressive_shields:
-    dw !IProgressiveItem, $005A, h_shield_blue, h_shield_red, h_shield_mirror, h_shield_mirror
-
-
-v_progressive_armor:
-    dw !IProgressiveItem, $005B, v_tunic_blue, v_tunic_red, v_tunic_red
-
-c_progressive_armor:
-    dw !IProgressiveItem, $005B, c_tunic_blue, c_tunic_red, c_tunic_red
-
-h_progressive_armor:
-    dw !IProgressiveItem, $005B, h_tunic_blue, h_tunic_red, h_tunic_red
-
+    dw i_visible_item_setup, v_item       ;efe0
+    dw i_visible_item_setup, c_item       ;efe4
+    dw i_hidden_item_setup,  h_item       ;efe8
+v_item:
+    dw !IVisibleItem
+c_item:
+    dw !IChozoItem
+h_item:
+    dw !IHiddenItem
+
+; Graphics pointers for items (by item index)
+item_graphics:
+    ; SM (B0-FF)
+    dw $8800 : db $00, $00, $00, $00, $00, $00, $00, $00    ; Grapple beam
+    dw $8900 : db $01, $01, $00, $00, $03, $03, $00, $00    ; X-ray scope
+    dw $8300 : db $00, $00, $00, $00, $00, $00, $00, $00    ; Varia suit
+    dw $8200 : db $00, $00, $00, $00, $00, $00, $00, $00    ; Spring ball
+    dw $8700 : db $00, $00, $00, $00, $00, $00, $00, $00    ; Morph ball
+    dw $8500 : db $00, $00, $00, $00, $00, $00, $00, $00    ; Screw attack
+    dw $8100 : db $00, $00, $00, $00, $00, $00, $00, $00    ; Gravity suit
+    dw $8400 : db $00, $00, $00, $00, $00, $00, $00, $00    ; Hi-Jump
+    dw $8600 : db $00, $00, $00, $00, $00, $00, $00, $00    ; Space jump
+    dw $8000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; Bombs
+    dw $8A00 : db $00, $00, $00, $00, $00, $00, $00, $00    ; Speed booster
+    dw $8B00 : db $00, $00, $00, $00, $00, $00, $00, $00    ; Charge
+    dw $8C00 : db $00, $03, $00, $00, $00, $03, $00, $00    ; Ice Beam
+    dw $8D00 : db $00, $02, $00, $00, $00, $02, $00, $00    ; Wave beam
+    dw $8F00 : db $00, $00, $00, $00, $00, $00, $00, $00    ; Spazer
+    dw $8E00 : db $00, $01, $00, $00, $00, $01, $00, $00    ; Plasma beam
+    dw $0008 : db $00, $00, $00, $00, $00, $00, $00, $00    ; Energy Tank
+    dw $9000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; Reserve tank
+    dw $000A : db $00, $00, $00, $00, $00, $00, $00, $00    ; Missile
+    dw $000C : db $00, $00, $00, $00, $00, $00, $00, $00    ; Super Missile
+    dw $000E : db $00, $00, $00, $00, $00, $00, $00, $00    ; Power Bomb
+
+
+    ; ALTTP (00-AF)
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 00 Dummy - L1SwordAndShield        
+    dw $CA00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 01 Master Sword
+    dw $CB00 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 02 Tempered Sword
+    dw $CC00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 03 Gold Sword
+    dw $CF00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 04 Blue Shield
+    dw $D000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 05 Red Shield
+    dw $D100 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 06 Mirror Shield
+    dw $AF00 : db $02, $02, $02, $02, $02, $02, $02, $02        ; 07 Fire Rod
+    dw $B000 : db $03, $03, $03, $03, $03, $03, $03, $03        ; 08 Ice Rod
+    dw $B500 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 09 Hammer
+    dw $9100 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 0A Hookshot
+    dw $9200 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 0B Bow
+    dw $DF00 : db $03, $03, $03, $03, $03, $03, $03, $03        ; 0C Blue Boomerang
+    dw $9700 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 0D Powder
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 0E Bee (bottle contents)
+    dw $B100 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 0F Bombos
+
+    dw $B200 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 10 Ether
+    dw $B300 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 11 Quake
+    dw $B400 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 12 Lamp
+    dw $B600 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 13 Shovel
+    dw $B700 : db $03, $03, $03, $03, $03, $03, $03, $03        ; 14 Flute
+    dw $C100 : db $02, $02, $02, $02, $02, $02, $02, $02        ; 15 Somaria
+    dw $BA00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 16 Empty Bottle
+    dw $D200 : db $02, $02, $02, $02, $02, $02, $02, $02        ; 17 Heart Piece
+    dw $C200 : db $03, $03, $03, $03, $03, $03, $03, $03        ; 18 Cane of Byrna
+    dw $C300 : db $02, $02, $02, $02, $02, $02, $02, $02        ; 19 Cape
+    dw $C400 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 1A Mirror
+    dw $C500 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 1B Gloves
+    dw $C600 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 1C Titan's Mitts
+    dw $B900 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 1D Book
+    dw $C800 : db $03, $03, $03, $03, $03, $03, $03, $03        ; 1E Flippers
+    dw $C900 : db $02, $02, $02, $02, $02, $02, $02, $02        ; 1F Moon Pearl
+
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 20 Dummy     
+    dw $B800 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 21 Bug-Catching Net
+    dw $CD00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 22 Blue Tunic
+    dw $CE00 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 23 Red Tunic
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 24 Dummy - Key       
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 25 Dummy - Compass
+    dw $D300 : db $02, $02, $02, $02, $02, $02, $02, $02        ; 26 Heart Container (no animation)
+    dw $9400 : db $03, $03, $03, $03, $03, $03, $03, $03        ; 27 One bomb
+    dw $D700 : db $03, $03, $03, $03, $03, $03, $03, $03        ; 28 3 Bombs
+    dw $9600 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 29 Mushroom
+    dw $E000 : db $02, $02, $02, $02, $02, $02, $02, $02        ; 2A Red Boomerang
+    dw $BB00 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 2B Red Potion Bottle
+    dw $BC00 : db $02, $02, $02, $02, $02, $02, $02, $02        ; 2C Green Potion Bottle
+    dw $BD00 : db $03, $03, $03, $03, $03, $03, $03, $03        ; 2D Blue Potion Bottle
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 2E Dummy - Red potion (contents)
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 2F Dummy - Green potion (contents)
+
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 30 Dummy - Blue potion (contents)
+    dw $D800 : db $03, $03, $03, $03, $03, $03, $03, $03        ; 31 10 Bombs
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 32 Dummy - Big key
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 33 Dummy - Map
+    dw $D900 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 34 1 Rupee
+    dw $DA00 : db $03, $03, $03, $03, $03, $03, $03, $03        ; 35 5 Rupees
+    dw $DB00 : db $02, $02, $02, $02, $02, $02, $02, $02        ; 36 20 Rupees
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 37 Dummy - Pendant of Courage
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 38 Dummy - Pendant of Wisdom
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 39 Dummy - Pendant of Power
+    dw $9200 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 3A Bow and Arrows
+    dw $DE00 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 3B Silver Arrows
+    dw $BE00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 3C Bee Bottle
+    dw $C000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 3D Fairy Bottle
+    dw $D300 : db $02, $02, $02, $02, $02, $02, $02, $02        ; 3E Heart Container - Boss
+    dw $D300 : db $02, $02, $02, $02, $02, $02, $02, $02        ; 3F Heart Container - Sanc
+
+    dw $DD00 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 40 100 Rupees
+    dw $DC00 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 41 50 Rupees
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 42 Dummy - Small heart
+    dw $D400 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 43 Single Arrow
+    dw $D600 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 44 10 Arrows
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 45 Dummy - Small magic
+    dw $9300 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 46 300 Rupees
+    dw $DB00 : db $02, $02, $02, $02, $02, $02, $02, $02        ; 47 20 Rupees
+    dw $BF00 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 48 Good Bee Bottle
+    dw $E700 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 49 Fighter Sword
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 4A Dummy - Activated flute
+    dw $C700 : db $02, $02, $02, $02, $02, $02, $02, $02        ; 4B Boots
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 4C Dummy - 50 Bomb upgrade
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 4D Dummy - 70 Arrow upgrade
+    dw $E100 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 4E Half Magic
+    dw $E200 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 4F Quarter Magic
+
+    dw $CA00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 50 Master Sword    
+    dw $E300 : db $03, $03, $03, $03, $03, $03, $03, $03        ; 51 5 Bomb Upgrade
+    dw $E400 : db $03, $03, $03, $03, $03, $03, $03, $03        ; 52 10 Bomb Upgrade
+    dw $E500 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 53 5 Arrow Upgrade
+    dw $E600 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 54 10 Arrow Upgrade
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 55 Dummy - Programmable 1
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 56 Dummy - Programmable 2
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 57 Dummy - Programmable 3
+    dw $DE00 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 58 Silver Arrows
+
+    ;dw $D300 : db $02, $02, $02, $02, $02, $02, $02, $02        ; Heart Container
+    ;dw $D500 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 5 Arrows
+
+sm_item_table:
+    ; pickup, qty,   msg,   type,  ext2,  ext3,  loop,  hloop
+    dw $891A, $4000, $0000, $0004, $0000, $0000, $0000, $0000      ; Grapple
+    dw $8941, $8000, $0000, $0004, $0000, $0000, $0000, $0000      ; X-ray scope
+    dw $88F3, $0001, $0007, $0004, $0000, $0000, $0000, $0000      ; Varia suit
+    dw $88F3, $0002, $0008, $0004, $0000, $0000, $0000, $0000      ; Spring ball
+    dw $88F3, $0004, $0009, $0004, $0000, $0000, $0000, $0000      ; Morph ball
+    dw $88F3, $0008, $000A, $0004, $0000, $0000, $0000, $0000      ; Screw attack
+    dw $88F3, $0020, $001A, $0004, $0000, $0000, $0000, $0000      ; Gravity suit
+    dw $88F3, $0100, $000B, $0004, $0000, $0000, $0000, $0000      ; Hi-jump
+    dw $88F3, $0200, $000C, $0004, $0000, $0000, $0000, $0000      ; Space jump
+    dw $88F3, $1000, $0013, $0004, $0000, $0000, $0000, $0000      ; Bombs
+    dw $88F3, $2000, $000D, $0004, $0000, $0000, $0000, $0000      ; Speed booster
+    dw $88B0, $1000, $000E, $0005, $0000, $0000, $0000, $0000      ; Charge beam
+    dw $88B0, $0002, $000F, $0005, $0000, $0000, $0000, $0000      ; Ice beam
+    dw $88B0, $0001, $0010, $0005, $0000, $0000, $0000, $0000      ; Wave beam
+    dw $88B0, $0004, $0011, $0005, $0000, $0000, $0000, $0000      ; Spazer
+    dw $88B0, $0008, $0012, $0005, $0000, $0000, $0000, $0000      ; Plasma
+    dw $8968, $0064, $0000, $0000, $0000, $0000, $E0A5, #p_etank_hloop      ; E-Tank
+    dw $8986, $0064, $0000, $0006, $0000, $0000, $0000, $0000      ; Reserve tank
+    dw $89A9, $0005, $0000, $0001, $0000, $0000, $E0CA, #p_missile_hloop    ; Missiles
+    dw $89D2, $0005, $0000, $0002, $0000, $0000, $E0EF, #p_super_hloop      ; Super Missiles
+    dw $89FB, $0005, $0000, $0003, $0000, $0000, $E114, #p_pb_hloop         ; Power Bombs
+
+
+progressive_items:
+    db $5e, $59, $04, $49, $01, $02, $03, $00     ; Progressive sword
+    db $5f, $5A, $03, $04, $05, $06, $00, $00     ; Progressive shield
+    db $60, $5B, $02, $22, $23, $00, $00, $00     ; Progressive armor
+    db $61, $54, $02, $1b, $1c, $00, $00, $00     ; Progressive glove
+    db $ff
+
+i_visible_item:
+    lda #$0006
+    jsr i_load_rando_item
+    rts
+
+i_chozo_item:
+    lda #$0008
+    jsr i_load_rando_item
+    rts
+
+i_hidden_item:
+    lda #$000A
+    jsr i_load_rando_item
+    rts
+
+p_etank_hloop:
+    dw $0004, $a2df
+    dw $0004, $a2e5
+    dw !IGotoDecrement, p_etank_hloop
+    dw !IJSR, $e020
+    dw !IGoto, p_hidden_item_loop2
+
+p_missile_hloop:
+    dw $0004, $A2EB
+    dw $0004, $A2F1
+    dw !IGotoDecrement, p_missile_hloop
+    dw !IJSR, $e020
+    dw !IGoto, p_hidden_item_loop2
+
+p_super_hloop:
+    dw $0004, $A2F7
+    dw $0004, $A2FD
+    dw !IGotoDecrement, p_super_hloop
+    dw !IJSR, $e020
+    dw !IGoto, p_hidden_item_loop2
+
+p_pb_hloop:
+    dw $0004, $A303
+    dw $0004, $A309
+    dw !IGotoDecrement, p_pb_hloop
+    dw !IJSR, $e020
+    dw !IGoto, p_hidden_item_loop2
 
 p_visible_item:
+    dw !ILoadCustomGraphics
     dw !IBranchItem, .end
     dw !ISetGoto, .trigger
     dw !ISetPreInstructionCode, $df89
-    dw !IGoto, i_loop
+    dw !IStartDrawLoop
+    .loop
+    dw !IDrawCustom1
+    dw !IDrawCustom2
+    dw !IGoto, .loop
     .trigger
     dw !ISetItem
-    ;dw !IPlayTrackNow : db $02
-    dw SOUNDFX : db $37
-    dw !IAlttpPickup
+    dw SOUNDFX : db !Click
+    dw !IPickup
     .end
     dw !IGoto, $dfa9
 
 p_chozo_item:
+    dw !ILoadCustomGraphics
     dw !IBranchItem, .end
     dw !IJSR, $dfaf
     dw !IJSR, $dfc7
     dw !ISetGoto, .trigger
     dw !ISetPreInstructionCode, $df89
     dw !ISetCounter8 : db $16
-    dw !IGoto, i_loop
+    dw !IStartDrawLoop
+    .loop
+    dw !IDrawCustom1
+    dw !IDrawCustom2
+    dw !IGoto, .loop
     .trigger
     dw !ISetItem
-    ;dw !IPlayTrackNow : db $02
-    dw SOUNDFX : db $37
-    dw !IAlttpPickup
+    dw SOUNDFX : db !Click
+    dw !IPickup
     .end
     dw $0001, $a2b5
-    dw !IKill
+    dw !IKill   
 
 p_hidden_item:
+    dw !ILoadCustomGraphics
     .loop2
     dw !IJSR, $e007
     dw !IBranchItem, .end
     dw !ISetGoto, .trigger
     dw !ISetPreInstructionCode, $df89
-    dw !ISetCounter8 : db $16   
+    dw !ISetCounter8 : db $16
+    dw !IStartHiddenDrawLoop
     .loop
     dw !IDrawCustom1
     dw !IDrawCustom2
@@ -1114,34 +328,261 @@ p_hidden_item:
     dw !IGoto, .loop2
     .trigger
     dw !ISetItem
-    ;dw !IPlayTrackNow : db $02
-    dw SOUNDFX : db $37
-    dw !IAlttpPickup
+    dw SOUNDFX : db !Click
+    dw !IPickup
     .end
     dw !IJSR, $e032
     dw !IGoto, .loop2
 
-i_loop:
-    dw !IDrawCustom1
-    dw !IDrawCustom2
-    dw !IGoto, i_loop    
+i_start_draw_loop:
+    phy : phx
+    lda !ITEM_PLM_BUF, x    ; Load item id
+    cmp #$0015
+    bcc .smItem
+    bra .custom_item
 
-i_visible_item:
-    lda $0000,y
-    sta $7ffb00,x               ; Store ALTTP item index to temp memory
+.smItem
+    asl #4
+    clc : adc #$000C
+    tax
+    lda sm_item_table, x      ; Load next loop point if available
+    beq .custom_item
+    plx : ply
+    tay
+    rts
+
+.custom_item
+    plx
+    ply
+    rts
+
+i_start_hidden_draw_loop:
+    phy : phx
+    lda !ITEM_PLM_BUF, x    ; Load item id
+    cmp #$0015
+    bcc .smItem
+    bra .custom_item
+
+.smItem
+    asl #4
+    clc : adc #$000E
+    tax
+    lda sm_item_table, x      ; Load next loop point if available
+    beq .custom_item
+    plx : ply
+    tay
+    rts
+
+.custom_item
+    plx
+    ply
+    rts
+
+i_load_custom_graphics:
+    phy : phx 
+    lda !ITEM_PLM_BUF, x    ; Load item id
+
+    %a8()
+    sta $4202
+    lda #$0A
+    sta $4203
+    nop : nop : %ai16()
+    lda $4216               ; Multiply it by 0x0A
+    clc
+    adc #item_graphics
+    tay                     ; Add it to the graphics table and transfer into Y
+    lda $0000, y
+    cmp #$8000
+    bcc .no_custom    
+    jsr $8764               ; Jump to original PLM graphics loading routine
+    plx
+    ply
+    rts
+
+.no_custom
+    tay
+    lda $0000, y
+    sta.l $7edf0c, x
+    plx
+    ply
+    rts
+
+i_visible_item_setup:
+    phy : phx
+    jsr load_item_id                
+    %a8()
+    sta $4202
+    lda #$0A
+    sta $4203
+    nop : nop : %ai16()
+    lda $4216                       ; Multiply it by 0x0A
+    tax
+
+    lda item_graphics, x
+    cmp #$8000
+    bcc .no_custom
+    plx : ply
+    jmp $ee64
+
+.no_custom
+    plx : ply
+    tyx
+    sta.l $7edf0c, x
+    jmp $ee64
+
+i_hidden_item_setup:
+    phy : phx
+    jsr load_item_id
+    %a8()
+    sta $4202
+    lda #$0A
+    sta $4203
+    nop : nop : %ai16()
+    lda $4216                       ; Multiply it by 0x0A
+    tax
+
+    lda item_graphics, x
+    cmp #$8000
+    bcc .no_custom
+    plx : ply
+    jmp $ee8e
+    
+.no_custom
+    plx : ply
+    tyx
+    sta.l $7edf0c, x
+    jmp $ee8e
+
+
+i_load_rando_item:
+    cmp #$0006 : bne +
     ldy #p_visible_item
-    rts
-
-i_chozo_item:
-    lda $0000,y
-    sta $7ffb00,x
+    bra .end
++   cmp #$0008 : bne +    
     ldy #p_chozo_item
+    bra .end
++   ldy #p_hidden_item
+
+.end
     rts
 
-i_hidden_item:
-    lda $0000,y
-    sta $7ffb00,x
-    ldy #p_hidden_item
+; Pick up item
+i_pickup:
+    phx : phy : php : phx
+    lda $1dc7, x              ; Load PLM room argument
+    asl #3 : tax
+
+    lda #$0000
+    sta !SM_MULTIWORLD_PICKUP
+
+    lda.l rando_item_table, x       ; Load item type
+    beq .own_item
+
+.multiworld_item                    ; This is someone elses item, send message
+    lda.l rando_item_table+$4, x    ; Load item owner into Y
+    tay
+    lda.l rando_item_table+$2, x    ; Load original item id into X
+    tax
+    lda #$1001                      ; Multiworld message 1 (I have someone elses item)
+    phx : phy
+    jsl write_message               ; Send message
+    ply : plx
+    jsl sm_mw_display_item_sent     ; Display custom message box
+    plx
+    bra .end
+
+.own_item
+    plx
+    lda !ITEM_PLM_BUF, x        ; Load adjusted item id (progression etc)
+    cmp #$0015
+    bcc .smItem
+    sec
+    sbc #$0015
+    sta !ITEM_PLM_BUF, x        ; Readjust item id so it fits the ALTTP table again
+    jsl alttp_item_pickup
+    bra .end
+
+.smItem
+    jsr receive_sm_item
+    bra .end
+
+.end
+    plp : ply : plx
+    rts
+
+; Get item ID from randomizer table (and adjust item id to local tables as needed for graphics display)
+load_item_id:
+    phx : phy
+    lda $1dc7, y                    ; Load PLM room argument
+    asl #3 : tax
+    lda.l rando_item_table+$2, x    ; Load item id from table
+    jsr check_upgrade_item
+    cmp #$00b0                      ; b0+ = SM Item
+    bcc .alttpItem
+    sec
+    sbc #$00b0                      ; Subtract $b0 since we have SM items starting at index 00
+    bra +
+.alttpItem
+    clc
+    adc #$0015                      ; Offset alttp items by #$14 to point to the correct table entries
++
+    ply
+    tyx
+    sta !ITEM_PLM_BUF, x            ; Store adjusted item id (used for custom graphics and things) 
+    plx
+    rts                             
+
+check_upgrade_item:
+    phx
+    %a8()
+    sta $c5
+    ldx #$0000
+-
+    lda progressive_items, x
+    cmp #$ff
+    beq .notFound
+    cmp $c5
+    beq .found
+    txa : clc : adc #$08 : tax
+    bne -
+.found
+    lda progressive_items+$1, x     ; Load SRAM index offset
+    phx : tax
+    lda !SRAM_ALTTP_ITEM_BUF, x
+    plx
+    cmp progressive_items+$2, x     ; Check against max allowed value
+    beq +
+    inc
++
+    stx $c5 : clc : adc $c5 : tax   ; Add upgraded item value to x
+    lda progressive_items+$2, x     ; Get new item id
+    bra +
+
+.notFound
+    lda $c5
++
+    %ai16()
+    and #$00ff
+    plx
+    rts
+
+check_upgrade_item_long:
+    phb : phk : plb
+    jsr check_upgrade_item
+    plb
+    rtl
+
+; Item index to receive in A
+receive_sm_item:
+    asl : asl : asl : asl
+    phx
+    clc
+    adc #sm_item_table ; A contains pointer to pickup routine from item table
+    tax
+    tay
+    iny : iny          ; Y points to data to be used in item pickup routine
+    jsr ($0000,x)
+    plx
     rts
 
 warnpc $850000
@@ -1186,14 +627,6 @@ SETFX:
 	INY
 	RTS
 
-i_pickup:
-    jsl alttp_item_pickup
-    rts
-
-i_progressive_item:
-    jsl alttp_progressive_item
-    rts
-
 sm_mw_call_receive:
     phx : phy
     jsr SETFX
@@ -1231,7 +664,14 @@ alttp_item_pickup:
     phx
     phy
     php
+    lda !SM_MULTIWORLD_PICKUP
+    bne .multiworldItemId
     lda $7ffb00,x               ; Load previously saved item index
+    bra +
+.multiworldItemId                                
+    lda $c1                     ; This item was gotten from another player in MW
+    jsl check_upgrade_item_long ; Progress item if needed
++
     jsl check_item_swap         ; Set correct item swap flag if needed
     asl : asl : asl             ; Value * 8 to get a table index
     tax
@@ -1451,11 +891,20 @@ alttp_item_pickup:
     jmp .end
 
 .end
-    lda #$0168
-    jsl $82e118                 ; Music fix
+    ;lda #$0168
+    ;jsl $82e118                 ; Music fix (no need with nofanfare?)
+    lda.l !SM_MULTIWORLD_PICKUP
+    bne .multiworldMessage
     lda.l alttp_item_table+6,x  ; Load message pointer
     and #$00ff
     jsl $858080                 ; Display message
+    bra +
+.multiworldMessage
+    lda #$005d
+    jsl $858080                 ; Display multiworld message
+    lda #$0000
+    sta !SM_MULTIWORLD_PICKUP
++
     jsl zelda_fix_checksum      ; Fix SRAM checksum
     plp
     ply
@@ -1574,70 +1023,106 @@ namespace "alttp_item_"
     ; Message = Id of message box to show    
 
     ;  Offset Value  Type  Message
-    dw $0040, $0002, $0000, $001d       ; Bow                       ; 00
-    dw $0040, $0003, $0007, $001e       ; Silver Arrows
-    dw $0041, $0001, $0000, $001f       ; Blue Boomerang
-    dw $0041, $0002, $0000, $0020       ; Red Boomerang
-    dw $0042, $0001, $0000, $0021       ; Hookshot
-    dw $0075, $0001, $0001, $0022       ; Bomb 1
-    dw $0044, $0001, $0000, $0023       ; Mushroom
-    dw $0044, $0002, $0000, $0024       ; Powder
-    dw $0045, $0001, $0000, $0025       ; Firerod
-    dw $0046, $0001, $0000, $0026       ; Icerod
-    dw $0047, $0001, $0000, $0027       ; Bombos
-    dw $0048, $0001, $0000, $0028       ; Ether
-    dw $0049, $0001, $0000, $0029       ; Quake
-    dw $004A, $0001, $0000, $002A       ; Lamp
-    dw $004B, $0001, $0000, $002B       ; Hammer
-    dw $004C, $0001, $0000, $002C       ; Shovel
-    dw $004C, $0002, $0000, $002D       ; Flute                      ; 10
-    dw $004D, $0001, $0000, $002E       ; Net
-    dw $004E, $0001, $0000, $002F       ; Book
-    dw $004F, $0002, $0002, $0030       ; Bottle
-    dw $004F, $0003, $0002, $0031       ; Red Potion
-    dw $004F, $0004, $0002, $0032       ; Green Potion
-    dw $004F, $0005, $0002, $0033       ; Blue Potion
-    dw $004F, $0007, $0002, $0034       ; Bee
-    dw $004F, $0008, $0002, $0035       ; Good Bee
-    dw $004F, $0006, $0002, $0036       ; Fairy
-    dw $0050, $0001, $0000, $0037       ; Somaria
-    dw $0051, $0001, $0000, $0038       ; Byrna
-    dw $0052, $0001, $0000, $0039       ; Cape
-    dw $0053, $0002, $0000, $003A       ; Mirror
-    dw $0054, $0001, $0100, $003B       ; Glove
-    dw $0054, $0002, $0000, $003C       ; Mitt
-    dw $0055, $0001, $0005, $003D       ; Boots                      ; 20
-    dw $0056, $0001, $0006, $003E       ; Flippers
-    dw $0057, $0001, $0000, $003F       ; Pearl
-    dw $0059, $0002, $0100, $0040       ; Master Sword
-    dw $0059, $0003, $0100, $0041       ; Tempered Sword
-    dw $0059, $0004, $0000, $0042       ; Gold Sword
-    dw $005B, $0001, $0100, $0043       ; Blue Tunic
-    dw $005B, $0002, $0000, $0044       ; Red Tunic
-    dw $005A, $0001, $0100, $0045       ; Shield
-    dw $005A, $0002, $0100, $0046       ; Red Shield
-    dw $005A, $0003, $0000, $0047       ; Mirror Shield
-    dw $006B, $0001, $0003, $0048       ; Piece of Heart
-    dw $006C, $0008, $0001, $0049       ; Heart Container
-    dw $0076, $0001, $0001, $004A       ; 1 Arrow
-    dw $0076, $0005, $0001, $004B       ; 5 Arrows
-    dw $0076, $000A, $0001, $004C       ; 10 Arrows
-    dw $0075, $0003, $0001, $004D       ; 3 Bombs                    ; 30
-    dw $0075, $000A, $0001, $004E       ; 10 Bombs
-    dw $0060, $0001, $0004, $004F       ; 1 Rupee
-    dw $0060, $0005, $0004, $0050       ; 5 Rupees
-    dw $0060, $0014, $0004, $0051       ; 20 Rupees
-    dw $0060, $0032, $0004, $0052       ; 50 Rupees
-    dw $0060, $0064, $0004, $0053       ; 100 Rupees
-    dw $0060, $012C, $0004, $0054       ; 300 Rupees
-    dw $007B, $0001, $0000, $0055       ; Half Magic
-    dw $007B, $0002, $0000, $0056       ; Quarter Magic              ; 39
-    dw $0070, $0005, $0001, $0057       ; +5 Bombs
-    dw $0070, $000A, $0001, $0058       ; +10 Bombs
-    dw $0071, $0005, $0001, $0059       ; +5 Arrows
-    dw $0071, $000A, $0001, $005A       ; +10 Arrows
-    dw $0059, $0001, $0100, $005B       ; Fighter Sword
+    dw $0000, $0000, $0000, $0000       ; 00 Dummy - L1SwordAndShield 
+    dw $0059, $0002, $0100, $0040       ; 01 Master Sword
+    dw $0059, $0003, $0100, $0041       ; 02 Tempered Sword
+    dw $0059, $0004, $0000, $0042       ; 02 Gold Sword
+    dw $005A, $0001, $0100, $0045       ; 04 Shield
+    dw $005A, $0002, $0100, $0046       ; 05 Red Shield
+    dw $005A, $0003, $0000, $0047       ; 06 Mirror Shield
+    dw $0045, $0001, $0000, $0025       ; 07 Firerod
+    dw $0046, $0001, $0000, $0026       ; 08 Icerod  
+    dw $004B, $0001, $0000, $002B       ; 09 Hammer
+    dw $0042, $0001, $0000, $0021       ; 0A Hookshot
+    dw $0040, $0002, $0000, $001d       ; 0B Bow                       
+    dw $0041, $0001, $0000, $001f       ; 0C Blue Boomerang
+    dw $0044, $0002, $0000, $0024       ; 0D Powder
+    dw $0000, $0000, $0000, $0000       ; 0E Dummy - Bee (bottle content)
+    dw $0047, $0001, $0000, $0027       ; 0F Bombos
     
+    dw $0048, $0001, $0000, $0028       ; 10 Ether
+    dw $0049, $0001, $0000, $0029       ; 11 Quake
+    dw $004A, $0001, $0000, $002A       ; 12 Lamp
+    dw $004C, $0001, $0000, $002C       ; 13 Shovel
+    dw $004C, $0002, $0000, $002D       ; 14 Flute                      
+    dw $0050, $0001, $0000, $0037       ; 15 Somaria
+    dw $004F, $0002, $0002, $0030       ; 16 Bottle
+    dw $006B, $0001, $0003, $0048       ; 17 Piece of Heart
+    dw $0051, $0001, $0000, $0038       ; 18 Byrna
+    dw $0052, $0001, $0000, $0039       ; 19 Cape
+    dw $0053, $0002, $0000, $003A       ; 1A Mirror
+    dw $0054, $0001, $0100, $003B       ; 1B Glove
+    dw $0054, $0002, $0000, $003C       ; 1C Mitt
+    dw $004E, $0001, $0000, $002F       ; 1D Book
+    dw $0056, $0001, $0006, $003E       ; 1E Flippers
+    dw $0057, $0001, $0000, $003F       ; 1F Pearl
+    
+    dw $0000, $0000, $0000, $0000       ; 20 Dummy 
+    dw $004D, $0001, $0000, $002E       ; 21 Net
+    dw $005B, $0001, $0100, $0043       ; 22 Blue Tunic
+    dw $005B, $0002, $0000, $0044       ; 23 Red Tunic
+    dw $0000, $0000, $0000, $0000       ; 24 Dummy - key
+    dw $0000, $0000, $0000, $0000       ; 25 Dummy - compass
+    dw $006C, $0008, $0001, $0049       ; 26 Heart Container - no anim
+    dw $0075, $0001, $0001, $0022       ; 27 Bomb 1
+    dw $0075, $0003, $0001, $004D       ; 28 3 Bombs                    
+    dw $0044, $0001, $0000, $0023       ; 29 Mushroom
+    dw $0041, $0002, $0000, $0020       ; 2A Red Boomerang
+    dw $004F, $0003, $0002, $0031       ; 2B Red Potion
+    dw $004F, $0004, $0002, $0032       ; 2C Green Potion
+    dw $004F, $0005, $0002, $0033       ; 2D Blue Potion
+    dw $0000, $0000, $0000, $0000       ; 2E Dummy - red
+    dw $0000, $0000, $0000, $0000       ; 2F Dummy - green
+    
+    dw $0000, $0000, $0000, $0000       ; 30 Dummy - blue
+    dw $0075, $000A, $0001, $004E       ; 31 10 Bombs
+    dw $0000, $0000, $0000, $0000       ; 32 Dummy - big key
+    dw $0000, $0000, $0000, $0000       ; 33 Dummy - map
+    dw $0060, $0001, $0004, $004F       ; 34 1 Rupee
+    dw $0060, $0005, $0004, $0050       ; 35 5 Rupees
+    dw $0060, $0014, $0004, $0051       ; 36 20 Rupees
+    dw $0000, $0000, $0000, $0000       ; 37 Dummy - Pendant of Courage
+    dw $0000, $0000, $0000, $0000       ; 38 Dummy - Pendant of Wisdom
+    dw $0000, $0000, $0000, $0000       ; 39 Dummy - Pendant of Power
+    dw $0040, $0002, $0000, $001d       ; 3A Bow and arrows
+    dw $0040, $0003, $0007, $001e       ; 3B Bow and silver Arrows
+    dw $004F, $0007, $0002, $0034       ; 3C Bee
+    dw $004F, $0006, $0002, $0036       ; 3D Fairy
+    dw $006C, $0008, $0001, $0049       ; 3E Heart Container - Boss
+    dw $006C, $0008, $0001, $0049       ; 3F Heart Container - Sanc
+    
+    dw $0060, $0064, $0004, $0053       ; 40 100 Rupees
+    dw $0060, $0032, $0004, $0052       ; 41 50 Rupees
+    dw $0000, $0000, $0000, $0000       ; 42 Dummy - small heart
+    dw $0076, $0001, $0001, $004A       ; 43 1 Arrow
+    dw $0076, $000A, $0001, $004C       ; 44 10 Arrows
+    dw $0000, $0000, $0000, $0000       ; 45 Dummy - small magic
+    dw $0060, $012C, $0004, $0054       ; 46 300 Rupees
+    dw $0060, $0014, $0004, $0051       ; 47 20 Rupees
+    dw $004F, $0008, $0002, $0035       ; 48 Good Bee
+    dw $0059, $0001, $0100, $005B       ; 49 Fighter Sword
+    dw $0000, $0000, $0000, $0000       ; 4A Dummy - activated flute
+    dw $0055, $0001, $0005, $003D       ; 4B Boots                      
+    dw $0000, $0000, $0000, $0000       ; 4C Dummy - 50+bombs
+    dw $0000, $0000, $0000, $0000       ; 4D Dummy - 70+arrows
+    dw $007B, $0001, $0000, $0055       ; 4E Half Magic
+    dw $007B, $0002, $0000, $0056       ; 4F Quarter Magic              
+    
+    dw $0059, $0002, $0100, $0040       ; 50 Master Sword
+    dw $0070, $0005, $0001, $0057       ; 51 +5 Bombs
+    dw $0070, $000A, $0001, $0058       ; 52 +10 Bombs
+    dw $0071, $0005, $0001, $0059       ; 53 +5 Arrows
+    dw $0071, $000A, $0001, $005A       ; 54 +10 Arrows
+    dw $0000, $0000, $0000, $0000       ; 55 Dummy - Programmable 1
+    dw $0000, $0000, $0000, $0000       ; 56 Dummy - Programmable 2
+    dw $0000, $0000, $0000, $0000       ; 57 Dummy - Programmable 3
+    dw $0040, $0003, $0007, $001e       ; 58 Silver Arrows
+
+;    dw $006C, $0008, $0001, $0049       ; Heart Container
+;    dw $0076, $0005, $0001, $004B       ; 5 Arrows
+
+
+
 
 org $c59643
 base $859643
@@ -1864,103 +1349,150 @@ btn_array:
 
 table box_yellow.tbl,rtl
 item_names:
+    dw "___      GRAPPLING BEAM      ___"   ; 00 (b0) (sm items)
+    dw "___       X-RAY SCOPE        ___"
+    dw "___        VARIA SUIT        ___"
+    dw "___       SPRING BALL        ___"
+    dw "___       MORPHING BALL      ___"
+    dw "___       SCREW ATTACK       ___"
+    dw "___       GRAVITY SUIT       ___"
+    dw "___       HI-JUMP BOOTS      ___"
+    dw "___        SPACE JUMP        ___"
+    dw "___          BOMBS           ___"
+    dw "___       SPEED BOOSTER      ___"
+    dw "___       CHARGE BEAM        ___"
+    dw "___         ICE BEAM         ___"
+    dw "___        WAVE BEAM         ___"
+    dw "___       S P A Z E R        ___"
+    dw "___       PLASMA BEAM        ___"
     dw "___      AN ENERGY TANK      ___"
+    dw "___      A RESERVE TANK      ___"
     dw "___         MISSILES         ___"
     dw "___       SUPER MISSILES     ___"
     dw "___        POWER BOMBS       ___"
-    dw "___          BOMBS           ___"
-    dw "___       CHARGE BEAM        ___"
-    dw "___         ICE BEAM         ___"
-    dw "___       HI-JUMP BOOTS      ___"
-    dw "___       SPEED BOOSTER      ___"
-    dw "___        WAVE BEAM         ___"
-    dw "___       S P A Z E R        ___"
-    dw "___       SPRING BALL        ___"
-    dw "___        VARIA SUIT        ___"
-    dw "___       GRAVITY SUIT       ___"
-    dw "___       X-RAY SCOPE        ___"
-    dw "___       PLASMA BEAM        ___"
-    dw "___      GRAPPLING BEAM      ___"
-    dw "___        SPACE JUMP        ___"
-    dw "___       SCREW ATTACK       ___"
-    dw "___       MORPHING BALL      ___"
-    dw "___      A RESERVE TANK      ___"
-    dw "______        BOW        _______"
-    dw "______   SILVER ARROWS   _______"
-    dw "______  BLUE BOOMERANG   _______"
-    dw "______   RED BOOMERANG   _______"
-    dw "______     HOOKSHOT      _______"
-    dw "______      1 BOMB       _______"
-    dw "______     MUSHROOM      _______"
-    dw "______   MAGIC POWDER    _______"
-    dw "______     FIRE ROD      _______"
-    dw "______     ICE ROD       _______"
-    dw "______      BOMBOS       _______"
-    dw "______      ETHER        _______"
-    dw "______      QUAKE        _______"
-    dw "______       LAMP        _______"
-    dw "______      HAMMER       _______"
-    dw "______      SHOVEL       _______"
-    dw "______      FLUTE        _______"
-    dw "______ BUG-CATCHING NET  _______"
-    dw "______  BOOK OF MUDORA   _______"
-    dw "______      BOTTLE       _______"
-    dw "______    RED POTION     _______"
-    dw "______   GREEN POTION    _______"
-    dw "______   BLUE POTION     _______"
-    dw "______       BEE         _______"
-    dw "______     GOOD BEE      _______"
-    dw "______      FAIRY        _______"
-    dw "______  CANE OF SOMARIA  _______"
-    dw "______   CANE OF BYRNA   _______"
-    dw "______    MAGIC CAPE     _______"
-    dw "______      MIRROR       _______"
-    dw "______    POWER GLOVE    _______"
-    dw "______   TITAN'S MITT    _______"
-    dw "______   PEGASUS BOOTS   _______"
-    dw "______  ZORA'S FLIPPERS  _______"
-    dw "______    MOON PEARL     _______"
-    dw "______   MASTER SWORD    _______"
-    dw "______  TEMPERED SWORD   _______"
-    dw "______    GOLD SWORD     _______"
-    dw "______     BLUE MAIL     _______"
-    dw "______      RED MAIL     _______"
-    dw "______      SHIELD       _______"
-    dw "______    RED SHIELD     _______"
-    dw "______   MIRROR SHIELD   _______"
-    dw "______   HEART PIECE     _______"
-    dw "______  HEART CONTAINER  _______"
-    dw "______     1 ARROW       _______"
-    dw "______     5 ARROWS      _______"
-    dw "______     10 ARROWS     _______"
-    dw "______      3 BOMBS      _______"
-    dw "______     10 BOMBS      _______"
-    dw "______      1 RUPEE      _______"
-    dw "______     5 RUPEES      _______"
-    dw "______     20 RUPEES     _______"
-    dw "______     50 RUPEES     _______"
-    dw "______    100 RUPEES     _______"
-    dw "______    300 RUPEES     _______"
-    dw "______    HALF MAGIC     _______"
-    dw "______   QUARTER MAGIC   _______"
-    dw "______  5 BOMB CAPACITY  _______"
-    dw "______ 10 BOMB CAPACITY  _______"
-    dw "______  5 ARROW CAPACITY _______"
-    dw "______ 10 ARROW CAPACITY _______"
-    dw "______  FIGHTER'S SWORD  _______"
+
+    dw "___                          ___"       ; $15+ (alttp items)
+    dw "___       MASTER SWORD       ___"
+    dw "___      TEMPERED SWORD      ___"
+    dw "___        GOLD SWORD        ___"
+    dw "___          SHIELD          ___"
+    dw "___        RED SHIELD        ___"
+    dw "___       MIRROR SHIELD      ___"
+    dw "___         FIRE ROD         ___"
+    dw "___         ICE ROD          ___"
+    dw "___          HAMMER          ___"
+    dw "___         HOOKSHOT         ___"
+    dw "___           BOW            ___"
+    dw "___      BLUE BOOMERANG      ___"
+    dw "___       MAGIC POWDER       ___"
+    dw "___                          ___"
+    dw "___          BOMBOS          ___"
+    dw "___          ETHER           ___"
+    dw "___          QUAKE           ___"
+    dw "___           LAMP           ___"
+    dw "___          SHOVEL          ___"
+    dw "___          FLUTE           ___"
+    dw "___      CANE OF SOMARIA     ___"
+    dw "___          BOTTLE          ___"
+    dw "___       HEART PIECE        ___"
+    dw "___       CANE OF BYRNA      ___"
+    dw "___        MAGIC CAPE        ___"
+    dw "___          MIRROR          ___"
+    dw "___        POWER GLOVE       ___"
+    dw "___       TITAN'S MITT       ___"
+    dw "___      BOOK OF MUDORA      ___"
+    dw "___      ZORA'S FLIPPERS     ___"
+    dw "___        MOON PEARL        ___"
+    dw "___                          ___"
+    dw "___     BUG-CATCHING NET     ___"
+    dw "___         BLUE MAIL        ___"
+    dw "___          RED MAIL        ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___      HEART CONTAINER     ___"
+    dw "___          1 BOMB          ___"
+    dw "___          3 BOMBS         ___"
+    dw "___         MUSHROOM         ___"
+    dw "___       RED BOOMERANG      ___"
+    dw "___        RED POTION        ___"
+    dw "___       GREEN POTION       ___"
+    dw "___       BLUE POTION        ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___         10 BOMBS         ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___          1 RUPEE         ___"
+    dw "___         5 RUPEES         ___"
+    dw "___         20 RUPEES        ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___           BOW            ___"
+    dw "___       SILVER ARROWS      ___"
+    dw "___           BEE            ___"
+    dw "___          FAIRY           ___"
+    dw "___      HEART CONTAINER     ___"
+    dw "___      HEART CONTAINER     ___"
+    dw "___        100 RUPEES        ___"
+    dw "___         50 RUPEES        ___"
+    dw "___                          ___"
+    dw "___         1 ARROW          ___"
+    dw "___         10 ARROWS        ___"
+    dw "___                          ___"
+    dw "___        300 RUPEES        ___"
+    dw "___         20 RUPEES        ___"
+    dw "___         GOOD BEE         ___"
+    dw "___      FIGHTER'S SWORD     ___"
+    dw "___                          ___"
+    dw "___       PEGASUS BOOTS      ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___        HALF MAGIC        ___"
+    dw "___       QUARTER MAGIC      ___"
+    dw "___       MASTER SWORD       ___"
+    dw "___      5 BOMB CAPACITY     ___"
+    dw "___     10 BOMB CAPACITY     ___"
+    dw "___      5 ARROW CAPACITY    ___"
+    dw "___     10 ARROW CAPACITY    ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___       SILVER ARROWS      ___"   ; 58
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___    PROGRESSIVE SWORD     ___"
+    dw "___    PROGRESSIVE SHIELD    ___"
+    dw "___    PROGRESSIVE ARMOR     ___"
+    dw "___    PROGRESSIVE GLOVE     ___"
+
+
 cleartable
 
 write_placeholders:
     phx : phy
     lda $1c1f
-    cmp #$001d
+    cmp #$005c
     beq .adjust
-    cmp #$001e
+    cmp #$005d
     beq .adjust
     bra .end
 
 .adjust
     lda $c1                 ; Load item id
+    cmp #$00b0              
+    bcc .alttpItem
+    sec
+    sbc #$00b0
+    bra +
+.alttpItem
+    clc
+    adc #$0015
++
     asl #6 : tay
     ldx #$0000
 -
@@ -2040,3 +1572,206 @@ base $858413
 	DW btn_array
 
 namespace off
+
+
+; Patch item PLM's
+org $CF81CC
+	dw $efe0	;Power Bomb (Crateria surface)
+org $CF81E8
+	dw $efe0	;Missile (outside Wrecked Ship bottom)
+org $CF81EE
+	dw $efe8	;Missile (outside Wrecked Ship top)
+org $CF81F4
+	dw $efe0	;Missile (outside Wrecked Ship middle)
+org $CF8248
+	dw $efe0	;Missile (Crateria moat)
+org $CF8264
+	dw $efe0	;Energy Tank (Crateria gauntlet)
+org $CF83EE
+	dw $efe0	;Missile (Crateria bottom)
+org $CF8404
+	dw $efe4	;Bomb
+org $CF8432
+	dw $efe0	;Energy Tank (Crateria tunnel to Brinstar)
+org $CF8464
+	dw $efe0	;Missile (Crateria gauntlet right)
+org $CF846A
+	dw $efe0	;Missile (Crateria gauntlet left)
+org $CF8478
+	dw $efe0	;Super Missile (Crateria)
+org $CF8486
+	dw $efe0	;Missile (Crateria middle)
+org $CF84AC
+	dw $efe4	;Power Bomb (green Brinstar bottom)
+org $CF84E4
+	dw $efe4	;Super Missile (pink Brinstar)
+org $CF8518
+	dw $efe0	;Missile (green Brinstar below super missile)
+org $CF851E
+	dw $efe0	;Super Missile (green Brinstar top)
+org $CF852C
+	dw $efe4	;Reserve Tank (Brinstar)
+org $CF8532
+	dw $efe8	;Missile (green Brinstar behind missile)
+org $CF8538
+	dw $efe0	;Missile (green Brinstar behind Reserve Tank)
+org $CF8608
+	dw $efe0	;Missile (pink Brinstar top)
+org $CF860E
+	dw $efe0	;Missile (pink Brinstar bottom)
+org $CF8614
+	dw $efe4	;Charge Beam
+org $CF865C
+	dw $efe0	;Power Bomb (pink Brinstar)
+org $CF8676
+	dw $efe0	;Missile (green Brinstar pipe)
+org $CF86DE
+	dw $efe0	;Morphing Ball
+org $CF874C
+	dw $efe0	;Power Bomb (blue Brinstar)
+org $CF8798
+	dw $efe0	;Missile (blue Brinstar middle)
+org $CF879E
+	dw $efe8	;Energy Tank (blue Brinstar)
+org $CF87C2
+	dw $efe0	;Energy Tank (green Brinstar bottom)
+org $CF87D0
+	dw $efe0	;Super Missile (green Brinstar bottom)
+org $CF87FA
+	dw $efe0	;Energy Tank (pink Brinstar bottom)
+org $CF8802
+	dw $efe4	;Missile (blue Brinstar bottom)
+org $CF8824
+	dw $efe0	;Energy Tank (pink Brinstar top)
+org $CF8836
+	dw $efe0	;Missile (blue Brinstar top)
+org $CF883C
+	dw $efe8	;Missile (blue Brinstar behind missile)
+org $CF8876
+	dw $efe4	;X-Ray Visor
+org $CF88CA
+	dw $efe0	;Power Bomb (red Brinstar sidehopper room)
+org $CF890E
+	dw $efe4	;Power Bomb (red Brinstar spike room)
+org $CF8914
+	dw $efe0	;Missile (red Brinstar spike room)
+org $CF896E
+	dw $efe4	;Spazer
+org $CF899C
+	dw $efe8	;Energy Tank (Kraid)
+org $CF89EC
+	dw $efe8	;Missile (Kraid)
+org $CF8ACA
+	dw $efe4	;Varia Suit
+org $CF8AE4
+	dw $efe8	;Missile (lava room)
+org $CF8B24
+	dw $efe4	;Ice Beam
+org $CF8B46
+	dw $efe8	;Missile (below Ice Beam)
+org $CF8BA4
+	dw $efe0	;Energy Tank (Crocomire)
+org $CF8BAC
+	dw $efe4	;Hi-Jump Boots
+org $CF8BC0
+	dw $efe0	;Missile (above Crocomire)
+org $CF8BE6
+	dw $efe0	;Missile (Hi-Jump Boots)
+org $CF8BEC
+	dw $efe0	;Energy Tank (Hi-Jump Boots)
+org $CF8C04
+	dw $efe0	;Power Bomb (Crocomire)
+org $CF8C14
+	dw $efe0	;Missile (below Crocomire)
+org $CF8C2A
+	dw $efe0	;Missile (Grapple Beam)
+org $CF8C36
+	dw $efe4	;Grapple Beam
+org $CF8C3E
+	dw $efe4	;Reserve Tank (Norfair)
+org $CF8C44
+	dw $efe8	;Missile (Norfair Reserve Tank)
+org $CF8C52
+	dw $efe0	;Missile (bubble Norfair green door)
+org $CF8C66
+	dw $efe0	;Missile (bubble Norfair)
+org $CF8C74
+	dw $efe8	;Missile (Speed Booster)
+org $CF8C82
+	dw $efe4	;Speed Booster
+org $CF8CBC
+	dw $efe0	;Missile (Wave Beam)
+org $CF8CCA
+	dw $efe4	;Wave Beam
+org $CF8E6E
+	dw $efe0	;Missile (Gold Torizo)
+org $CF8E74
+	dw $efe8	;Super Missile (Gold Torizo)
+org $CF8F30
+	dw $efe0	;Missile (Mickey Mouse room)
+org $CF8FCA
+	dw $efe0	;Missile (lower Norfair above fire flea room)
+org $CF8FD2
+	dw $efe0	;Power Bomb (lower Norfair above fire flea room)
+org $CF90C0
+	dw $efe0	;Power Bomb (above Ridley)
+org $CF9100
+	dw $efe0	;Missile (lower Norfair near Wave Beam)
+org $CF9108
+	dw $efe8	;Energy Tank (Ridley)
+org $CF9110
+	dw $efe4	;Screw Attack
+org $CF9184
+	dw $efe0	;Energy Tank (lower Norfair fire flea room)
+org $CFC265
+	dw $efe0	;Missile (Wrecked Ship middle)
+org $CFC2E9
+	dw $efe4	;Reserve Tank (Wrecked Ship)
+org $CFC2EF
+	dw $efe0	;Missile (Gravity Suit)
+org $CFC319
+	dw $efe0	;Missile (Wrecked Ship top)
+org $CFC337
+	dw $efe0	;Energy Tank (Wrecked Ship)
+org $CFC357
+	dw $efe0	;Super Missile (Wrecked Ship left)
+org $CFC365
+	dw $efe0	;Super Missile (Wrecked Ship right)
+org $CFC36D
+	dw $efe4	;Gravity Suit
+org $CFC437
+	dw $efe0	;Missile (green Maridia shinespark)
+org $CFC43D
+	dw $efe0	;Super Missile (green Maridia)
+org $CFC47D
+	dw $efe0	;Energy Tank (green Maridia)
+org $CFC483
+	dw $efe8	;Missile (green Maridia tatori)
+org $CFC4AF
+	dw $efe0	;Super Missile (yellow Maridia)
+org $CFC4B5
+	dw $efe0	;Missile (yellow Maridia super missile)
+org $CFC533
+	dw $efe0	;Missile (yellow Maridia false wall)
+org $CFC559
+	dw $efe4	;Plasma Beam
+org $CFC5DD
+	dw $efe0	;Missile (left Maridia sand pit room)
+org $CFC5E3
+	dw $efe4	;Reserve Tank (Maridia)
+org $CFC5EB
+	dw $efe0	;Missile (right Maridia sand pit room)
+org $CFC5F1
+	dw $efe0	;Power Bomb (right Maridia sand pit room)
+org $CFC603
+	dw $efe0	;Missile (pink Maridia)
+org $CFC609
+	dw $efe0	;Super Missile (pink Maridia)
+org $CFC6E5
+	dw $efe4	;Spring Ball
+org $CFC74D
+	dw $efe8	;Missile (Draygon)
+org $CFC755
+	dw $efe0	;Energy Tank (Botwoon)
+org $CFC7A7
+	dw $efe4	;Space Jump
