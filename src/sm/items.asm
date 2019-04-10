@@ -667,11 +667,11 @@ c_pearl:
     dw !IAlttpChozoItem, $0022
     
 c_sword_master:
-    dw !ILoadSpecialGraphics, $CA00 : db $01, $01, $01, $01, $01, $01, $01, $01
+    dw !ILoadSpecialGraphics, $CA00 : db $00, $00, $00, $00, $00, $00, $00, $00
     dw !IAlttpChozoItem, $0023
     
 c_sword_tempered:
-    dw !ILoadSpecialGraphics, $CB00 : db $00, $00, $00, $00, $00, $00, $00, $00
+    dw !ILoadSpecialGraphics, $CB00 : db $01, $01, $01, $01, $01, $01, $01, $01
     dw !IAlttpChozoItem, $0024
     
 c_sword_gold:
@@ -920,11 +920,11 @@ h_pearl:
     dw !IAlttpHiddenItem, $0022
     
 h_sword_master:
-    dw !ILoadSpecialGraphics, $CA00 : db $01, $01, $01, $01, $01, $01, $01, $01
+    dw !ILoadSpecialGraphics, $CA00 : db $00, $00, $00, $00, $00, $00, $00, $00
     dw !IAlttpHiddenItem, $0023
     
 h_sword_tempered:
-    dw !ILoadSpecialGraphics, $CB00 : db $00, $00, $00, $00, $00, $00, $00, $00
+    dw !ILoadSpecialGraphics, $CB00 : db $01, $01, $01, $01, $01, $01, $01, $01
     dw !IAlttpHiddenItem, $0024
     
 h_sword_gold:
