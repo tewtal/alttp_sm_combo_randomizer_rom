@@ -201,20 +201,25 @@ AddReceivedItemExpandedGetItem:
 	cmp #$01
 	bne +
 	plx
-	lda $02e9 : cmp #$01 : bne .notChest
-	.notChest
-	ldy #$01
-	lda $02d8 : cmp #$20 : bne .notCrystal
-	ldy #$02
-	.notCrystal
-	tya : sta $02e4
+
 	pla : pla : pla ; Align the stack by popping the return value off it (so we can JML instead of RTL)
 
-	lda $02D8
-	jsl alttp_mw_send_item
-
+	lda $02e9 : cmp #$01 : bne .notChest
+	
 	lda $72 : pha
 	lda $73 : pha
+
+	.notChest
+	ldy #$01
+	
+	lda $02d8 : cmp #$20 : bne .notCrystal
+	ldy #$02
+	
+	.notCrystal
+	tya : sta $02e4
+
+	jsl alttp_mw_send_item	 ; Item ID is already stored in !MULTIWORLD_ITEM
+
 	phx
 	jml $098763		; Skip all code that gives Link the item and just show the graphics
 +
@@ -1044,8 +1049,9 @@ AttemptItemSubstitution:
 	PLX
 	RTS
 
-AttemptItemSubstitutionLong:
+AttemptItemSubstitutionLong:	
 	JSR AttemptItemSubstitution
+	STZ !MULTIWORLD_PICKUP
 	RTL
 
 ;--------------------------------------------------------------------------------

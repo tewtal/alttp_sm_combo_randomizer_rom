@@ -496,7 +496,7 @@ RTS
 Shopkeeper_BuyItem:
 	PHX : PHY
 		TYX
-		
+		LDA #$01 : STA !MULTIWORLD_SWAP	; Prevent multiworld item swap
 		LDA.l !SHOP_INVENTORY, X
 		CMP.b #$0E : BEQ .refill ; Bee Refill
 		CMP.b #$2E : BEQ .refill ; Red Potion Refill

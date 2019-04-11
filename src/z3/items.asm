@@ -4,8 +4,8 @@
 ; that I borrowed a lot from :)
 ;
 
-org $08c5de
-    jml alttp_skip_item_text
+;org $08c5de
+;    jml alttp_skip_item_text
 
 org $400145
     db $b3      
@@ -136,22 +136,28 @@ alttp_sm_item_table:
     dw $0028, $0004,     5, $0000      ; Super Missiles
     dw $002c, $0004,     5, $0000      ; Power Bombs
 
-alttp_skip_item_text:
-    lda !MULTIWORLD_PICKUP  ; 1 = pickup multiworld for other player, 2 = get multiworld item from other player
-    bne .multiworldText
-    lda $000c5e,x
-    cmp #$b0
-    bcc .normal_item
-    jml $08c61b
-.normal_item
-    asl a
-    tay
-    rep #$20
-    jml $08c5e5
-.multiworldText
-    lda !MULTIWORLD_DIALOG
-    sta $1cf0    ; Store multiworld dialog pointers
-    lda #$80
-    sta $1cf1
-    jsl Main_ShowTextMessage
-    jml $08c61b
+; alttp_skip_item_text:
+;     lda !MULTIWORLD_GET_DIALOG  
+;     bne .multiworldGet
+;     lda !MULTIWORLD_GIVE_DIALOG
+;     bne .multiworldGive
+;     lda $000c5e,x
+;     cmp #$b0
+;     bcc .normal_item
+;     jml $08c61b
+; .normal_item
+;     asl a
+;     tay
+;     rep #$20
+;     jml $08c5e5
+; .multiworldGet
+;     lda #$01
+;     bra +
+; .multiworldGive
+;     lda #$00
+; +
+;     sta $1cf0    ; Store multiworld dialog pointers
+;     lda #$80
+;     sta $1cf1
+;     jsl Main_ShowTextMessage
+;     jml $08c61b

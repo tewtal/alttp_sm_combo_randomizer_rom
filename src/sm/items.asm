@@ -917,46 +917,60 @@ check_item_swap:
     php    
     %ai8()
     tay
-	CPY.b #$02 : BNE + ; Blue Boomerang
+	CPY.b #$0C : BNE + ; Blue Boomerang
 		LDA !SM_INVENTORY_SWAP : ORA #$80 : STA !SM_INVENTORY_SWAP
 		BRL .done
-	+ CPY.b #$03 : BNE + ; Red Boomerang
+	+ CPY.b #$2A : BNE + ; Red Boomerang
 		LDA !SM_INVENTORY_SWAP : ORA #$40 : STA !SM_INVENTORY_SWAP
 		BRL .done
-	+ CPY.b #$06 : BNE + ; Mushroom
+	+ CPY.b #$29 : BNE + ; Mushroom
 		LDA !SM_INVENTORY_SWAP : ORA #$20 : STA !SM_INVENTORY_SWAP
 		BRL .done
-	+ CPY.b #$07 : BNE + ; Magic Powder
+	+ CPY.b #$0D : BNE + ; Magic Powder
 		LDA !SM_INVENTORY_SWAP : ORA #$10 : STA !SM_INVENTORY_SWAP
 		BRL .done
-	+ CPY.b #$0F : BNE + ; Shovel
+	+ CPY.b #$13 : BNE + ; Shovel
 		LDA !SM_INVENTORY_SWAP : ORA #$04 : STA !SM_INVENTORY_SWAP
 		BRL .done
-	+ CPY.b #$10 : BNE + ; Flute (Inactive)
-		JSR .stampFlute
+	+ CPY.b #$14 : BNE + ; Flute (Inactive)
 		LDA !SM_INVENTORY_SWAP : ORA #$02 : STA !SM_INVENTORY_SWAP
 		BRL .done
-	+ CPY.b #$00 : BNE + ; Bow & Arrows
+	+ CPY.b #$4A : BNE + ; Flute (Active)
+		LDA !SM_INVENTORY_SWAP : ORA #$01 : STA !SM_INVENTORY_SWAP
+		BRL .done
+	+ CPY.b #$0B : BNE + ; Bow
+    	LDA !SM_INVENTORY_SWAP_2 : ORA #$80 : STA !SM_INVENTORY_SWAP_2
+		BRL .done
+	+ CPY.b #$3A : BNE + ; Bow & Arrows
 		LDA !SM_INVENTORY_SWAP_2 : ORA #$80 : STA !SM_INVENTORY_SWAP_2
 		BRL .done
-	+ CPY.b #$01 : BNE + ; Silver Arrows
+	+ CPY.b #$3B : BNE + ; Bow & Silver Arrows
 		LDA !SM_INVENTORY_SWAP_2 : ORA #$40 : STA !SM_INVENTORY_SWAP_2
-	+ CPY.b #$3f : BNE + ; Fighter's Sword
+		BRL .done
+	+ CPY.b #$43 : BNE + ; Single arrow
+		LDA !SM_INVENTORY_SWAP_2 : ORA #$80 : STA !SM_INVENTORY_SWAP_2 ; activate wood arrows in quick-swap
+		BRL .done
+	+ CPY.b #$58 : BNE + ; Upgrade-Only Silver Arrows
+		LDA !SM_INVENTORY_SWAP_2 : ORA #$40 : STA !SM_INVENTORY_SWAP_2
+	+ CPY.b #$49 : BNE + ; Fighter's Sword
 		JSR .stampSword
 		BRL .done
-	+ CPY.b #$23 : BNE + ; Master Sword
+	+ CPY.b #$01 : BNE + ; Master Sword
 		JSR .stampSword
 		BRL .done
-	+ CPY.b #$24 : BNE + ; Tempered Sword
+	+ CPY.b #$50 : BNE + ; Master Sword
 		JSR .stampSword
 		BRL .done
-	+ CPY.b #$25 : BNE + ; Golden Sword
+	+ CPY.b #$02 : BNE + ; Tempered Sword
 		JSR .stampSword
 		BRL .done
-	+ CPY.b #$20 : BNE + ; Pegasus Boots
+	+ CPY.b #$03 : BNE + ; Golden Sword
+		JSR .stampSword
+		BRL .done
+	+ CPY.b #$4B : BNE + ; Pegasus Boots
 		JSR .stampBoots
 		BRL .done
-	+ CPY.b #$1D : BNE + ; Magic Mirror
+	+ CPY.b #$1A : BNE + ; Magic Mirror
 		JSR .stampMirror
 		BRL .done
     + 

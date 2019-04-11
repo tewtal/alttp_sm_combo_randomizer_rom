@@ -1,6 +1,7 @@
 LoadRoomHook:
     ;JSL.l IndoorTileTransitionCounter
-
+	stz !MULTIWORLD_SWAP
+    
     .noStats
     JSL Dungeon_LoadRoom
     REP #$10 ; 16 bit XY

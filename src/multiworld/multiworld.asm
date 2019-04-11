@@ -44,7 +44,7 @@ mw_queue_receive:
     rtl
 
 ; Multiworld data
-org $f84f00
+org $c0ff50
     incsrc seeddata.asm
 org $f85000
     incsrc playertable.asm

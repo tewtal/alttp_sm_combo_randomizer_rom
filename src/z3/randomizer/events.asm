@@ -160,6 +160,43 @@ PostItemAnimation:
 		LDA.b #$00 : STA $7F50A0
 	+
 
+	LDA !MULTIWORLD_PICKUP
+	BNE .multiworldPickup
+
     STZ $02E9 : LDA $0C5E, X ; thing we wrote over to get here
+	BRA .end
+
+.multiworldPickup
+	PLA : PLA : PLA	 ; Pop return address off the stack
+	lda !MULTIWORLD_DIALOG
+	cmp #$01
+    beq .multiworldGive
+	cmp #$02
+    beq .multiworldGet
+	stz !MULTIWORLD_DIALOG_ITEM
+	stz !MULTIWORLD_DIALOG_PLAYER
+	bra .noDialog
+.multiworldGet
+    lda #$01
+    bra +
+.multiworldGive
+    lda #$00
++
+    sta $1cf0    ; Store multiworld dialog pointers
+    lda #$80
+    sta $1cf1
+    jsl Main_ShowTextMessage
+
+.noDialog
+	stz !MULTIWORLD_SWAP
+	stz !MULTIWORLD_PICKUP
+    stz !MULTIWORLD_GIVE_ITEM
+    stz !MULTIWORLD_GIVE_PLAYER
+
+	STZ $02E9 : LDA $0C5E, X
+	JML $08C505		 ; If we're multiworld getting, skip
+					 ; all crazy events to get us things
+
+.end
 RTL
 ;--------------------------------------------------------------------------------
