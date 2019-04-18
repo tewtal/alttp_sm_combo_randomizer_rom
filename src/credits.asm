@@ -1162,8 +1162,8 @@ tilemap_data:
     dw "       ADDITIONAL GRAPHICS      "
     !BIG
     dw "                                "
-    dw "             ANDREW             "
-    dw "             andrew             "
+    dw "      ANDREW       NATALIE      "
+    dw "      andrew       natalie      "
     dw "                                "
     dw "                                "
     dw "                                "
@@ -1171,8 +1171,8 @@ tilemap_data:
     dw "     ADDITIONAL CONTRIBUTORS    "
     !BIG
     dw "                                "
-    dw "            LENOPHIS            "
-    dw "            lenophis            "
+    dw "   LENOPHIS        HALFAREBEL   "
+    dw "   lenophis        halfarebel   "
     dw "                                "
     dw "     ANDY            SMOLBIG    "
     dw "     andy            smolbig    "

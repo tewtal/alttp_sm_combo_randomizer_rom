@@ -160,14 +160,13 @@ PostItemAnimation:
 		LDA.b #$00 : STA $7F50A0
 	+
 
-	LDA !MULTIWORLD_PICKUP
+	LDA !MULTIWORLD_DIALOG
 	BNE .multiworldPickup
 
     STZ $02E9 : LDA $0C5E, X ; thing we wrote over to get here
 	BRA .end
 
 .multiworldPickup
-	PLA : PLA : PLA	 ; Pop return address off the stack
 	lda !MULTIWORLD_DIALOG
 	cmp #$01
     beq .multiworldGive
@@ -193,6 +192,14 @@ PostItemAnimation:
     stz !MULTIWORLD_GIVE_ITEM
     stz !MULTIWORLD_GIVE_PLAYER
 
+	lda !MULTIWORLD_DIALOG
+	cmp #$02
+	bne .giveItem
+	STZ $02E9 : LDA $0C5E, X ; thing we wrote over to get here
+	bra .end
+
+.giveItem
+	PLA : PLA : PLA	 ; Pop return address off the stack
 	STZ $02E9 : LDA $0C5E, X
 	JML $08C505		 ; If we're multiworld getting, skip
 					 ; all crazy events to get us things

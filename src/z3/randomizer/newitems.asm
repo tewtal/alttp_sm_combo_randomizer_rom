@@ -1050,8 +1050,8 @@ AttemptItemSubstitution:
 	RTS
 
 AttemptItemSubstitutionLong:	
-	JSR AttemptItemSubstitution
-	STZ !MULTIWORLD_PICKUP
+	;JSR AttemptItemSubstitution
+	jsl alttp_multiworld_replace_graphics
 	RTL
 
 ;--------------------------------------------------------------------------------

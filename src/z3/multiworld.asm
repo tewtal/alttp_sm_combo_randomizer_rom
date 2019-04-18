@@ -65,6 +65,27 @@ alttp_multiworld_replace_item:
     stz !MULTIWORLD_SWAP
     rtl
 
+alttp_multiworld_replace_graphics:
+    CMP.b #$20 : BEQ .end                ; Crystal
+	CMP.b #$26 : BEQ .end                ; Piece of heart completion heart
+	CMP.b #$2E : BEQ .end                ; red refill
+	CMP.b #$2F : BEQ .end                ; green refill
+	CMP.b #$30 : BEQ .end                ; Blue refill
+    CMP.b #$32 : BEQ .end                ; Big key (guard)
+	CMP.b #$37 : BEQ .end                ; Pendant
+	CMP.b #$38 : BEQ .end                ; Pendant
+	CMP.b #$39 : BEQ .end                ; Pendant
+
+    phx : phy : php
+    %ai16()
+    and #$00ff              ; Mask off any extra high bits left in A
+    asl #3 : tax
+    lda.l alttp_rando_item_table+$2, x
+    plp : ply : plx
+
+.end
+    rtl
+
 alttp_mw_handle_queue:
     jsl $078000              ; JSL Player_Main (do stoops lonk things)
     pha : phx : phy : php
@@ -76,22 +97,40 @@ alttp_mw_handle_queue:
 
     %a8()
     lda.l !MULTIWORLD_PICKUP
-    bne .end                 ; If a pickup is happening, don't queue another yet
+    bne .cantGive                 ; If a pickup is happening, don't queue another yet
     lda $02E4
-    bne .end                 ; Don't queue pickups if link is not allowed to move
+    bne .cantGive                 ; Don't queue pickups if link is not allowed to move
     lda $03EF
-    bne .end                 ; Don't queue pickups when link is forced into "sword up"
+    bne .cantGive                 ; Don't queue pickups when link is forced into "sword up"
     lda $0410
-    bne .end                 ; Don't queue pickups with an active screen transition
-    
-    lda $10                  ; Only give items if we're still in dungeon or overworld mode
+    bne .cantGive                 ; Don't queue pickups with an active screen transition
+
+    lda $5d                       ; Check links state
+    cmp #$00                      ; Only allow ground state, swimming, dashing and bunny states
+    beq .next
+    cmp #$04
+    beq .next
+    cmp #$11
+    beq .next
+    cmp #$17
+    beq .next
+    bra .cantGive
+
+.next
+
+    lda $10                       ; Only get items if we're still in dungeon or overworld mode
     cmp #$07
     beq .continue
     cmp #$09
     beq .continue
-    bra .end
+    bra .cantGive
 
 .continue
+    lda !MULTIWORLD_DELAY
+    beq +
+    dec : sta !MULTIWORLD_DELAY
+    bra .end
++
     %a16()
 
     lda.l !SRAM_MW_RPTR
@@ -107,7 +146,11 @@ alttp_mw_handle_queue:
     lda.l #$0000
 +
     sta.l !SRAM_MW_RPTR
+    bra .end
 
+.cantGive
+    lda #$0A
+    sta !MULTIWORLD_DELAY   ; Wait 5 frames before trying to give item again
 .end
     plp : ply : plx : pla
     rtl
@@ -241,7 +284,6 @@ alttp_multiworld_dialog:
     cpy #$0052
     bne -
 
-    ; If we're getting a remote item, clear out multiworld parameters
     stz !MULTIWORLD_DIALOG
     stz !MULTIWORLD_DIALOG_ITEM
     stz !MULTIWORLD_DIALOG_PLAYER

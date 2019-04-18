@@ -45,6 +45,8 @@
 !MULTIWORLD_DIALOG_ITEM = $19FA
 !MULTIWORLD_DIALOG_PLAYER = $19FC
 
+!MULTIWORLD_DELAY = $19FE
+
 incsrc hooks.asm
 incsrc treekid.asm
 incsrc spriteswap.asm
