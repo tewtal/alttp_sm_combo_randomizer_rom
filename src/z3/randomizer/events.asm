@@ -80,6 +80,7 @@ OnFileLoad:
 	JSL.l SetSilverBowMode
 	JSL.l RefreshRainAmmo
 	JSL.l SetEscapeAssist
+	STZ !MULTIWORLD_PICKUP
 RTL
 ;--------------------------------------------------------------------------------
 !RNG_ITEM_LOCK_IN = "$7F5090"
@@ -141,6 +142,8 @@ OnOWTransition:
 	SEP #$20 ; set 8-bit accumulator
 	LDA.b #$FF : STA !RNG_ITEM_LOCK_IN ; clear lock-in
 	PLP
+	
+	STZ !MULTIWORLD_PICKUP
 RTL
 ;--------------------------------------------------------------------------------
 PreItemGet:

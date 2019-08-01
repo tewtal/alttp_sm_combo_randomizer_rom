@@ -1362,6 +1362,9 @@ NOP #6 ; remove crystal room cutscene check that causes softlocks
 org $06C7BB ; <- 347BB - sprite_ponds.asm:702 (JSL Sprite_ShowMessageFromPlayerContact : BCC BRANCH_ALPHA)
 JSL.l FairyPond_Init
 ; ;--------------------------------------------------------------------------------
+org $06C9C0 ; <- 349C0 - sprite_ponds.asm:1068 (JSL Link_ReceiveItem)
+JSL.l FairyPond_PreventReplacement
+; ;--------------------------------------------------------------------------------
 org $08C5ED ; <- 445ED - ancilla_receive_item.asm:395 (STA $1CF0 : CMP.w #$0070 : BNE .notGeezerSpeech)
 NOP #3
 ; ;--------------------------------------------------------------------------------

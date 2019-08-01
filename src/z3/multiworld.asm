@@ -36,6 +36,7 @@ alttp_multiworld_replace_item:
     cmp #$0112 : BEQ .shop
     cmp #$0100 : BEQ .shop              ; LW Chest game 1
     cmp #$0118 : BEQ .shop              ; LW Chest game 2
+    cmp #$011C : BEQ .shop              ; Bomb shop
     bra .noShop
 .paradoxShop
     lda $A8
@@ -45,10 +46,10 @@ alttp_multiworld_replace_item:
     txa : bra .noReplace
 .noShop
     txa
-    and #$00ff              ; Mask off any extra high bits left in A
+    and #$00ff                          ; Mask off any extra high bits left in A
     asl #3 : tax
-    lda.l alttp_rando_item_table, x   ; Load multiworld item type
-    sta !MULTIWORLD_PICKUP          ; Make sure we always set this flag so it's updated depending on item type
+    lda.l alttp_rando_item_table, x     ; Load multiworld item type
+    sta !MULTIWORLD_PICKUP              ; Make sure we always set this flag so it's updated depending on item type
     beq .ownItem
 
     sta !MULTIWORLD_DIALOG
@@ -66,6 +67,7 @@ alttp_multiworld_replace_item:
     rtl
 
 alttp_multiworld_replace_graphics:
+    lsr !MULTIWORLD_SWAP : bcs .end     ; If !MULTIWORLD_SWAP is set, skip one item swap
     CMP.b #$20 : BEQ .end                ; Crystal
 	CMP.b #$26 : BEQ .end                ; Piece of heart completion heart
 	CMP.b #$2E : BEQ .end                ; red refill
@@ -84,10 +86,10 @@ alttp_multiworld_replace_graphics:
     plp : ply : plx
 
 .end
+    stz !MULTIWORLD_SWAP
     rtl
 
 alttp_mw_handle_queue:
-    jsl $078000              ; JSL Player_Main (do stoops lonk things)
     pha : phx : phy : php
     %ai16()
 
@@ -102,8 +104,6 @@ alttp_mw_handle_queue:
     bne .cantGive                 ; Don't queue pickups if link is not allowed to move
     lda $03EF
     bne .cantGive                 ; Don't queue pickups when link is forced into "sword up"
-    lda $0410
-    bne .cantGive                 ; Don't queue pickups with an active screen transition
 
     lda $5d                       ; Check links state
     cmp #$00                      ; Only allow ground state, swimming, dashing and bunny states
@@ -125,10 +125,14 @@ alttp_mw_handle_queue:
     beq .continue
     bra .cantGive
 
-.continue
+.continue                         ; Always induce a 10 frame waiting period of "normal gameplay"
+    lda $11
+    bne .cantGive                 ; Make sure submodule is 0
     lda !MULTIWORLD_DELAY
-    beq +
+    beq .cantGive
     dec : sta !MULTIWORLD_DELAY
+    cmp #$00
+    beq +
     bra .end
 +
     %a16()
@@ -150,9 +154,10 @@ alttp_mw_handle_queue:
 
 .cantGive
     lda #$0A
-    sta !MULTIWORLD_DELAY   ; Wait 5 frames before trying to give item again
+    sta !MULTIWORLD_DELAY   ; Wait 10 frames before trying to give item again
 .end
     plp : ply : plx : pla
+    jsl $078000              ; JSL Player_Main (do stoops lonk things)
     rtl
 
 alttp_mw_no_rupees:
