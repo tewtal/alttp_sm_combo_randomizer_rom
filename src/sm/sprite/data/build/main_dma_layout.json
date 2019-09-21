@@ -785,14 +785,14 @@
   { ".": "shine_spark_left", "o": [51,1,1], "d": [-16,-20,24,20], "u": [["$CA",0],["$CE",0]] },
   { ".": "shine_spark_vertical_left", "o": [51,2,1], "d": [-16,-24,16,24], "u": [["$CC",0]] },
 
-  { ".": "crystal_flash_left", "o": [52,1], "d": [-12,-21,12,19], "pal": "$3C", "upper": true, "u": [["$D4",6],["$D4",2]] },
+  { ".": "crystal_flash_left", "o": [52,1], "d": [-12,-21,12,19], "r": [6,3], "upper": true, "u": [["$D4",6],["$D4",2]] },
   { ".": "crystal_flash_left1", "..": "crystal_flash_left", "u": [["$D4",7]]},
   { ".": "crystal_flash_left2", "..": "crystal_flash_left", "u": [["$D4",8]]},
   { ".": "crystal_flash_left3", "..": "crystal_flash_left", "u": [["$D4",9]]},
 
   { ".": "crystal_bubble_left_small", "..": "crystal_bubble_left_large", "o": [53,1], "u": [["$D4",0],["$D4",13]] },
   { ".": "crystal_bubble_left_medium", "..": "crystal_bubble_left_large", "o": [53,1], "u": [["$D4",1],["$D4",12]] },
-  { ".": "crystal_bubble_left_large", "o": [53,1], "d": [-32,-32,0,0], "pal": "$3C", "lower": true,
+  { ".": "crystal_bubble_left_large", "o": [53,1], "d": [-32,-32,0,0], "r": [6,3], "lower": true,
     "u": [["$D4",2],["$D4",3],["$D4",6],["$D4",7],["$D4",8],["$D4",9]]
   },
 
@@ -829,14 +829,14 @@
   { ".": "shine_spark_right", "o": [51,1,2], "d": [-24,-20,16,20], "u": [["$C9",0],["$CD",0]] },
   { ".": "shine_spark_vertical_right", "o": [51,2,2], "d": [-16,-24,16,24], "u": [["$CB",0]] },
 
-  { ".": "crystal_flash_right", "o": [52,2], "d": [-12,-21,12,19], "pal": "$3C", "upper": true, "u": [["$D3",6],["$D3",2]] },
+  { ".": "crystal_flash_right", "o": [52,2], "d": [-12,-21,12,19], "r": [6,3], "upper": true, "u": [["$D3",6],["$D3",2]] },
   { ".": "crystal_flash_right1", "..": "crystal_flash_right", "u": [["$D3",7]] },
   { ".": "crystal_flash_right2", "..": "crystal_flash_right", "u": [["$D3",8]] },
   { ".": "crystal_flash_right3", "..": "crystal_flash_right", "u": [["$D3",9]] },
 
   { ".": "crystal_bubble_right_small", "..": "crystal_bubble_right_large", "o": [53,2], "u": [["$D3",0],["$D3",13]] },
   { ".": "crystal_bubble_right_medium", "..": "crystal_bubble_right_large", "o": [53,2], "u": [["$D3",1],["$D3",12]] },
-  { ".": "crystal_bubble_right_large", "o": [53,2], "d": [0,-32,32,0], "pal": "$3C", "lower": true,
+  { ".": "crystal_bubble_right_large", "o": [53,2], "d": [0,-32,32,0], "r": [6,3], "lower": true,
     "u": [["$D3",2],["$D3",3],["$D3",6],["$D3",7],["$D3",8],["$D3",9]]
   },
 
@@ -868,7 +868,7 @@
 
   { ".": "elevator", "o": [1], "d": [-17,-24,15,32], "u": [["$00",0]] },
 
-  { ".": "launcher", "o": [1], "d": [-16,-31,16,25], "pal": "$38", "u": [
+  { ".": "launcher", "o": [1], "d": [-16,-31,16,25], "r": [4,3], "u": [
                  ["$00", 3],["$00", 5],["$00", 7],["$00", 9],
       ["$00",11],["$00",13],["$00",15],["$00",17],["$00",19],
       ["$00",21],["$00",23],["$00",25],["$00",27],["$00",29],
@@ -907,7 +907,7 @@
 
   { ".": "elevator_varia", "..": "elevator", "u": [["$9B",0]] },
 
-  { ".": "launcher_varia", "..": "launcher", "pal": "$38", "u": [
+  { ".": "launcher_varia", "..": "launcher", "r": [4,3], "u": [
                  ["$9B", 3],["$9B", 5],["$9B", 7],["$9B", 9],
       ["$9B",11],["$9B",13],["$9B",15],["$9B",17],["$9B",19],
       ["$9B",21],["$9B",23],["$9B",25],["$9B",27],["$9B",29],

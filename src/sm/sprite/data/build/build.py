@@ -2,7 +2,8 @@
 from collections.abc import MutableSequence
 from collections import defaultdict
 from itertools import chain, product
-from enum import Enum
+from enum import Enum, IntEnum, IntFlag
+from copy import copy
 from os import path
 import struct
 import json
@@ -262,29 +263,29 @@ def main_dma_tilemap_tables(data, usage, usage_by_animation):
                 # in the case of two names, one of them will be forced lower
                 for name in usage[(animation,pose)]:
                     force_lower = access(data, name, 'lower')
-                    tilemap = compile_tilemap(
+                    tilemap = build_tilemap(
                         access(data, name, 'd'),
                         access(data, name, 'd+'),
-                        access(data, name, 'pal'),
+                        access(data, name, 'r'),
                         force_lower)
 
                     # have to make the whole bubble out of one quadrant
                     if name.startswith('crystal_bubble'):
-                        tilemap = quadrate_crystal_bubble(tilemap)
+                        tilemap = quadrate_tilemap(tilemap)
                     # need to 180 rotate these grapple poses to appear as they did in vanilla for upside-down poses
                     if animation == 0xB2 and pose in chain(range(0,9),range(25,41),range(57,64)): # 0-8, 25-40, 57-63
-                        tilemap = rotate_tilemap(tilemap)
+                        tilemap = half_turn_tilemap(tilemap)
                     if animation == 0xB3 and pose in chain(range(0,8),range(24,40),range(56,64)): # 0-7, 24-39, 56-63
-                        tilemap = rotate_tilemap(tilemap)
+                        tilemap = half_turn_tilemap(tilemap)
 
-                    tilemap_entry = tuple(tilemap)
-                    tilemap_address = tilemap_address_cache.get(tilemap_entry)
+                    tilemap = tuple(entry.compile() for entry in tilemap)
+                    tilemap_address = tilemap_address_cache.get(tilemap)
 
                     if tilemap_address is None:
-                        _, tilemap_address = freespace_tilemap.allocate(2+len(tilemap))
-                        tilemap_address_cache[tilemap_entry] = tilemap_address
-                        tilemaps += dw(len(tilemap)//5)
-                        tilemaps += tilemap
+                        _, tilemap_address = freespace_tilemap.allocate(2+5*len(tilemap))
+                        tilemap_address_cache[tilemap] = tilemap_address
+                        tilemaps += dw(len(tilemap))
+                        tilemaps += bytes().join(tilemap)
 
                     if force_lower:
                         lower_tilemap_address = tilemap_address
@@ -315,9 +316,9 @@ def consecutive_animations(table):
     # key by the initial animation number of each block
     return { block[0][0]: bytes().join(addr for _, addr in block) for block in table }
 
-def compile_tilemap(dimension, dimensions, palette, force_lower):
-    # strip $ and convert hex to integer. 0x28 is the default of the normal Samus palette
-    palette = int(palette[1:], 16) if palette else 0x28
+def build_tilemap(dimension, dimensions, render, force_lower):
+    # palette = 4, prio = 2 is the default of the normal Samus palette
+    palette, prio = render or (4, 2)
 
     big_tiles = []
     small_tiles = []
@@ -336,61 +337,26 @@ def compile_tilemap(dimension, dimensions, palette, force_lower):
             for x in range(x_min, x_max-7, 8):
                 small_tiles.append((x, y_max-8))
 
-    tilemap = []
     index = 0x08 if force_lower else 0x00
+    x16, x8 = True, False
+    tilemap = []
     for x, y in big_tiles:
-        flags = 0xC3 if x < 0 else 0xC2
-        tilemap += [x, flags, y, index, palette]
+        tilemap.append(Tilemap(x, y, index, palette, prio, x16))
         index += 0x02
     for x, y in small_tiles:
-        flags = 0x01 if x < 0 else 0x00
-        tilemap += [x, flags, y, index, palette]
+        tilemap.append(Tilemap(x, y, index, palette, prio, x8))
         index += 0x10 if index//0x10 == 0 else -0x10 + 0x01
 
-    return bytes().join(db(b) for b in tilemap)
+    return tilemap
 
-def quadrate_crystal_bubble(tilemap):
-    flag_x_sign = 0x01
-    flag_h_flip = 0x40
-    flag_v_flip = 0x80
-    quad_tilemap = []
-    for h_flip, v_flip in product([True, False], repeat=2):
-        for i in range(0, len(tilemap), 5):
-            x, size, y, tile, palette = tilemap[i:i+5]
-            if h_flip:
-                x = 0xF0 - x
-                size ^= flag_x_sign
-                palette ^= flag_h_flip
-            if v_flip:
-                y = 0xF0 - y
-                palette ^= flag_v_flip
-            if x < 0:
-                x += 0x100
-                size ^= flag_x_sign
-            if y < 0:
-                y += 0x100
-            quad_tilemap += [x, size, y, tile, palette]
+def quadrate_tilemap(tilemap):
+    for h, v in product([True, False], repeat=2):
+        for entry in tilemap:
+            yield entry.flip_around_center(v, h)
 
-    return bytes().join(db(b) for b in quad_tilemap)
-
-def rotate_tilemap(tilemap):
-    flag_x_sign = 0x01
-    rotated_tilemap = []
-    for i in range(0, len(tilemap), 5):
-        x, size, y, tile, palette = tilemap[i:i+5]
-        flip_origin = 0xF8 if size & 0xC2 == 0 else 0xF0
-        x = flip_origin - x
-        y = flip_origin - y
-        size ^= flag_x_sign
-        palette ^= 0xC0
-        if x < 0:
-            x += 0x100
-            size ^= flag_x_sign
-        if y < 0:
-            y += 0x100
-        rotated_tilemap.extend([x, size, y, tile, palette])
-
-    return bytes().join(db(b) for b in rotated_tilemap)
+def half_turn_tilemap(tilemap):
+    for entry in tilemap:
+        yield entry.flip_around_center(v=True, h=True)
 
 class Direction(Enum):
     left = 0
@@ -430,157 +396,205 @@ def death_dma_tilemap_tables():
 
         tilemaps = bytearray()
         for pose in range(9):
-            tilemap = compile_death_tilemap(direction, pose)
+            tilemap = build_death_pieces_tilemap(direction, pose)
+            tilemap += build_death_body_tilemap(direction, pose)
+            tilemap = [entry.compile() for entry in tilemap]
 
-            _, tilemap_address = freespace.allocate(2+len(tilemap))
+            _, tilemap_address = freespace.allocate(2+5*len(tilemap))
             sec_table += dw(tilemap_address)
 
-            tilemaps += dw(len(tilemap)//5)
-            tilemaps += tilemap
+            tilemaps += dw(len(tilemap))
+            tilemaps += bytes().join(tilemap)
 
         sec_table += tilemaps
 
     return prim_table, sec_table
 
-def compile_death_tilemap(direction, pose):
-    return compile_death_pieces_tilemap(direction, pose) + compile_death_body_tilemap(direction, pose)
-
-def compile_death_pieces_tilemap(direction, pose):
+def build_death_pieces_tilemap(direction, pose):
     if pose not in range(1,6):
-        return bytes()
+        return []
 
     # Some tiles overlap. This is intended, and isn't a big problem for death poses
+    x16, x8 = True, False
     if pose == 1:
         origin = (-9, -15), -25
         tiles = [
-            (0,  0, 0xC2, 0x00),
-            (0, 16, 0xC2, 0x20),
-            (0, 32, 0xC2, 0x40),
-            (8,  0, 0xC2, 0x01),
-            (8, 16, 0xC2, 0x21),
-            (8, 32, 0xC2, 0x41),
+            (0,  0, x16, 0x00),
+            (0, 16, x16, 0x20),
+            (0, 32, x16, 0x40),
+            (8,  0, x16, 0x01),
+            (8, 16, x16, 0x21),
+            (8, 32, x16, 0x41),
         ]
     elif pose == 2:
         origin = (-12, -20), -25
         tiles = [
-            ( 0,  0, 0xC2, 0x03),
-            ( 0, 16, 0xC2, 0x23),
-            ( 0, 32, 0xC2, 0x43),
-            (16,  0, 0xC2, 0x05),
-            (16, 16, 0xC2, 0x25),
-            (16, 32, 0xC2, 0x45),
+            ( 0,  0, x16, 0x03),
+            ( 0, 16, x16, 0x23),
+            ( 0, 32, x16, 0x43),
+            (16,  0, x16, 0x05),
+            (16, 16, x16, 0x25),
+            (16, 32, x16, 0x45),
         ]
     elif pose == 3:
         origin = (-18, -22), -35
         tiles = [
-            ( 0,  0, 0xC2, 0xB7), # top
-            ( 0, 16, 0xC2, 0xD7),
-            (16,  0, 0xC2, 0xB9),
-            (16, 16, 0xC2, 0xD9),
-            (24,  0, 0xC2, 0xBA),
-            (24, 16, 0xC2, 0xDA),
-            ( 0, 32, 0xC2, 0xBC), # left bottom
-            ( 0, 48, 0xC2, 0xDC),
-            (16, 32, 0xC2, 0xBE),
-            (16, 48, 0xC2, 0xDE),
-            (32, 32, 0x00, 0xF7), # right bottom pieces
-            (32, 40, 0x00, 0xF8),
-            (32, 48, 0x00, 0xF9),
-            (32, 56, 0x00, 0xFA),
+            ( 0,  0, x16, 0xB7), # top
+            ( 0, 16, x16, 0xD7),
+            (16,  0, x16, 0xB9),
+            (16, 16, x16, 0xD9),
+            (24,  0, x16, 0xBA),
+            (24, 16, x16, 0xDA),
+            ( 0, 32, x16, 0xBC), # left bottom
+            ( 0, 48, x16, 0xDC),
+            (16, 32, x16, 0xBE),
+            (16, 48, x16, 0xDE),
+            (32, 32, x8,  0xF7), # right bottom pieces
+            (32, 40, x8,  0xF8),
+            (32, 48, x8,  0xF9),
+            (32, 56, x8,  0xFA),
         ]
     elif pose == 4:
         origin = (-26, -30), -42
         tiles = [
-            ( 0,  0, 0xC2, 0x60),
-            ( 0, 16, 0xC2, 0x80),
-            ( 0, 32, 0xC2, 0xA0),
-            ( 0, 48, 0xC2, 0xC0),
-            ( 0, 64, 0xC2, 0xE0),
-            (16,  0, 0xC2, 0x62),
-            (16, 16, 0xC2, 0x82),
-            (16, 32, 0xC2, 0xA2),
-            (16, 48, 0xC2, 0xC2),
-            (16, 64, 0xC2, 0xE2),
-            (32,  0, 0xC2, 0x64),
-            (32, 16, 0xC2, 0x84),
-            (32, 32, 0xC2, 0xA4),
-            (32, 48, 0xC2, 0xC4),
-            (32, 64, 0xC2, 0xE4),
-            (40,  0, 0xC2, 0x65),
-            (40, 16, 0xC2, 0x85),
-            (40, 32, 0xC2, 0xA5),
-            (40, 48, 0xC2, 0xC5),
-            (40, 64, 0xC2, 0xE5),
+            ( 0,  0, x16, 0x60),
+            ( 0, 16, x16, 0x80),
+            ( 0, 32, x16, 0xA0),
+            ( 0, 48, x16, 0xC0),
+            ( 0, 64, x16, 0xE0),
+            (16,  0, x16, 0x62),
+            (16, 16, x16, 0x82),
+            (16, 32, x16, 0xA2),
+            (16, 48, x16, 0xC2),
+            (16, 64, x16, 0xE2),
+            (32,  0, x16, 0x64),
+            (32, 16, x16, 0x84),
+            (32, 32, x16, 0xA4),
+            (32, 48, x16, 0xC4),
+            (32, 64, x16, 0xE4),
+            (40,  0, x16, 0x65),
+            (40, 16, x16, 0x85),
+            (40, 32, x16, 0xA5),
+            (40, 48, x16, 0xC5),
+            (40, 64, x16, 0xE5),
         ]
     elif pose == 5:
         origin = (-36, -36), -45
         tiles = [
-            ( 0,  0, 0xC2, 0x07),
-            ( 0, 16, 0xC2, 0x27),
-            ( 0, 32, 0xC2, 0x47),
-            ( 0, 48, 0xC2, 0x67),
-            ( 0, 64, 0xC2, 0x87),
-            ( 0, 72, 0xC2, 0x97),
-            (16,  0, 0xC2, 0x09),
-            (16, 16, 0xC2, 0x29),
-            (16, 32, 0xC2, 0x49),
-            (16, 48, 0xC2, 0x69),
-            (16, 64, 0xC2, 0x89),
-            (16, 72, 0xC2, 0x99),
-            (32,  0, 0xC2, 0x0B),
-            (32, 16, 0xC2, 0x2B),
-            (32, 32, 0xC2, 0x4B),
-            (32, 48, 0xC2, 0x6B),
-            (32, 64, 0xC2, 0x8B),
-            (32, 72, 0xC2, 0x9B),
-            (48,  0, 0xC2, 0x0D),
-            (48, 16, 0xC2, 0x2D),
-            (48, 32, 0xC2, 0x4D),
-            (48, 48, 0xC2, 0x6D),
-            (48, 64, 0xC2, 0x8D),
-            (48, 72, 0xC2, 0x9D),
-            (56,  0, 0xC2, 0x0E),
-            (56, 16, 0xC2, 0x2E),
-            (56, 32, 0xC2, 0x4E),
-            (56, 48, 0xC2, 0x6E),
-            (56, 64, 0xC2, 0x8E),
-            (56, 72, 0xC2, 0x9E),
+            ( 0,  0, x16, 0x07),
+            ( 0, 16, x16, 0x27),
+            ( 0, 32, x16, 0x47),
+            ( 0, 48, x16, 0x67),
+            ( 0, 64, x16, 0x87),
+            ( 0, 72, x16, 0x97),
+            (16,  0, x16, 0x09),
+            (16, 16, x16, 0x29),
+            (16, 32, x16, 0x49),
+            (16, 48, x16, 0x69),
+            (16, 64, x16, 0x89),
+            (16, 72, x16, 0x99),
+            (32,  0, x16, 0x0B),
+            (32, 16, x16, 0x2B),
+            (32, 32, x16, 0x4B),
+            (32, 48, x16, 0x6B),
+            (32, 64, x16, 0x8B),
+            (32, 72, x16, 0x9B),
+            (48,  0, x16, 0x0D),
+            (48, 16, x16, 0x2D),
+            (48, 32, x16, 0x4D),
+            (48, 48, x16, 0x6D),
+            (48, 64, x16, 0x8D),
+            (48, 72, x16, 0x9D),
+            (56,  0, x16, 0x0E),
+            (56, 16, x16, 0x2E),
+            (56, 32, x16, 0x4E),
+            (56, 48, x16, 0x6E),
+            (56, 64, x16, 0x8E),
+            (56, 72, x16, 0x9E),
         ]
 
-    flag_x_sign = 0x01
     x_min, y_min = origin
     x_min = direction.index(x_min)
-    palette = 0x29 # normally 0x28, but the last bit here goes to the next VRAM page to grab tiles
-    tilemaps = []
-    for x, y, flags, index in tiles:
-        if x < 0:
-            flags |= flag_x_sign
-        tilemaps += [x_min+x, flags, y_min+y, index, palette]
+    render = (4, 2)
+    vram = 0x100
+    return [Tilemap(x_min+x, y_min+y, vram|index, *render, size) for x, y, size, index in tiles]
 
-    return bytes().join(db(b) for b in tilemaps)
-
-def compile_death_body_tilemap(direction, pose):
-    flag_x_sign = 0x01
+def build_death_body_tilemap(direction, pose):
     x_min, y_min = (-12, -20), -32
     x_min = direction.index(x_min)
-    y_min = -32
     offset = pose if pose <= 6 else pose-1
-    palette = 0x2E if pose > 0 else 0x28
-    tilemaps = []
+    render = (7 if pose > 0 else 4, 2)
+    x16 = True
+    tilemap = []
     for i in range(2):
         for j in range(4):
             x = x_min + 16*i
             y = y_min + 16*j
-            size = 0xC2
             index = 0x80*(offset//4) +  0x20*j + 4*(offset%4) + 2*i
-            if x < 0:
-                x += 0x100
-                size |= flag_x_sign
-            if y < 0:
-                y += 0x100
-            tilemaps += [x, size, y, index, palette]
+            tilemap.append(Tilemap(x, y, index, *render, x16))
 
-    return bytes().join(db(b) for b in tilemaps)
+    return tilemap
+
+class Tilemap:
+    """Converts data into a 5 byte tilemap entry
+
+    The entry is in the form $s000_000x_xxxx_xxxx $yyyy_yyyy $vhoo_pppt_tttt_tttt where
+    s = big/small tile
+    x/y = X/Y center offset (high x bit for negative x wrap)
+    v/h = vert/hor flip
+    p = palette
+    o = priority
+    t = tile index (high bit for next vram page)
+    """
+
+    def __init__(self, x, y, index, p, o, size=False, v=False, h=False):
+        self.x = x
+        self.y = y
+        self.index = index
+        self.p = p
+        self.o = o
+        self.size = size
+        self.v = v
+        self.h = h
+
+    def flip_around_center(self, v=False, h=False):
+        new = copy(self)
+        tile_width = 16 if self.size else 8
+        if h:
+            new.h = not new.h
+            new.x = -new.x - tile_width
+        if v:
+            new.v = not new.v
+            new.y = -new.y - tile_width
+        return new
+
+    class Flags(IntFlag):
+        Size_ = 0x8000
+        Size = Size_ | 0x4200 # Todo: go with $C2 for now and test out only $80 later
+        Vert = 0x8000
+        Hor =  0x4000
+
+    class Shifts(IntEnum):
+        Prio = 12
+        Pal = 9
+
+    def compile(self):
+        if self.p & ~0b111 > 0: raise AssertionError('Expected a Palette within a 3 bit field range')
+        if self.o & ~0b11 > 0: raise AssertionError('Expected a Priority within a 2 bit field range')
+        if self.index & ~0x1FF > 0: raise AssertionError('Expected an index within the range [0,512)')
+
+        size = Tilemap.Flags.Size if self.size else 0
+        # since the 9th x bit allow for screen wrap, modulo $200 will handle
+        # both negative and out of bounds positive x values.
+        x = self.x % 0x200
+        y = self.y % 0x100
+
+        v = Tilemap.Flags.Vert if self.v else 0
+        h = Tilemap.Flags.Hor if self.h else 0
+        o = self.o << Tilemap.Shifts.Prio
+        p = self.p << Tilemap.Shifts.Pal
+
+        return dw(size|x)+db(y)+dw(v|h|o|p|self.index)
 
 class FreeSpace():
     def __init__(self, blocks):
