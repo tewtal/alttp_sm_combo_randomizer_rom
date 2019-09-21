@@ -22,6 +22,7 @@ incsrc "sm/minorfixes.asm"                  ; Super Metroid some softlock remova
 incsrc "sm/demofix.asm"                     ; Super Metroid Stop demos from playing
 incsrc "sm/maps.asm"                        ; Super Metroid map pause screen and HUD changes
 incsrc "sm/max_ammo.asm"                    ; Super Metroid max ammo patch by personitis, adapted by Leno for Crossover
+incsrc "sm/sprite/sprite.asm"               ; Super Metroid custom Samus sprite "engine" by Artheau
 
 ; --- ALTTP code ---
 incsrc "z3/hirom.asm"	                    ; ALTTP ExHiROM patch
