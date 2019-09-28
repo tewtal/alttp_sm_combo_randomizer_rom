@@ -4,3 +4,6 @@
 *.sym
 *.bak
 *.log
+
+__pycache__
+_*.bin
