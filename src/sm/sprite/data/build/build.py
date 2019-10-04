@@ -569,8 +569,7 @@ class Tilemap:
         return new
 
     class Flags(IntFlag):
-        Size_ = 0x8000
-        Size = Size_ | 0x4200 # Todo: go with $C2 for now and test out only $80 later
+        Size = 0x8000
         Vert = 0x8000
         Hor =  0x4000
 
