@@ -19,6 +19,7 @@ GetSpriteID:
 		BRA .notBottle
 		.bottle
 			PHA : JSL CountBottlesLong : CMP.l BottleLimit : !BLT +
+				PLA
 				LDA #$01 : STA !MULTIWORLD_SWAP
 				LDA.l BottleLimitReplacement				
 				JSL.l GetSpriteID

@@ -8,6 +8,7 @@ incsrc "sram.asm"                           ; SRAM Variable definitions
 incsrc "common.asm"                         ; Common routines
 incsrc "credits.asm"                        ; Common credits scroller
 incsrc "spc_play.asm"                       ; Common SPC player
+;incsrc "spc_stream.asm"                     ; SPC BRR streaming
 
 ; --- Multiworld / Randolive ---
 incsrc "multiworld/multiworld.asm"          ; Common multiworld features

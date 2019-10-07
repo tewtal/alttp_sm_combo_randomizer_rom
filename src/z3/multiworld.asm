@@ -30,17 +30,21 @@ alttp_multiworld_replace_item:
 
     lda $A0        
     cmp #$00FF : BEQ .paradoxShop
+    cmp #$011C : BEQ .bombShop              ; Bomb shop
     cmp #$010F : BEQ .shop
     cmp #$011F : BEQ .shop
     cmp #$0110 : BEQ .shop
     cmp #$0112 : BEQ .shop
     cmp #$0100 : BEQ .shop              ; LW Chest game 1
     cmp #$0118 : BEQ .shop              ; LW Chest game 2
-    cmp #$011C : BEQ .shop              ; Bomb shop
     bra .noShop
 .paradoxShop
     lda $A8
     cmp #$0014 : BEQ .shop
+    bra .noShop
+.bombShop
+    lda $A9
+    cmp #$0200 : beq .shop
     bra .noShop
 .shop
     txa : bra .noReplace
