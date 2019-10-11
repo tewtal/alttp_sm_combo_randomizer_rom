@@ -55,6 +55,10 @@ org $C22D7C   ; Patch to Crateria surface palette for Z3 items e.g. PoH, Pearl
 base $822D7C  ; this may be way wrong
     incbin "data/Crateria_palette.bin"
 
+org $C23798   ; Crocomire's room changes colors $2E, $2F, $3E, and $3F for reasons unknown.
+base $823798  ; They were unused, so we're fixing them here so any items that appear won't have bright/odd borders
+    incbin "data/Crocomire_palette.bin"
+
 org $c98000      ; New item graphics
 base $898000
     incbin "data/newitems.bin"
