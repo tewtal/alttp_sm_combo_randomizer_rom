@@ -485,7 +485,7 @@ i_pickup:
     tax
     lda #$1001                      ; Multiworld message 1 (I have someone elses item)
     phx : phy
-    jsl write_message               ; Send message
+    jsl mw_write_message               ; Send message
     ply : plx
     jsl sm_mw_display_item_sent     ; Display custom message box
     plx

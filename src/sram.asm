@@ -24,6 +24,18 @@
 !SRAM_ALTTP_SPC_BUF = $a17e00 ; to $a17eff
 
 !SRAM_RANDOLIVE = $a17700   ; to $a178f0
-!SRAM_MW_RECVQ = $a176b0 ; to $a176ef
-!SRAM_MW_WPTR = $a176f0
-!SRAM_MW_RPTR = $a176f2
+
+; !SRAM_MW_RECVQ = $a176b0 ; to $a176ef
+; !SRAM_MW_WPTR = $a176f0
+; !SRAM_MW_RPTR = $a176f2
+
+; New multiworld communication stuff
+!SRAM_MW_ITEMS_RECV = $a26000
+!SRAM_MW_ITEMS_RECV_RPTR = $a26600
+!SRAM_MW_ITEMS_RECV_WPTR = $a26602
+
+!MW_ITEMS_RECV_RPTR = $7ed8ee    ; store RPTR here when saving so we can replay items on death
+
+!SRAM_MW_ITEMS_SENT = $a26700
+!SRAM_MW_ITEMS_SENT_RPTR = $a26d00
+!SRAM_MW_ITEMS_SENT_WPTR = $a26d02

@@ -66,22 +66,36 @@ sm_mw_handle_queue:
     pha : phx
 
 .loop
-    lda.l !SRAM_MW_RPTR
-    cmp.l !SRAM_MW_WPTR
-    beq .end
+;     lda.l !SRAM_MW_RPTR
+;     cmp.l !SRAM_MW_WPTR
+;     beq .end
     
+;     asl #2 : tax
+;     lda.l !SRAM_MW_RECVQ, x : sta $c3
+;     lda.l !SRAM_MW_RECVQ+$2, x : sta $c1
+;     jsr sm_mw_receive_item
+
+;     lda.l !SRAM_MW_RPTR
+;     inc a
+;     cmp #$0010
+;     bne +
+;     lda.l #$0000
+; +
+;     sta.l !SRAM_MW_RPTR
+
+    lda.l !SRAM_MW_ITEMS_RECV_RPTR
+    cmp.l !SRAM_MW_ITEMS_RECV_WPTR
+    beq .end
+
     asl #2 : tax
-    lda.l !SRAM_MW_RECVQ, x : sta $c3
-    lda.l !SRAM_MW_RECVQ+$2, x : sta $c1
+    lda.l !SRAM_MW_ITEMS_RECV, x : sta $c3
+    lda.l !SRAM_MW_ITEMS_RECV+$2, x : sta $c1
     jsr sm_mw_receive_item
 
-    lda.l !SRAM_MW_RPTR
+    lda.l !SRAM_MW_ITEMS_RECV_RPTR
     inc a
-    cmp #$0010
-    bne +
-    lda.l #$0000
-+
-    sta.l !SRAM_MW_RPTR
+    sta.l !SRAM_MW_ITEMS_RECV_RPTR
+
     bra .loop    
 
 .end

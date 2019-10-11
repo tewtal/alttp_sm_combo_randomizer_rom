@@ -1,5 +1,8 @@
 ; Randomizer.live - communication library
-; Used here for multiworld messaging
+
+; Removed multiworld from this (keeping this as a generic usb2snes messaging system though for future use)
+; Things like server-based randomization, logging, crowd control-like stuff
+; No need to remove it since it's already implemented right? (make it a toggle somewhere if this code gets executed or not)
 
 !MESSAGEBASE = !SRAM_RANDOLIVE
 !MESSAGETMP = $0e
@@ -94,14 +97,7 @@ read_messages:
 
 ; Message type in A, X = pointer to message block
 handle_message:
-    cmp #$1011
-    beq .multiworldReceiveItem
     jmp .unknownMessage
-
-.multiworldReceiveItem
-    ; Jump to game specific implementation of multiworldReceiveItem
-    jsl mw_queue_receive
-    jmp .end
 
 .unknownMessage
     jmp .end        ; Do nothing here for now

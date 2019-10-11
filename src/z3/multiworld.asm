@@ -97,8 +97,10 @@ alttp_mw_handle_queue:
     pha : phx : phy : php
     %ai16()
 
-    lda.l !SRAM_MW_RPTR      ; Don't loop in ALTTP because we have to wait for item pickup to actually start
-    cmp.l !SRAM_MW_WPTR
+;    lda.l !SRAM_MW_RPTR      ; Don't loop in ALTTP because we have to wait for item pickup to actually start
+;    cmp.l !SRAM_MW_WPTR
+    lda.l !SRAM_MW_ITEMS_RECV_RPTR
+    cmp.l !SRAM_MW_ITEMS_RECV_WPTR    
     beq .end
 
     %a8()
@@ -141,19 +143,18 @@ alttp_mw_handle_queue:
 +
     %a16()
 
-    lda.l !SRAM_MW_RPTR
+;    lda.l !SRAM_MW_RPTR
+    lda.l !SRAM_MW_ITEMS_RECV_RPTR
     asl #2 : tax
-    lda.l !SRAM_MW_RECVQ, x : sta $7e
-    lda.l !SRAM_MW_RECVQ+$2, x : sta $7c
+;    lda.l !SRAM_MW_RECVQ, x : sta $7e
+;    lda.l !SRAM_MW_RECVQ+$2, x : sta $7c
+    lda.l !SRAM_MW_ITEMS_RECV, x : sta $7e
+    lda.l !SRAM_MW_ITEMS_RECV+$2, x : sta $7c
     jsr alttp_mw_receive_item
 
-    lda.l !SRAM_MW_RPTR
+    lda.l !SRAM_MW_ITEMS_RECV_RPTR
     inc a
-    cmp #$0010
-    bne +
-    lda.l #$0000
-+
-    sta.l !SRAM_MW_RPTR
+    sta.l !SRAM_MW_ITEMS_RECV_RPTR
     bra .end
 
 .cantGive
@@ -202,7 +203,7 @@ alttp_mw_send_item:
     lda.l !MULTIWORLD_GIVE_PLAYER
     tay
     lda #$1001
-    jsl write_message
+    jsl mw_write_message
     plp : ply : plx
     rtl
 
