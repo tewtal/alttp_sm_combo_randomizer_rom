@@ -97,6 +97,7 @@ B1:8000-FFFF    F1              SM Bank #B1
 B2:8000-FFFF    F2              SM Bank #B2
 B3:8000-ED7F    F3              SM Bank #B3
 B4:8000-F4BF    F4              SM Bank #B4
+B4:F500-FFFF    F4              -- SM Configuration flags --
 B5:8000-EFFF    F5              SM Bank #B5
 B6:8000-F1FF    F6              SM Bank #B6
 B7:8000-FCFF    F7              SM Bank #B7
@@ -155,7 +156,8 @@ F2:4000-7FFF    --              -- SM Teleport Code and Tables --
 
 F3:0000-7FFF    --              -- SM Item table for ALTTP Items --
 
-F4:0000-7FFF    --              -- Common routines (VRAM DMA etc) --
+F4:0000-6FFF    --              -- Common routines (VRAM DMA etc) --
+F4:7000-7FFF    --              -- Common configuration flags --
 
 F5:0000-7FFF    --              -- SPC Player Routines and SPC header --
 F6:0000-7FFF    --              -- SPC Data (first 32kb) --

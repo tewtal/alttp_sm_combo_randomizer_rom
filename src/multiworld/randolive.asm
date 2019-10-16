@@ -1,8 +1,5 @@
 ; Randomizer.live - communication library
-
-; Removed multiworld from this (keeping this as a generic usb2snes messaging system though for future use)
 ; Things like server-based randomization, logging, crowd control-like stuff
-; No need to remove it since it's already implemented right? (make it a toggle somewhere if this code gets executed or not)
 
 !MESSAGEBASE = !SRAM_RANDOLIVE
 !MESSAGETMP = $0e

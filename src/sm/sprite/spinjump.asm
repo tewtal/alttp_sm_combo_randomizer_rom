@@ -7,6 +7,9 @@
 org $D08688
 base $908688
 control_code_routine:
+    LDA config_screwattack  
+    BEQ .config_disabled    ; If config_screwattack is 0, use the vanilla screw attack code
+    
     LDA $09A2       ; get item equipped info
     BIT #$0200      ; check for space jump equipped
     BNE .space_jump ; if space jump, branch to space jump stuff
@@ -14,6 +17,12 @@ control_code_routine:
     CLC             ; prepare to do math
     ADC #$001B      ; skip past the old screw attack to the new stuff
     BRA .exit       ; then exit after doing some important things after branching
+
+.config_disabled
+    LDA $09A2       ; This code is here just to make sure both implementations 
+    BIT #$0200      ; uses the same amount of clock cycles for pose selection
+    BNE .space_jump
+    NOP : XBA       
 
 .space_jump:
     LDA $0A96       ; get the pose number

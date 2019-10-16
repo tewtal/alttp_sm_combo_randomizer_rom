@@ -5,6 +5,7 @@ incsrc "macros.asm"                         ; Useful macros
 incsrc "sram.asm"                           ; SRAM Variable definitions
 
 ; --- Common code ---
+incsrc "config.asm"                         ; Common configuration flags
 incsrc "common.asm"                         ; Common routines
 incsrc "credits.asm"                        ; Common credits scroller
 incsrc "spc_play.asm"                       ; Common SPC player
@@ -14,6 +15,7 @@ incsrc "spc_play.asm"                       ; Common SPC player
 incsrc "multiworld/multiworld.asm"          ; Common multiworld features
 
 ; --- Super Metroid code ---
+incsrc "sm/config.asm"                      ; Super Metroid configuration flags
 incsrc "sm/hirom.asm"                       ; Super Metroid ExHiROM patch
 incsrc "sm/transition.asm"                  ; Super Metroid Transition patch
 incsrc "sm/teleport.asm"                    ; Super Metroid Teleport patch
