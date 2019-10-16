@@ -7,8 +7,10 @@ find . -name build.py -exec python {} \;
 
 cd resources
 python create_exhirom.py sm_orig.sfc alttp_orig.sfc zsm_orig.sfc
-cp -f zsm_orig.sfc zsm.sfc > /dev/null
-./asar --symbols=wla --symbols-path=../build/zsm.sym ../src/main.asm zsm.sfc
-cp zsm.sfc ../build/zsm.sfc > /dev/null
+python create_dummies.py 00.sfc ff.sfc
+./asar --no-title-check --symbols=wla --symbols-path=../build/zsm.sym ../src/main.asm 00.sfc
+./asar --no-title-check --symbols=wla --symbols-path=../build/zsm.sym ../src/main.asm ff.sfc
+python create_ips.py 00.sfc ff.sfc zsm.ips
+cp zsm.ips ../build/zsm.ips > /dev/null
 
 echo Done

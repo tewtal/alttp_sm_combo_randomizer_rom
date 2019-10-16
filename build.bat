@@ -6,10 +6,11 @@ echo Building Super Metroid + Zelda
 for /r %%f in (build*.py) do python %%f
 
 cd resources
-python create_exhirom.py sm_orig.sfc alttp_orig.sfc zsm_orig.sfc
-copy /y zsm_orig.sfc zsm.sfc > NUL
-asar --symbols=wla --symbols-path=..\build\zsm.sym ..\src\main.asm zsm.sfc
-copy zsm.sfc ..\build\zsm.sfc > NUL
+python create_dummies.py 00.sfc ff.sfc
+asar --no-title-check --symbols=wla --symbols-path=..\build\zsm.sym ..\src\main.asm 00.sfc
+asar --no-title-check --symbols=wla --symbols-path=..\build\zsm.sym ..\src\main.asm ff.sfc
+python create_ips.py 00.sfc ff.sfc zsm.ips
+copy zsm.ips ..\build\zsm.ips > NUL
 
 cd ..
 echo Done
