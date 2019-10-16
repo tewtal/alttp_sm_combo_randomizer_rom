@@ -52,6 +52,7 @@ alttp_multiworld_replace_item:
     txa
     and #$00ff                          ; Mask off any extra high bits left in A
     asl #3 : tax
+    stx !MULTIWORLD_GIVE_INDEX          ; Save the multiworld table index for later
     lda.l alttp_rando_item_table, x     ; Load multiworld item type
     sta !MULTIWORLD_PICKUP              ; Make sure we always set this flag so it's updated depending on item type
     beq .ownItem
@@ -59,7 +60,7 @@ alttp_multiworld_replace_item:
     sta !MULTIWORLD_DIALOG
     lda.l alttp_rando_item_table+$4, x
     sta !MULTIWORLD_GIVE_PLAYER        ; Store multiworld owner
-    sta !MULTIWORLD_DIALOG_PLAYER
+    sta !MULTIWORLD_DIALOG_PLAYER    
 .ownItem
     lda.l alttp_rando_item_table+$2, x
     sta !MULTIWORLD_GIVE_ITEM
@@ -202,7 +203,7 @@ alttp_mw_send_item:
     tax
     lda.l !MULTIWORLD_GIVE_PLAYER
     tay
-    lda #$1001
+    lda.l !MULTIWORLD_GIVE_INDEX
     jsl mw_write_message
     plp : ply : plx
     rtl

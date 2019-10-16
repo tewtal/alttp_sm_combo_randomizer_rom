@@ -80,6 +80,7 @@ OnFileLoad:
 	JSL.l SetSilverBowMode
 	JSL.l RefreshRainAmmo
 	JSL.l SetEscapeAssist
+	JSL.l mw_load_sram
 	STZ !MULTIWORLD_PICKUP
 RTL
 ;--------------------------------------------------------------------------------

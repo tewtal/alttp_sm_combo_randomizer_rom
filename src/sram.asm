@@ -33,9 +33,10 @@
 !SRAM_MW_ITEMS_RECV = $a26000
 !SRAM_MW_ITEMS_RECV_RPTR = $a26600
 !SRAM_MW_ITEMS_RECV_WPTR = $a26602
+!SRAM_MW_ITEMS_RECV_SPTR = $a26604  ; This gets updated on game save and reloaded into RPTR on game load
 
-!MW_ITEMS_RECV_RPTR = $7ed8ee    ; store RPTR here when saving so we can replay items on death
+!SRAM_MW_ITEMS_SENT_RPTR = $a26680
+!SRAM_MW_ITEMS_SENT_WPTR = $a26682
+!SRAM_MW_ITEMS_SENT = $a26700       ; [worldId, itemId, itemIndex] (need unique item index to prevent duping)
 
-!SRAM_MW_ITEMS_SENT = $a26700
-!SRAM_MW_ITEMS_SENT_RPTR = $a26d00
-!SRAM_MW_ITEMS_SENT_WPTR = $a26d02
+!SRAM_MW_INITIALIZED = $a266fe

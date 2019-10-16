@@ -416,6 +416,7 @@ zelda_save_sm_items:        ; Restores SM items to the real SRAM
 
 zelda_save_done_hook:
     jsl zelda_save_sm_items
+    jsl mw_save_sram
     sep #$30
     plb
     rtl

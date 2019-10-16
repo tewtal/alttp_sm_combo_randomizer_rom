@@ -4,17 +4,14 @@ incsrc "randolive.asm"
 mw_init:
     pha : phx : phy : php
     %ai16()
+
+    ; If already initialized, don't do it again
+    lda.l !SRAM_MW_INITIALIZED
+    cmp #$cafe
+    beq .end
+
     lda #$0000
     ldx #$0000
-
-; -    
-;     sta.l !SRAM_MW_RECVQ, x
-;     inx : inx
-;     cpx #$0040
-;     bne -
-
-;     sta.l !SRAM_MW_WPTR
-;     sta.l !SRAM_MW_RPTR
 
 -
     sta.l !SRAM_MW_ITEMS_RECV, x
@@ -28,22 +25,26 @@ mw_init:
     
     sta.l !SRAM_MW_ITEMS_SENT_RPTR
     sta.l !SRAM_MW_ITEMS_SENT_WPTR
-    
-    sta.l !MW_ITEMS_RECV_RPTR
 
+    lda #$cafe
+    sta.l !SRAM_MW_INITIALIZED
+    
+.end
     plp : ply : plx : pla
     rtl 
 
-; Write multiworld message
-; A = message type, X = param 1, Y = param 2 (all 16-bit)
+; Write multiworld item message
+; A = item index, X = item id, Y = world id (all 16-bit)
 mw_write_message:
-    phx
+    pha : phx
     lda.l !SRAM_MW_ITEMS_SENT_WPTR
-    asl #2 : tax
+    asl #3 : tax
     tya
     sta.l !SRAM_MW_ITEMS_SENT, x
     pla
     sta.l !SRAM_MW_ITEMS_SENT+$2, x
+    pla
+    sta.l !SRAM_MW_ITEMS_SENT+$4, x
 
     lda.l !SRAM_MW_ITEMS_SENT_WPTR
     inc a
@@ -73,6 +74,22 @@ mw_write_message:
 ;     sta.l !SRAM_MW_WPTR
 ;     plx : pla
 ;     rtl
+
+mw_save_sram:
+    pha : php
+    %ai16()
+    lda.l !SRAM_MW_ITEMS_RECV_RPTR
+    sta.l !SRAM_MW_ITEMS_RECV_SPTR
+    plp : pla
+    rtl
+
+mw_load_sram:
+    pha : php
+    %ai16()
+    lda.l !SRAM_MW_ITEMS_RECV_SPTR
+    sta.l !SRAM_MW_ITEMS_RECV_RPTR
+    plp : pla
+    rtl
 
 ; Multiworld data
 org $c0ff50

@@ -483,13 +483,14 @@ i_pickup:
     beq .own_item
 
 .multiworld_item                    ; This is someone elses item, send message
+    phx
     lda.l rando_item_table+$4, x    ; Load item owner into Y
     tay
     lda.l rando_item_table+$2, x    ; Load original item id into X
     tax
-    lda #$1001                      ; Multiworld message 1 (I have someone elses item)
+    pla                             ; Multiworld item table id in A
     phx : phy
-    jsl mw_write_message               ; Send message
+    jsl mw_write_message            ; Send message
     ply : plx
     jsl sm_mw_display_item_sent     ; Display custom message box
     plx
