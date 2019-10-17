@@ -15,16 +15,12 @@ mw_init:
 
 -
     sta.l !SRAM_MW_ITEMS_RECV, x
-    sta.l !SRAM_MW_ITEMS_SENT, x
+    sta.l !SRAM_MW_ITEMS_RECV+$0400, x
+    sta.l !SRAM_MW_ITEMS_RECV+$0800, x
+    sta.l !SRAM_MW_ITEMS_RECV+$0C00, x
     inx : inx
-    cpx #$0600
+    cpx #$0400
     bne -
-
-    sta.l !SRAM_MW_ITEMS_RECV_RPTR
-    sta.l !SRAM_MW_ITEMS_RECV_WPTR
-    
-    sta.l !SRAM_MW_ITEMS_SENT_RPTR
-    sta.l !SRAM_MW_ITEMS_SENT_WPTR
 
     lda #$cafe
     sta.l !SRAM_MW_INITIALIZED
