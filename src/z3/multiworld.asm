@@ -52,7 +52,8 @@ alttp_multiworld_replace_item:
     txa
     and #$00ff                          ; Mask off any extra high bits left in A
     asl #3 : tax
-    stx !MULTIWORLD_GIVE_INDEX          ; Save the multiworld table index for later
+    ora #$8000                          ; Set high bit in item index for ALTTP to not clash with SM indexes
+    sta !MULTIWORLD_GIVE_INDEX          ; Save the multiworld table index for later
     lda.l alttp_rando_item_table, x     ; Load multiworld item type
     sta !MULTIWORLD_PICKUP              ; Make sure we always set this flag so it's updated depending on item type
     beq .ownItem
