@@ -12,14 +12,14 @@ alttp_new_game:
 
     ldx #$0000
 -
-    lda.l alttp_sram,x
+    lda #$0000
     sta.l $a06000,x
     inx
     inx
     cpx #$2000
     bne -
 
-    jsl zelda_fix_checksum
+    ;jsl zelda_fix_checksum
     
     plp
     ply

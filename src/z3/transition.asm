@@ -56,7 +56,7 @@ transition_to_zelda:
     jsr zelda_blank_cgram       ; Blank out CGRAM
     jsr zelda_restore_dmaregs   ; Restore ALTTP DMA regs
     
-    jsl zelda_restore_randomizer_ram
+    ;jsl zelda_restore_randomizer_ram
 
     lda !SRAM_ALTTP_EXIT
     sta $a0                     ; Store links house as exit
@@ -103,10 +103,11 @@ transition_to_zelda:
     jsl $09c499                 ; Load all overworld sprites
     plp
 
-    jsl $1cf37a                 ; Regenerate dialog pointers
+    ;jsl $1cf37a                 ; Regenerate dialog pointers
 
-    jsl DecompSwordGfx          ; Update sword graphics
-    jsl DecompShieldGfx         ; Update shield graphics
+    %ai8()
+    jsl $00D308          ; Update sword graphics
+    jsl $00D348          ; Update shield graphics
 
     lda #$ff
     sta $4201

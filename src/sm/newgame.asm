@@ -25,12 +25,12 @@ introskip_doorflags:
 
 +
     ; Set construction zone and red tower elevator doors to blue
-    lda $7ed8b6
-    ora.w #$0004
-    sta $7ed8b6    
-    lda $7ed8b2
-    ora.w #$0001
-    sta $7ed8b2
+    ;lda $7ed8b6
+    ;ora.w #$0004
+    ;sta $7ed8b6    
+    ;lda $7ed8b2
+    ;ora.w #$0001
+    ;sta $7ed8b2
 
     ; Unlock crateria map station door
     lda $7ed8b0
@@ -43,8 +43,8 @@ introskip_doorflags:
     sta $7ed8b8
 
     ; Set up open mode event bit flags
-    lda #$0001
-    sta $7ed820
+    ;lda #$0001
+    ;sta $7ed820
     
     lda #$0000
     sta.l !SRAM_SM_COMPLETED
@@ -61,8 +61,8 @@ introskip_doorflags:
     
     jsl stats_clear_values  ; Clear SM stats
     jsl alttp_new_game      ; Setup new game for ALTTP
-    jsl sm_copy_alttp_items ; Copy alttp items into temporary SRAM buffer
-    jsl zelda_fix_checksum  ; Fix alttp checksum
+    ;jsl sm_copy_alttp_items ; Copy alttp items into temporary SRAM buffer
+    ;jsl zelda_fix_checksum  ; Fix alttp checksum
 
     ; begin Leno edits here!
     LDA #$FFFF  ; decrement the accumulator by 1, making it #$FFFF
@@ -83,6 +83,40 @@ introskip_doorflags:
     ; Call the save code to create a new file
     lda $7e0952
     jsl $818000
+
+    ; Reboot into alttp
+    sei                         ; Disable IRQ's
+    
+    %a8()
+    %i16()
+
+    phk
+    plb                         ; Set data bank program bank
+
+    lda #$00
+    sta $004200                 ; Disable NMI and Joypad autoread
+    sta $00420c                 ; Disable H-DMA
+
+    lda #$8f
+    sta $002100                 ; Enable PPU force blank
+
+    jsl zelda_spc_reset         ; Kill the SM music engine and put the SPC in IPL upload mode
+                                ; Gotta do this before switching RAM contents
+
+-
+    bit $4212                   ; Wait for a fresh NMI
+    bmi -
+
+-
+    bit $4212
+    bpl -
+    
+    %ai8()
+    lda #$00    
+    sta !SRAM_CURRENT_GAME
+    sta !SRAM_CURRENT_GAME+1
+    pha : plb
+    jml $008000    
 
 .ret:   
     lda #$0000
