@@ -19,7 +19,9 @@ GetSpriteID:
 		BRA .notBottle
 		.bottle
 			PHA : JSL CountBottlesLong : CMP.l BottleLimit : !BLT +
-				PLA : LDA.l BottleLimitReplacement
+				PLA
+				LDA #$01 : STA !MULTIWORLD_SWAP
+				LDA.l BottleLimitReplacement				
 				JSL.l GetSpriteID
 				RTL
 			+
@@ -38,11 +40,12 @@ RTL
 		+++
 			LDA.b #$3C : RTL ; Quarter Magic
 	++ CMP.b #$FA : BNE ++ ; RNG Item (Single)
-		JSL.l GetRNGItemSingle : JMP GetSpriteID
+		LDA #$01 : STA !MULTIWORLD_SWAP : JSL.l GetRNGItemSingle : JMP GetSpriteID
 	++ CMP.b #$FB : BNE ++ ; RNG Item (Multi)
-		JSL.l GetRNGItemMulti : JMP GetSpriteID
+		LDA #$01 : STA !MULTIWORLD_SWAP : JSL.l GetRNGItemMulti : JMP GetSpriteID
 	++ CMP.b #$FD : BNE ++ ; Progressive Armor
 		LDA $7EF35B : CMP.l ProgressiveArmorLimit : !BLT + ; Progressive Armor Limit
+			LDA #$01 : STA !MULTIWORLD_SWAP
 			LDA.l ProgressiveArmorReplacement
 			JSL.l GetSpriteID
 			RTL
@@ -51,6 +54,7 @@ RTL
 	++ CMP.b #$FE : BNE ++ ; Progressive Sword
 		LDA $7EF359
 		CMP.l ProgressiveSwordLimit : !BLT + ; Progressive Sword Limit
+			LDA #$01 : STA !MULTIWORLD_SWAP
 			LDA.l ProgressiveSwordReplacement
 			JSL.l GetSpriteID
 			RTL
@@ -66,6 +70,7 @@ RTL
 	++ : CMP.b #$FF : BNE ++ ; Progressive Shield
 		LDA !PROGRESSIVE_SHIELD : AND #$C0 : LSR #6
 		CMP.l ProgressiveShieldLimit : !BLT + ; Progressive Shield Limit
+			LDA #$01 : STA !MULTIWORLD_SWAP
 			LDA.l ProgressiveShieldReplacement
 			JSL.l GetSpriteID
 			RTL
@@ -151,7 +156,9 @@ GetSpritePalette:
 		BRA .notBottle
 		.bottle
 			PHA : JSL CountBottlesLong : CMP.l BottleLimit : !BLT +
-				PLA : LDA.l BottleLimitReplacement
+				PLA
+				LDA #$01 : STA !MULTIWORLD_SWAP
+				LDA.l BottleLimitReplacement
 				JSL.l GetSpritePalette
 				RTL
 			+
@@ -167,6 +174,7 @@ RTL
 	CMP.b #$FD : BNE ++ ; Progressive Sword
 		LDA $7EF359
 		CMP.l ProgressiveSwordLimit : !BLT + ; Progressive Sword Limit
+			LDA #$01 : STA !MULTIWORLD_SWAP
 			LDA.l ProgressiveSwordReplacement
 			JSL.l GetSpritePalette
 			RTL
@@ -181,6 +189,7 @@ RTL
 	++ : CMP.b #$FE : BNE ++ ; Progressive Shield
 		LDA !PROGRESSIVE_SHIELD : AND #$C0 : LSR #6
 		CMP.l ProgressiveShieldLimit : !BLT + ; Progressive Shield Limit
+			LDA #$01 : STA !MULTIWORLD_SWAP
 			LDA.l ProgressiveShieldReplacement
 			JSL.l GetSpritePalette
 			RTL
@@ -192,6 +201,7 @@ RTL
 			LDA.b #$08 : RTL
 	++ : CMP.b #$FF : BNE ++ ; Progressive Armor
 		LDA $7EF35B : CMP.l ProgressiveArmorLimit : !BLT + ; Progressive Armor Limit
+			LDA #$01 : STA !MULTIWORLD_SWAP
 			LDA.l ProgressiveArmorReplacement
 			JSL.l GetSpritePalette
 			RTL
@@ -205,9 +215,9 @@ RTL
 		+ ; Everything Else
 			LDA.b #$08 : RTL
 	++ : CMP.b #$FA : BNE ++ ; RNG Item (Single)
-		JSL.l GetRNGItemSingle : JMP GetSpritePalette
+		LDA #$01 : STA !MULTIWORLD_SWAP : JSL.l GetRNGItemSingle : JMP GetSpritePalette
 	++ : CMP.b #$FB : BNE ++ ; RNG Item (Multi)
-		JSL.l GetRNGItemMulti : JMP GetSpritePalette
+		LDA #$01 : STA !MULTIWORLD_SWAP : JSL.l GetRNGItemMulti : JMP GetSpritePalette
 	++
 RTL
 
@@ -278,13 +288,15 @@ IsNarrowSprite:
 		BRA .notBottle
 		.bottle
 			JSL CountBottlesLong : CMP.l BottleLimit : !BLT +
+				LDA #$01 : STA !MULTIWORLD_SWAP
 				LDA.l BottleLimitReplacement
 				JSL.l IsNarrowSprite
 				BRL .done
-			+ : BRA .continue
+			+ : JMP .continue
 		.notBottle
 	CMP.b #$5E : BNE ++ ; Progressive Sword
 		LDA $7EF359 : CMP.l ProgressiveSwordLimit : !BLT + ; Progressive Sword Limit
+			LDA #$01 : STA !MULTIWORLD_SWAP
 			LDA.l ProgressiveSwordReplacement
 			JSL.l IsNarrowSprite
 			BRA .done
@@ -292,6 +304,7 @@ IsNarrowSprite:
 	++ : CMP.b #$5F : BNE ++ ; Progressive Shield
 		LDA !PROGRESSIVE_SHIELD : AND #$C0 : BNE + : SEC : BRA .done ; No Shield
 		LSR #6 : CMP.l ProgressiveShieldLimit : !BLT + ; Progressive Shield Limit
+			LDA #$01 : STA !MULTIWORLD_SWAP
 			LDA.l ProgressiveShieldReplacement
 			JSL.l IsNarrowSprite
 			BRA .done
@@ -300,14 +313,15 @@ IsNarrowSprite:
 		BRA .false ; Everything Else
 	++ CMP.b #$60 : BNE ++ ; Progressive Armor
 		LDA $7EF35B : CMP.l ProgressiveArmorLimit : !BLT + ; Progressive Armor Limit
+			LDA #$01 : STA !MULTIWORLD_SWAP
 			LDA.l ProgressiveArmorReplacement
 			JSL.l IsNarrowSprite
 			BRA .done
 		+
 	++ CMP.b #$62 : BNE ++ ; RNG Item (Single)
-		JSL.l GetRNGItemSingle : BRA .continue
+		LDA #$01 : STA !MULTIWORLD_SWAP : JSL.l GetRNGItemSingle : BRA .continue
 	++ CMP.b #$63 : BNE ++ ; RNG Item (Multi)
-		JSL.l GetRNGItemMulti
+		LDA #$01 : STA !MULTIWORLD_SWAP : JSL.l GetRNGItemMulti
 	++
 	
 	.continue

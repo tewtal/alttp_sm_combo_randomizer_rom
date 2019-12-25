@@ -80,6 +80,8 @@ OnFileLoad:
 	JSL.l SetSilverBowMode
 	JSL.l RefreshRainAmmo
 	JSL.l SetEscapeAssist
+	JSL.l mw_load_sram
+	STZ !MULTIWORLD_PICKUP
 RTL
 ;--------------------------------------------------------------------------------
 !RNG_ITEM_LOCK_IN = "$7F5090"
@@ -141,6 +143,8 @@ OnOWTransition:
 	SEP #$20 ; set 8-bit accumulator
 	LDA.b #$FF : STA !RNG_ITEM_LOCK_IN ; clear lock-in
 	PLP
+	
+	STZ !MULTIWORLD_PICKUP
 RTL
 ;--------------------------------------------------------------------------------
 PreItemGet:
@@ -160,6 +164,52 @@ PostItemAnimation:
 		LDA.b #$00 : STA $7F50A0
 	+
 
+	LDA.l config_multiworld
+	BEQ +
+	LDA !MULTIWORLD_DIALOG
+	BNE .multiworldPickup
++
     STZ $02E9 : LDA $0C5E, X ; thing we wrote over to get here
+	BRA .end
+
+.multiworldPickup
+	lda !MULTIWORLD_DIALOG
+	cmp #$01
+    beq .multiworldGive
+	cmp #$02
+    beq .multiworldGet
+	stz !MULTIWORLD_DIALOG_ITEM
+	stz !MULTIWORLD_DIALOG_PLAYER
+	bra .noDialog
+.multiworldGet
+    lda #$01
+    bra +
+.multiworldGive
+    lda #$00
++
+    sta $1cf0    ; Store multiworld dialog pointers
+    lda #$80
+    sta $1cf1
+    jsl Main_ShowTextMessage
+
+.noDialog
+	stz !MULTIWORLD_SWAP
+	stz !MULTIWORLD_PICKUP
+    stz !MULTIWORLD_GIVE_ITEM
+    stz !MULTIWORLD_GIVE_PLAYER
+
+	lda !MULTIWORLD_DIALOG
+	cmp #$02
+	bne .giveItem
+	STZ $02E9 : LDA $0C5E, X ; thing we wrote over to get here
+	bra .end
+
+.giveItem
+	PLA : PLA : PLA	 ; Pop return address off the stack
+	STZ $02E9 : LDA $0C5E, X
+	JML $08C505		 ; If we're multiworld getting, skip
+					 ; all crazy events to get us things
+
+.end
 RTL
 ;--------------------------------------------------------------------------------

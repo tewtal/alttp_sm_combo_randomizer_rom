@@ -4,9 +4,13 @@
 ; First off, we need a new control code that checks for space jump, so that we
 ; can gate the animation appropriately.
 
-org $D08688
-base $908688
+; Relocated this to freespace at the end of bank 90 to fit and not overwrite things.   -total
+org $D0F640
+base $90F640
 control_code_routine:
+    LDA config_screwattack  
+    BEQ .config_disabled
+    
     LDA $09A2       ; get item equipped info
     BIT #$0200      ; check for space jump equipped
     BNE .space_jump ; if space jump, branch to space jump stuff
@@ -14,6 +18,12 @@ control_code_routine:
     CLC             ; prepare to do math
     ADC #$001B      ; skip past the old screw attack to the new stuff
     BRA .exit       ; then exit after doing some important things after branching
+
+.config_disabled
+    LDA $09A2       ; This code is here just to make sure both implementations 
+    BIT #$0200      ; uses the same amount of clock cycles for pose selection
+    BNE .space_jump
+    NOP : XBA       
 
 .space_jump:
     LDA $0A96       ; get the pose number
@@ -24,7 +34,6 @@ control_code_routine:
     TAY             ; transfer to Y because reasons
     SEC             ; flag the carry bit because reasons
     RTS
-
 
 ; Hook the subroutine to control code $F5
 
@@ -169,7 +178,13 @@ conditional_pose_routine:
     RTL
 
 .spin_attack:
+    LDA config_screwattack  
+    BEQ +
     LDA #$001C        ; skip over to our new spin attack section
+    STA $0A9A
+    RTL
++
+    LDA #$0002
     STA $0A9A
     RTL
 

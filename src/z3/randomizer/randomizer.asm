@@ -35,9 +35,24 @@
 !ITEM_LIMIT_COUNTS = "$7EF390"
 !SHOP_PURCHASE_COUNTS = "$7EF3A0"
 
+!MULTIWORLD_GIVE_INDEX = $19EE
+
+!MULTIWORLD_SWAP = $19F0
+!MULTIWORLD_PICKUP = $19F2
+
+!MULTIWORLD_GIVE_PLAYER = $19F4
+!MULTIWORLD_GIVE_ITEM = $19F6
+
+!MULTIWORLD_DIALOG = $19F8
+!MULTIWORLD_DIALOG_ITEM = $19FA
+!MULTIWORLD_DIALOG_PLAYER = $19FC
+
+!MULTIWORLD_DELAY = $19FE
+
 incsrc hooks.asm
 incsrc treekid.asm
 incsrc spriteswap.asm
+incsrc sharedplayerpalettefix.asm
 
 org $cae980             ; Free space in SM bank 85
 base $8ae980

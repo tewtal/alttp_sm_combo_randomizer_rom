@@ -197,6 +197,7 @@ sm_save_hook:
     plb
     jsl sm_save_alttp_items
     jsl stats_save_sram
+    jsl mw_save_sram
     jml $81800b
 
 sm_load_hook:
@@ -206,6 +207,7 @@ sm_load_hook:
     plb
     jsl sm_copy_alttp_items
     jsl stats_load_sram
+    jsl mw_load_sram
     jml $81808f
 
 sm_copy_alttp_items: ; Copies ALTTP items into a temporary SRAM buffer used when SM writes data to ALTTP (so that when Samus dies, alttp progress doesn't stay)

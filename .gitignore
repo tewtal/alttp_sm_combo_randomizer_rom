@@ -4,6 +4,8 @@
 *.sym
 *.bak
 *.log
+*.ips
+build/*
 
 __pycache__
 _*.bin

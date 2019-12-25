@@ -5,17 +5,14 @@
 org $00ffc0
     ;   0              f01234
     db "ALTTP+SM RANDOMIZER  "
-    db $35, $02, $0D, $04, $00, $01, $00, $B1, $BC, $4E, $43
+    db $35, $02, $0D, $05, $00, $01, $00, $B1, $BC, $4E, $43
 
 org $c0ffc0
     ;   0              f01234
     db "ALTTP+SM RANDOMIZER  "
-    db $35, $02, $0D, $04, $00, $01, $00, $B1, $BC, $4E, $43
+    db $35, $02, $0D, $05, $00, $01, $00, $B1, $BC, $4E, $43
 
 ; Repoint all vectors so we can control in software what game to run
-; SRAM $a26000 toggles the game and interrupt vectors
-; 0 = ALTTP
-; 1 = SM
 
 org $00ffe4
 	dw brk
@@ -83,6 +80,11 @@ reset:              ; Always reset to SM
 ;	bne +
 ;	jml $008000
 ;+
+    lda config_multiworld
+    beq +
+    jsl mw_init             ; Init multiworld
+    jsl init_randolive      ; Init randolive
++
 	jml $80841c
 ;    jml credits_init
 

@@ -54,3 +54,8 @@ FairyPond_Init:
 	+ :	PLY
 RTL
 ;--------------------------------------------------------------------------------
+
+FairyPond_PreventReplacement:
+	LDA #$01 : STA !MULTIWORLD_SWAP
+	JSL Link_ReceiveItem
+	RTL

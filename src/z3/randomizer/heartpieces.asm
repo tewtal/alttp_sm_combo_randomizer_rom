@@ -173,7 +173,20 @@ RTL
 ;--------------------------------------------------------------------------------
 !REDRAW = "$7F5000"
 HPItemReset:
+	PHA
+	LDA.l config_multiworld
+	BEQ +
+
+	LDA !MULTIWORLD_PICKUP
+	CMP #$01
+	BEQ .skipRupees
++
+	PLA
 	JSL $09AD58 ; GiveRupeeGift - thing we wrote over
+	bra .end
+.skipRupees
+	PLA
+.end
 	PHA : LDA #$01 : STA !REDRAW : PLA
 RTL
 ;--------------------------------------------------------------------------------

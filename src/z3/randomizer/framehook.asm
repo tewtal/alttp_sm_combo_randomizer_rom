@@ -49,6 +49,8 @@ NMIHookAction:
 			LDA !NMI_FRAMES_HIGH : INC : STA !NMI_FRAMES_HIGH
 		+
 	++
+
+	jsl read_messages	 ; Read randolive messages
 	
 JML.l NMIHookReturn
 ;--------------------------------------------------------------------------------

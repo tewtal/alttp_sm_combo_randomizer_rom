@@ -27,6 +27,8 @@ namespace "credits"
 !CREDITS_BG_UPDATE = $36
 !CREDITS_BG_PAL = $7ef000
 !CREDITS_BG_DELAY = $38
+!CREDITS_STREAM_SKIP = $b4
+!CREDITS_STREAM_WAIT = $b6
 
 init:
     ; Set up a consistent SNES state
@@ -54,6 +56,9 @@ init:
     lda #$8f
     sta $00
 
+    lda #$01
+    sta $420d   ; enable FastROM
+
     ; Set "game" to credits so we can have our own NMI routine
     lda #$11
     sta !SRAM_CURRENT_GAME
@@ -64,7 +69,7 @@ init:
 	stz $00,x   ; write 0 to direct page ($2100) + x
 	stz $00,x   ; some registers need to be written twice
 	inx
-	cpx #$0033    ; while x < $33 ($2133)
+	cpx #$0034    ; while x < $33 ($2133)
 	bne -
 
     ; Restore zero page
@@ -151,11 +156,19 @@ init:
     sta !CREDITS_ADDR
     lda #$007f
     sta !CREDITS_ADDR+2
-
+    
+    ; %a16()
+    ; lda #$0001
+    ; sta !CREDITS_STREAM_SKIP
+    ; lda #$0030
+    ; sta !CREDITS_STREAM_WAIT
+    ; jsl stream_upload
+    
     %a8()
     ; Turn NMI back on
     lda #$80
     sta $4200
+
 
 
 .loop
@@ -410,7 +423,15 @@ nmi:
     rep #$30
     lda #$0001
     sta !CREDITS_NMI_DONE
-    
+
+;     lda !CREDITS_STREAM_WAIT
+;     beq +
+;     dec !CREDITS_STREAM_WAIT
+;     bra .nmiend
+; +
+;     jsl stream_samples
+
+.nmiend
     plp : ply : plx : pla
     rti    
 
@@ -1162,8 +1183,8 @@ tilemap_data:
     dw "       ADDITIONAL GRAPHICS      "
     !BIG
     dw "                                "
-    dw "             ANDREW             "
-    dw "             andrew             "
+    dw "      ANDREW       NATALIE      "
+    dw "      andrew       natalie      "
     dw "                                "
     dw "                                "
     dw "                                "
@@ -1171,8 +1192,8 @@ tilemap_data:
     dw "     ADDITIONAL CONTRIBUTORS    "
     !BIG
     dw "                                "
-    dw "            LENOPHIS            "
-    dw "            lenophis            "
+    dw "   LENOPHIS        HALFAREBEL   "
+    dw "   lenophis        halfarebel   "
     dw "                                "
     dw "     ANDY            SMOLBIG    "
     dw "     andy            smolbig    "

@@ -4,8 +4,8 @@
 ; that I borrowed a lot from :)
 ;
 
-org $08c5de
-    jml alttp_skip_item_text
+;org $08c5de
+;    jml alttp_skip_item_text
 
 org $400145
     db $b3      
@@ -28,7 +28,7 @@ alttp_receive_sm_item:
     asl : asl : asl
     tax
 
-    lda.l sm_item_table+2,x     ; Load item type
+    lda.l alttp_sm_item_table+2,x     ; Load item type
     beq .equipment
     cmp #$0001
     beq .tank
@@ -41,9 +41,9 @@ alttp_receive_sm_item:
     jmp .no_item
 
 .equipment
-    lda.l sm_item_table,x       ; Load SRAM offset
+    lda.l alttp_sm_item_table,x       ; Load SRAM offset
     tay
-    lda.l sm_item_table+4,x     ; Load value
+    lda.l alttp_sm_item_table+4,x     ; Load value
     pha
     tyx
     ora.l !SRAM_SM_ITEM_BUF,x
@@ -54,18 +54,18 @@ alttp_receive_sm_item:
     bra .end
 
 .spazplaz
-    lda.l sm_item_table,x       ; Load SRAM offset
+    lda.l alttp_sm_item_table,x       ; Load SRAM offset
     tay
-    lda.l sm_item_table+4,x     ; Load value
+    lda.l alttp_sm_item_table+4,x     ; Load value
     tyx
     ora.l !SRAM_SM_ITEM_BUF+$2,x
     sta.l !SRAM_SM_ITEM_BUF+$2,x    
     bra .end
 
 .tank
-    lda.l sm_item_table,x       ; Load SRAM offset
+    lda.l alttp_sm_item_table,x       ; Load SRAM offset
     tay
-    lda.l sm_item_table+4,X     ; Load value
+    lda.l alttp_sm_item_table+4,X     ; Load value
     tyx
     clc
     adc.l !SRAM_SM_ITEM_BUF+$2,x
@@ -75,18 +75,18 @@ alttp_receive_sm_item:
     bra .end
 
 .empty_tank
-    lda.l sm_item_table,x       ; Load SRAM offset
+    lda.l alttp_sm_item_table,x       ; Load SRAM offset
     tay
-    lda.l sm_item_table+4,X     ; Load value
+    lda.l alttp_sm_item_table+4,X     ; Load value
     tyx
     clc
     adc.l !SRAM_SM_ITEM_BUF,x
     sta.l !SRAM_SM_ITEM_BUF,x
     bra .end
 .ammo
-    lda.l sm_item_table,x       ; Load SRAM offset
+    lda.l alttp_sm_item_table,x       ; Load SRAM offset
     tay
-    lda.l sm_item_table+4,X     ; Load value
+    lda.l alttp_sm_item_table+4,X     ; Load value
     pha
     tyx
     clc
@@ -109,7 +109,7 @@ alttp_receive_sm_item:
     plx
     rtl
 
-sm_item_table:
+alttp_sm_item_table:
     ;  offset type   value  extra
     dw $0000, $0000, $4000, $0000      ; Grapple
     dw $0000, $0000, $8000, $0000      ; X-Ray
@@ -136,13 +136,28 @@ sm_item_table:
     dw $0028, $0004,     5, $0000      ; Super Missiles
     dw $002c, $0004,     5, $0000      ; Power Bombs
 
-alttp_skip_item_text:
-    lda $000c5e,x
-    cmp #$b0
-    bcc .normal_item
-    jml $08c61b
-.normal_item
-    asl a
-    tay
-    rep #$20
-    jml $08c5e5
+; alttp_skip_item_text:
+;     lda !MULTIWORLD_GET_DIALOG  
+;     bne .multiworldGet
+;     lda !MULTIWORLD_GIVE_DIALOG
+;     bne .multiworldGive
+;     lda $000c5e,x
+;     cmp #$b0
+;     bcc .normal_item
+;     jml $08c61b
+; .normal_item
+;     asl a
+;     tay
+;     rep #$20
+;     jml $08c5e5
+; .multiworldGet
+;     lda #$01
+;     bra +
+; .multiworldGive
+;     lda #$00
+; +
+;     sta $1cf0    ; Store multiworld dialog pointers
+;     lda #$80
+;     sta $1cf1
+;     jsl Main_ShowTextMessage
+;     jml $08c61b

@@ -23,3 +23,20 @@
 !SRAM_ALTTP_OVERWORLD_BUF = $a17d00 ; to $a17d10
 !SRAM_ALTTP_SPC_BUF = $a17e00 ; to $a17eff
 
+!SRAM_RANDOLIVE = $a17700   ; to $a178f0
+
+; !SRAM_MW_RECVQ = $a176b0 ; to $a176ef
+; !SRAM_MW_WPTR = $a176f0
+; !SRAM_MW_RPTR = $a176f2
+
+; New multiworld communication stuff
+!SRAM_MW_ITEMS_RECV = $a26000
+!SRAM_MW_ITEMS_RECV_RPTR = $a26600
+!SRAM_MW_ITEMS_RECV_WPTR = $a26602
+!SRAM_MW_ITEMS_RECV_SPTR = $a26604  ; This gets updated on game save and reloaded into RPTR on game load
+
+!SRAM_MW_ITEMS_SENT_RPTR = $a26680
+!SRAM_MW_ITEMS_SENT_WPTR = $a26682
+!SRAM_MW_ITEMS_SENT = $a26700       ; [worldId, itemId, itemIndex] (need unique item index to prevent duping)
+
+!SRAM_MW_INITIALIZED = $a266fe

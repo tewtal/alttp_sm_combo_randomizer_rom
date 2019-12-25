@@ -70,8 +70,9 @@ sm_patch_nmi:
     stx $05b5
     inc $05b6
 .inc:
-    rep #$30
-    inc $05b8
+    ;rep #$30
+    ;inc $05b8
+    jsl sm_mw_nmi_read_messages
     bne +
     inc $05ba
 +
@@ -509,5 +510,4 @@ game_end:
     lda #$000a
     jsl $90f084
     rtl
-
 warnpc $e1ffff

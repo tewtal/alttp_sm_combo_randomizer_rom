@@ -44,8 +44,8 @@ NMIHookReturn:
 ;================================================================================
 ; D-Pad Invert
 ;--------------------------------------------------------------------------------
-;org $0083D9 ; <- 3D9 - Bank00.asm : 611 (LDA $4219 : STA $01)
-;JSL.l InvertDPad : NOP
+org $0083D9 ; <- 3D9 - Bank00.asm : 611 (LDA $4219 : STA $01)
+JSL.l alttp_mw_check_softreset : NOP
 ;--------------------------------------------------------------------------------
 
 ;================================================================================
@@ -1362,6 +1362,9 @@ NOP #6 ; remove crystal room cutscene check that causes softlocks
 org $06C7BB ; <- 347BB - sprite_ponds.asm:702 (JSL Sprite_ShowMessageFromPlayerContact : BCC BRANCH_ALPHA)
 JSL.l FairyPond_Init
 ; ;--------------------------------------------------------------------------------
+org $06C9C0 ; <- 349C0 - sprite_ponds.asm:1068 (JSL Link_ReceiveItem)
+JSL.l FairyPond_PreventReplacement
+; ;--------------------------------------------------------------------------------
 org $08C5ED ; <- 445ED - ancilla_receive_item.asm:395 (STA $1CF0 : CMP.w #$0070 : BNE .notGeezerSpeech)
 NOP #3
 ; ;--------------------------------------------------------------------------------
@@ -2463,3 +2466,23 @@ dw $0168, $04F8, $0002, $0028, $00F0 ; Zelda room before sanctuary
 dw $1BD8, $16FC, $0001, $0122, $00F0 ; Blind (maiden) "don't take me outside!"
 dw $1520, $167C, $0001, $0122, $00F0 ; Blind (maiden) "don't take me outside!"
 dw $05AC, $04FC, $0001, $0027, $00F0 ; Zelda in the water room
+
+
+;=====================================================
+;-- Multiworld dialog override hook for item pickups
+;=====================================================
+org $0eee88
+    jml alttp_multiworld_dialog
+
+; Ancilla_ReceiveItem
+org $08C553
+    jsl alttp_mw_no_rupees
+
+;=====================================================
+;-- Multiworld gameplay hooks for message queue
+;=====================================================
+org $02a499 ; Overworld (JSL Player_Main)
+    jsl alttp_mw_handle_queue
+org $028849 ; Dungeon (JSL Player_Main)
+    jsl alttp_mw_handle_queue
+
