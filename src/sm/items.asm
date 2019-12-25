@@ -524,8 +524,12 @@ load_item_id:
     lda.l config_multiworld
     bne .multiworld_item
     lda $1dc7, y                    ; Load PLM room argument
-    xba
-    and #$00ff                      ; Get top 8 bits of room argument as item id
+    pha
+    xba : and #$00ff                ; Get top 8 bits of room argument as item id
+    tax : pla
+    and #$00ff
+    sta $1dc7, y                    ; Clear out item ID from room argument (so we don't mess with SRAM item indexes)
+    txa
     bra .checkItem
 .multiworld_item
     lda $1dc7, y                    ; Load PLM room argument
