@@ -1026,11 +1026,13 @@ IncrementItemCounters:
 RTS
 ;--------------------------------------------------------------------------------
 AttemptItemSubstitution:
-	PHX
-	LDA.L config_multiworld
+	PHX : PHA
+	LDA.l config_multiworld
 	BEQ +
-	JSL alttp_multiworld_replace_item	; Replace item from multiworld table if needed
-	+
+	PLA : JSL alttp_multiworld_replace_item	; Replace item from multiworld table if needed
+	BRA .exit
++	
+	PLA
 ; 	PHA
 ; 	LDX.b #$00
 ; 	-
@@ -1050,17 +1052,19 @@ AttemptItemSubstitution:
 ; 			.noMatch
 ; 				INX #4
 ; 	BRA -
-; .exit
-; 	PLA : 
+ .exit
 	PLX
 	RTS
 
 AttemptItemSubstitutionLong:	
 	;JSR AttemptItemSubstitution
-	lda.l config_multiworld
-	beq +
-	jsl alttp_multiworld_replace_graphics
+	PHA : LDA config_multiworld : BEQ +
+	PLA
+	JSL alttp_multiworld_replace_graphics
+	BRA .end
 +
+	PLA
+.end
 	RTL
 
 ;--------------------------------------------------------------------------------
