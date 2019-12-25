@@ -18,6 +18,8 @@ org $f83000
 
 sm_mw_nmi_read_messages:
     rep #$30
+    lda.l config_multiworld
+    beq +
     lda.l !MESSAGEBASE+$18E
     bne +
     jsl read_messages
@@ -104,6 +106,10 @@ sm_mw_handle_queue:
 
 sm_mw_hook_main_game:
     jsl $A09169     ; Last routine of game mode 8 (main gameplay)
+    
+    lda.l config_multiworld
+    beq +
+
     lda $0998
     cmp #$0008
     bne +

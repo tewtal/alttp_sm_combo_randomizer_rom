@@ -510,5 +510,4 @@ game_end:
     lda #$000a
     jsl $90f084
     rtl
-
 warnpc $e1ffff

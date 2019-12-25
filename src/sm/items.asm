@@ -473,6 +473,9 @@ i_load_rando_item:
 ; Pick up item
 i_pickup:
     phx : phy : php : phx
+    lda.l config_multiworld
+    beq .own_item
+
     lda $1dc7, x              ; Load PLM room argument
     asl #3 : tax
 
@@ -518,9 +521,17 @@ i_pickup:
 ; Get item ID from randomizer table (and adjust item id to local tables as needed for graphics display)
 load_item_id:
     phx : phy
+    lda.l config_multiworld
+    bne .multiworld_item
     lda $1dc7, y                    ; Load PLM room argument
-    asl #3 : tax
+    xba
+    and #$00ff                      ; Get top 8 bits of room argument as item id
+    bra .checkItem
+.multiworld_item
+    lda $1dc7, y                    ; Load PLM room argument
+    asl #3 : tax    
     lda.l rando_item_table+$2, x    ; Load item id from table
+.checkItem
     jsr check_upgrade_item
     cmp #$00b0                      ; b0+ = SM Item
     bcc .alttpItem
@@ -669,14 +680,17 @@ alttp_item_pickup:
     phx
     phy
     php
+    lda.l config_multiworld
+    beq +
     lda !SM_MULTIWORLD_PICKUP
     bne .multiworldItemId
++
     lda $7ffb00,x               ; Load previously saved item index
-    bra +
+    bra .checkItemSwap
 .multiworldItemId                                
     lda $c1                     ; This item was gotten from another player in MW
     jsl check_upgrade_item_long ; Progress item if needed
-+
+.checkItemSwap
     jsl check_item_swap         ; Set correct item swap flag if needed
     asl : asl : asl             ; Value * 8 to get a table index
     tax
@@ -898,8 +912,12 @@ alttp_item_pickup:
 .end
     ;lda #$0168
     ;jsl $82e118                 ; Music fix (no need with nofanfare?)
+    lda.l config_multiworld
+    beq +
+
     lda.l !SM_MULTIWORLD_PICKUP
     bne .multiworldMessage
++
     lda.l alttp_item_table+6,x  ; Load message pointer
     and #$00ff
     jsl $858080                 ; Display message

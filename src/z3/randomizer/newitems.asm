@@ -195,6 +195,9 @@ AddReceivedItemExpandedGetItem:
 	;++
 	;STA $FFFFFF
 
+	lda.l config_multiworld
+	beq +
+
 	; If this is a multiworld item for someone else, skip picking the item up and just play
 	; the animation, also, write this item to the outgoing queue
 	lda !MULTIWORLD_PICKUP
@@ -1024,7 +1027,10 @@ RTS
 ;--------------------------------------------------------------------------------
 AttemptItemSubstitution:
 	PHX
+	LDA.L config_multiworld
+	BEQ +
 	JSL alttp_multiworld_replace_item	; Replace item from multiworld table if needed
+	+
 ; 	PHA
 ; 	LDX.b #$00
 ; 	-
@@ -1051,7 +1057,10 @@ AttemptItemSubstitution:
 
 AttemptItemSubstitutionLong:	
 	;JSR AttemptItemSubstitution
+	lda.l config_multiworld
+	beq +
 	jsl alttp_multiworld_replace_graphics
++
 	RTL
 
 ;--------------------------------------------------------------------------------

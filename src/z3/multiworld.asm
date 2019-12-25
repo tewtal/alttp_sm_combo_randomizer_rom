@@ -98,6 +98,11 @@ alttp_multiworld_replace_graphics:
 alttp_mw_handle_queue:
     pha : phx : phy : php
     %ai16()
+    
+    lda config_multiworld
+    bne +
+    jmp .end
++
 
 ;    lda.l !SRAM_MW_RPTR      ; Don't loop in ALTTP because we have to wait for item pickup to actually start
 ;    cmp.l !SRAM_MW_WPTR
@@ -169,9 +174,12 @@ alttp_mw_handle_queue:
 
 alttp_mw_no_rupees:
     pha
+    lda config_multiworld
+    beq +
     lda !MULTIWORLD_PICKUP
     cmp #$01
     beq .end
++
     pla
     jsl GiveRupeeGift
     rtl

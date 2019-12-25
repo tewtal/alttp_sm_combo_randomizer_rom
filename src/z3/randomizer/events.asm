@@ -164,9 +164,11 @@ PostItemAnimation:
 		LDA.b #$00 : STA $7F50A0
 	+
 
+	LDA.l config_multiworld
+	BEQ +
 	LDA !MULTIWORLD_DIALOG
 	BNE .multiworldPickup
-
++
     STZ $02E9 : LDA $0C5E, X ; thing we wrote over to get here
 	BRA .end
 
