@@ -30,6 +30,7 @@ incsrc "sm/maps.asm"                        ; Super Metroid map pause screen and
 incsrc "sm/max_ammo.asm"                    ; Super Metroid max ammo patch by personitis, adapted by Leno for Crossover
 incsrc "sm/multiworld.asm"                  ; Super Metroid Multiworld support features
 incsrc "sm/sprite/sprite.asm"               ; Super Metroid custom Samus sprite "engine" by Artheau
+incsrc "sm/titlescreen.asm"                 ; Super Metroid Upload New Title Screen GFX
 
 ; --- ALTTP code ---
 incsrc "z3/hirom.asm"	                    ; ALTTP ExHiROM patch
