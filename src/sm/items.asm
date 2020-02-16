@@ -45,18 +45,18 @@
 ;org $01E9BC
 ;    db $c0
 
-;org $cf8432
-;    dw $f08c    ; Replace terminator e-tank with shovel
+org $cf8432
+    dw $efe0
+org $cf8432+$5
+    db $0A
 
 ;org $cf86de
 ;    dw $efe4    ; Morph to progressive sword
 
 org $C22D7C   ; Patch to Crateria surface palette for Z3 items e.g. PoH, Pearl
-base $822D7C  ; this may be way wrong
     incbin "data/Crateria_palette.bin"
 
 org $C23798   ; Crocomire's room changes colors $2E, $2F, $3E, and $3F for reasons unknown.
-base $823798  ; They were unused, so we're fixing them here so any items that appear won't have bright/odd borders
     incbin "data/Crocomire_palette.bin"
 
 org $c98000      ; New item graphics
@@ -111,10 +111,10 @@ item_graphics:
     dw $CF00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 04 Blue Shield
     dw $D000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 05 Red Shield
     dw $D100 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 06 Mirror Shield
-    dw $AF00 : db $02, $02, $02, $02, $02, $02, $02, $02        ; 07 Fire Rod
-    dw $B000 : db $03, $03, $03, $03, $03, $03, $03, $03        ; 08 Ice Rod
+    dw $AF00 : db $02, $00, $00, $00, $02, $00, $00, $00        ; 07 Fire Rod
+    dw $B000 : db $00, $03, $00, $00, $00, $03, $00, $00        ; 08 Ice Rod
     dw $B500 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 09 Hammer
-    dw $9100 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 0A Hookshot
+    dw $9100 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 0A Hookshot
     dw $9200 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 0B Bow
     dw $DF00 : db $03, $03, $03, $03, $03, $03, $03, $03        ; 0C Blue Boomerang
     dw $9700 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 0D Powder
@@ -150,7 +150,7 @@ item_graphics:
     dw $9600 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 29 Mushroom
     dw $E000 : db $02, $02, $02, $02, $02, $02, $02, $02        ; 2A Red Boomerang
     dw $BB00 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 2B Red Potion Bottle
-    dw $BC00 : db $02, $02, $02, $02, $02, $02, $02, $02        ; 2C Green Potion Bottle
+    dw $BC00 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 2C Green Potion Bottle
     dw $BD00 : db $03, $03, $03, $03, $03, $03, $03, $03        ; 2D Blue Potion Bottle
     dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 2E Dummy - Red potion (contents)
     dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 2F Dummy - Green potion (contents)
@@ -1615,204 +1615,204 @@ base $858413
 namespace off
 
 
-; Patch item PLM's
-org $CF81CC
-	dw $efe0	;Power Bomb (Crateria surface)
-org $CF81E8
-	dw $efe0	;Missile (outside Wrecked Ship bottom)
-org $CF81EE
-	dw $efe8	;Missile (outside Wrecked Ship top)
-org $CF81F4
-	dw $efe0	;Missile (outside Wrecked Ship middle)
-org $CF8248
-	dw $efe0	;Missile (Crateria moat)
-org $CF8264
-	dw $efe0	;Energy Tank (Crateria gauntlet)
-org $CF83EE
-	dw $efe0	;Missile (Crateria bottom)
-org $CF8404
-	dw $efe4	;Bomb
-org $CF8432
-	dw $efe0	;Energy Tank (Crateria tunnel to Brinstar)
-org $CF8464
-	dw $efe0	;Missile (Crateria gauntlet right)
-org $CF846A
-	dw $efe0	;Missile (Crateria gauntlet left)
-org $CF8478
-	dw $efe0	;Super Missile (Crateria)
-org $CF8486
-	dw $efe0	;Missile (Crateria middle)
-org $CF84AC
-	dw $efe4	;Power Bomb (green Brinstar bottom)
-org $CF84E4
-	dw $efe4	;Super Missile (pink Brinstar)
-org $CF8518
-	dw $efe0	;Missile (green Brinstar below super missile)
-org $CF851E
-	dw $efe0	;Super Missile (green Brinstar top)
-org $CF852C
-	dw $efe4	;Reserve Tank (Brinstar)
-org $CF8532
-	dw $efe8	;Missile (green Brinstar behind missile)
-org $CF8538
-	dw $efe0	;Missile (green Brinstar behind Reserve Tank)
-org $CF8608
-	dw $efe0	;Missile (pink Brinstar top)
-org $CF860E
-	dw $efe0	;Missile (pink Brinstar bottom)
-org $CF8614
-	dw $efe4	;Charge Beam
-org $CF865C
-	dw $efe0	;Power Bomb (pink Brinstar)
-org $CF8676
-	dw $efe0	;Missile (green Brinstar pipe)
-org $CF86DE
-	dw $efe0	;Morphing Ball
-org $CF874C
-	dw $efe0	;Power Bomb (blue Brinstar)
-org $CF8798
-	dw $efe0	;Missile (blue Brinstar middle)
-org $CF879E
-	dw $efe8	;Energy Tank (blue Brinstar)
-org $CF87C2
-	dw $efe0	;Energy Tank (green Brinstar bottom)
-org $CF87D0
-	dw $efe0	;Super Missile (green Brinstar bottom)
-org $CF87FA
-	dw $efe0	;Energy Tank (pink Brinstar bottom)
-org $CF8802
-	dw $efe4	;Missile (blue Brinstar bottom)
-org $CF8824
-	dw $efe0	;Energy Tank (pink Brinstar top)
-org $CF8836
-	dw $efe0	;Missile (blue Brinstar top)
-org $CF883C
-	dw $efe8	;Missile (blue Brinstar behind missile)
-org $CF8876
-	dw $efe4	;X-Ray Visor
-org $CF88CA
-	dw $efe0	;Power Bomb (red Brinstar sidehopper room)
-org $CF890E
-	dw $efe4	;Power Bomb (red Brinstar spike room)
-org $CF8914
-	dw $efe0	;Missile (red Brinstar spike room)
-org $CF896E
-	dw $efe4	;Spazer
-org $CF899C
-	dw $efe8	;Energy Tank (Kraid)
-org $CF89EC
-	dw $efe8	;Missile (Kraid)
-org $CF8ACA
-	dw $efe4	;Varia Suit
-org $CF8AE4
-	dw $efe8	;Missile (lava room)
-org $CF8B24
-	dw $efe4	;Ice Beam
-org $CF8B46
-	dw $efe8	;Missile (below Ice Beam)
-org $CF8BA4
-	dw $efe0	;Energy Tank (Crocomire)
-org $CF8BAC
-	dw $efe4	;Hi-Jump Boots
-org $CF8BC0
-	dw $efe0	;Missile (above Crocomire)
-org $CF8BE6
-	dw $efe0	;Missile (Hi-Jump Boots)
-org $CF8BEC
-	dw $efe0	;Energy Tank (Hi-Jump Boots)
-org $CF8C04
-	dw $efe0	;Power Bomb (Crocomire)
-org $CF8C14
-	dw $efe0	;Missile (below Crocomire)
-org $CF8C2A
-	dw $efe0	;Missile (Grapple Beam)
-org $CF8C36
-	dw $efe4	;Grapple Beam
-org $CF8C3E
-	dw $efe4	;Reserve Tank (Norfair)
-org $CF8C44
-	dw $efe8	;Missile (Norfair Reserve Tank)
-org $CF8C52
-	dw $efe0	;Missile (bubble Norfair green door)
-org $CF8C66
-	dw $efe0	;Missile (bubble Norfair)
-org $CF8C74
-	dw $efe8	;Missile (Speed Booster)
-org $CF8C82
-	dw $efe4	;Speed Booster
-org $CF8CBC
-	dw $efe0	;Missile (Wave Beam)
-org $CF8CCA
-	dw $efe4	;Wave Beam
-org $CF8E6E
-	dw $efe0	;Missile (Gold Torizo)
-org $CF8E74
-	dw $efe8	;Super Missile (Gold Torizo)
-org $CF8F30
-	dw $efe0	;Missile (Mickey Mouse room)
-org $CF8FCA
-	dw $efe0	;Missile (lower Norfair above fire flea room)
-org $CF8FD2
-	dw $efe0	;Power Bomb (lower Norfair above fire flea room)
-org $CF90C0
-	dw $efe0	;Power Bomb (above Ridley)
-org $CF9100
-	dw $efe0	;Missile (lower Norfair near Wave Beam)
-org $CF9108
-	dw $efe8	;Energy Tank (Ridley)
-org $CF9110
-	dw $efe4	;Screw Attack
-org $CF9184
-	dw $efe0	;Energy Tank (lower Norfair fire flea room)
-org $CFC265
-	dw $efe0	;Missile (Wrecked Ship middle)
-org $CFC2E9
-	dw $efe4	;Reserve Tank (Wrecked Ship)
-org $CFC2EF
-	dw $efe0	;Missile (Gravity Suit)
-org $CFC319
-	dw $efe0	;Missile (Wrecked Ship top)
-org $CFC337
-	dw $efe0	;Energy Tank (Wrecked Ship)
-org $CFC357
-	dw $efe0	;Super Missile (Wrecked Ship left)
-org $CFC365
-	dw $efe0	;Super Missile (Wrecked Ship right)
-org $CFC36D
-	dw $efe4	;Gravity Suit
-org $CFC437
-	dw $efe0	;Missile (green Maridia shinespark)
-org $CFC43D
-	dw $efe0	;Super Missile (green Maridia)
-org $CFC47D
-	dw $efe0	;Energy Tank (green Maridia)
-org $CFC483
-	dw $efe8	;Missile (green Maridia tatori)
-org $CFC4AF
-	dw $efe0	;Super Missile (yellow Maridia)
-org $CFC4B5
-	dw $efe0	;Missile (yellow Maridia super missile)
-org $CFC533
-	dw $efe0	;Missile (yellow Maridia false wall)
-org $CFC559
-	dw $efe4	;Plasma Beam
-org $CFC5DD
-	dw $efe0	;Missile (left Maridia sand pit room)
-org $CFC5E3
-	dw $efe4	;Reserve Tank (Maridia)
-org $CFC5EB
-	dw $efe0	;Missile (right Maridia sand pit room)
-org $CFC5F1
-	dw $efe0	;Power Bomb (right Maridia sand pit room)
-org $CFC603
-	dw $efe0	;Missile (pink Maridia)
-org $CFC609
-	dw $efe0	;Super Missile (pink Maridia)
-org $CFC6E5
-	dw $efe4	;Spring Ball
-org $CFC74D
-	dw $efe8	;Missile (Draygon)
-org $CFC755
-	dw $efe0	;Energy Tank (Botwoon)
-org $CFC7A7
-	dw $efe4	;Space Jump
+; ; Patch item PLM's
+; org $CF81CC
+; 	dw $efe0	;Power Bomb (Crateria surface)
+; org $CF81E8
+; 	dw $efe0	;Missile (outside Wrecked Ship bottom)
+; org $CF81EE
+; 	dw $efe8	;Missile (outside Wrecked Ship top)
+; org $CF81F4
+; 	dw $efe0	;Missile (outside Wrecked Ship middle)
+; org $CF8248
+; 	dw $efe0	;Missile (Crateria moat)
+; org $CF8264
+; 	dw $efe0	;Energy Tank (Crateria gauntlet)
+; org $CF83EE
+; 	dw $efe0	;Missile (Crateria bottom)
+; org $CF8404
+; 	dw $efe4	;Bomb
+; org $CF8432
+; 	dw $efe0	;Energy Tank (Crateria tunnel to Brinstar)
+; org $CF8464
+; 	dw $efe0	;Missile (Crateria gauntlet right)
+; org $CF846A
+; 	dw $efe0	;Missile (Crateria gauntlet left)
+; org $CF8478
+; 	dw $efe0	;Super Missile (Crateria)
+; org $CF8486
+; 	dw $efe0	;Missile (Crateria middle)
+; org $CF84AC
+; 	dw $efe4	;Power Bomb (green Brinstar bottom)
+; org $CF84E4
+; 	dw $efe4	;Super Missile (pink Brinstar)
+; org $CF8518
+; 	dw $efe0	;Missile (green Brinstar below super missile)
+; org $CF851E
+; 	dw $efe0	;Super Missile (green Brinstar top)
+; org $CF852C
+; 	dw $efe4	;Reserve Tank (Brinstar)
+; org $CF8532
+; 	dw $efe8	;Missile (green Brinstar behind missile)
+; org $CF8538
+; 	dw $efe0	;Missile (green Brinstar behind Reserve Tank)
+; org $CF8608
+; 	dw $efe0	;Missile (pink Brinstar top)
+; org $CF860E
+; 	dw $efe0	;Missile (pink Brinstar bottom)
+; org $CF8614
+; 	dw $efe4	;Charge Beam
+; org $CF865C
+; 	dw $efe0	;Power Bomb (pink Brinstar)
+; org $CF8676
+; 	dw $efe0	;Missile (green Brinstar pipe)
+; org $CF86DE
+; 	dw $efe0	;Morphing Ball
+; org $CF874C
+; 	dw $efe0	;Power Bomb (blue Brinstar)
+; org $CF8798
+; 	dw $efe0	;Missile (blue Brinstar middle)
+; org $CF879E
+; 	dw $efe8	;Energy Tank (blue Brinstar)
+; org $CF87C2
+; 	dw $efe0	;Energy Tank (green Brinstar bottom)
+; org $CF87D0
+; 	dw $efe0	;Super Missile (green Brinstar bottom)
+; org $CF87FA
+; 	dw $efe0	;Energy Tank (pink Brinstar bottom)
+; org $CF8802
+; 	dw $efe4	;Missile (blue Brinstar bottom)
+; org $CF8824
+; 	dw $efe0	;Energy Tank (pink Brinstar top)
+; org $CF8836
+; 	dw $efe0	;Missile (blue Brinstar top)
+; org $CF883C
+; 	dw $efe8	;Missile (blue Brinstar behind missile)
+; org $CF8876
+; 	dw $efe4	;X-Ray Visor
+; org $CF88CA
+; 	dw $efe0	;Power Bomb (red Brinstar sidehopper room)
+; org $CF890E
+; 	dw $efe4	;Power Bomb (red Brinstar spike room)
+; org $CF8914
+; 	dw $efe0	;Missile (red Brinstar spike room)
+; org $CF896E
+; 	dw $efe4	;Spazer
+; org $CF899C
+; 	dw $efe8	;Energy Tank (Kraid)
+; org $CF89EC
+; 	dw $efe8	;Missile (Kraid)
+; org $CF8ACA
+; 	dw $efe4	;Varia Suit
+; org $CF8AE4
+; 	dw $efe8	;Missile (lava room)
+; org $CF8B24
+; 	dw $efe4	;Ice Beam
+; org $CF8B46
+; 	dw $efe8	;Missile (below Ice Beam)
+; org $CF8BA4
+; 	dw $efe0	;Energy Tank (Crocomire)
+; org $CF8BAC
+; 	dw $efe4	;Hi-Jump Boots
+; org $CF8BC0
+; 	dw $efe0	;Missile (above Crocomire)
+; org $CF8BE6
+; 	dw $efe0	;Missile (Hi-Jump Boots)
+; org $CF8BEC
+; 	dw $efe0	;Energy Tank (Hi-Jump Boots)
+; org $CF8C04
+; 	dw $efe0	;Power Bomb (Crocomire)
+; org $CF8C14
+; 	dw $efe0	;Missile (below Crocomire)
+; org $CF8C2A
+; 	dw $efe0	;Missile (Grapple Beam)
+; org $CF8C36
+; 	dw $efe4	;Grapple Beam
+; org $CF8C3E
+; 	dw $efe4	;Reserve Tank (Norfair)
+; org $CF8C44
+; 	dw $efe8	;Missile (Norfair Reserve Tank)
+; org $CF8C52
+; 	dw $efe0	;Missile (bubble Norfair green door)
+; org $CF8C66
+; 	dw $efe0	;Missile (bubble Norfair)
+; org $CF8C74
+; 	dw $efe8	;Missile (Speed Booster)
+; org $CF8C82
+; 	dw $efe4	;Speed Booster
+; org $CF8CBC
+; 	dw $efe0	;Missile (Wave Beam)
+; org $CF8CCA
+; 	dw $efe4	;Wave Beam
+; org $CF8E6E
+; 	dw $efe0	;Missile (Gold Torizo)
+; org $CF8E74
+; 	dw $efe8	;Super Missile (Gold Torizo)
+; org $CF8F30
+; 	dw $efe0	;Missile (Mickey Mouse room)
+; org $CF8FCA
+; 	dw $efe0	;Missile (lower Norfair above fire flea room)
+; org $CF8FD2
+; 	dw $efe0	;Power Bomb (lower Norfair above fire flea room)
+; org $CF90C0
+; 	dw $efe0	;Power Bomb (above Ridley)
+; org $CF9100
+; 	dw $efe0	;Missile (lower Norfair near Wave Beam)
+; org $CF9108
+; 	dw $efe8	;Energy Tank (Ridley)
+; org $CF9110
+; 	dw $efe4	;Screw Attack
+; org $CF9184
+; 	dw $efe0	;Energy Tank (lower Norfair fire flea room)
+; org $CFC265
+; 	dw $efe0	;Missile (Wrecked Ship middle)
+; org $CFC2E9
+; 	dw $efe4	;Reserve Tank (Wrecked Ship)
+; org $CFC2EF
+; 	dw $efe0	;Missile (Gravity Suit)
+; org $CFC319
+; 	dw $efe0	;Missile (Wrecked Ship top)
+; org $CFC337
+; 	dw $efe0	;Energy Tank (Wrecked Ship)
+; org $CFC357
+; 	dw $efe0	;Super Missile (Wrecked Ship left)
+; org $CFC365
+; 	dw $efe0	;Super Missile (Wrecked Ship right)
+; org $CFC36D
+; 	dw $efe4	;Gravity Suit
+; org $CFC437
+; 	dw $efe0	;Missile (green Maridia shinespark)
+; org $CFC43D
+; 	dw $efe0	;Super Missile (green Maridia)
+; org $CFC47D
+; 	dw $efe0	;Energy Tank (green Maridia)
+; org $CFC483
+; 	dw $efe8	;Missile (green Maridia tatori)
+; org $CFC4AF
+; 	dw $efe0	;Super Missile (yellow Maridia)
+; org $CFC4B5
+; 	dw $efe0	;Missile (yellow Maridia super missile)
+; org $CFC533
+; 	dw $efe0	;Missile (yellow Maridia false wall)
+; org $CFC559
+; 	dw $efe4	;Plasma Beam
+; org $CFC5DD
+; 	dw $efe0	;Missile (left Maridia sand pit room)
+; org $CFC5E3
+; 	dw $efe4	;Reserve Tank (Maridia)
+; org $CFC5EB
+; 	dw $efe0	;Missile (right Maridia sand pit room)
+; org $CFC5F1
+; 	dw $efe0	;Power Bomb (right Maridia sand pit room)
+; org $CFC603
+; 	dw $efe0	;Missile (pink Maridia)
+; org $CFC609
+; 	dw $efe0	;Super Missile (pink Maridia)
+; org $CFC6E5
+; 	dw $efe4	;Spring Ball
+; org $CFC74D
+; 	dw $efe8	;Missile (Draygon)
+; org $CFC755
+; 	dw $efe0	;Energy Tank (Botwoon)
+; org $CFC7A7
+; 	dw $efe4	;Space Jump
