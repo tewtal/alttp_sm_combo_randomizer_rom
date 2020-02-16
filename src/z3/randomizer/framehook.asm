@@ -50,8 +50,11 @@ NMIHookAction:
 		+
 	++
 
-	jsl read_messages	 ; Read randolive messages
-	
+	lda.l config_multiworld
+	beq +
+		jsl read_messages	 ; Read randolive messages
+	+
+
 JML.l NMIHookReturn
 ;--------------------------------------------------------------------------------
 ;!NMI_AUX = "$7F5044"

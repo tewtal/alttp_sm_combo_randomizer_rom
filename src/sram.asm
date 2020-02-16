@@ -39,4 +39,4 @@
 !SRAM_MW_ITEMS_SENT_WPTR = $a26682
 !SRAM_MW_ITEMS_SENT = $a26700       ; [worldId, itemId, itemIndex] (need unique item index to prevent duping)
 
-!SRAM_MW_INITIALIZED = $a266fe
+!SRAM_MW_SEED_DATA = $a266a0

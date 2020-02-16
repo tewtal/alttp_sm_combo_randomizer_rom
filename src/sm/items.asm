@@ -45,10 +45,10 @@
 ;org $01E9BC
 ;    db $c0
 
-org $cf8432
-    dw $efe0
-org $cf8432+$5
-    db $0A
+; org $cf8432
+;     dw $efe0
+; org $cf8432+$5
+;     db $0A
 
 ;org $cf86de
 ;    dw $efe4    ; Morph to progressive sword

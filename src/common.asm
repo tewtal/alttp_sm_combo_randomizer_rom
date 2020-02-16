@@ -82,9 +82,9 @@ reset:              ; Always reset to SM
 ;+
     lda config_multiworld
     beq +
-    jsl mw_init             ; Init multiworld
-    jsl init_randolive      ; Init randolive
+    jsl mw_init             ; Init multiworld    
 +
+    jsl init_randolive      ; Init randolive
 	jml $80841c
 ;    jml credits_init
 

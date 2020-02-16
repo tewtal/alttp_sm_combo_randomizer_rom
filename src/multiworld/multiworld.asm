@@ -5,11 +5,19 @@ mw_init:
     pha : phx : phy : php
     %ai16()
 
-    ; If already initialized, don't do it again
-    lda.l !SRAM_MW_INITIALIZED
-    cmp #$cafe
-    beq .end
+    ; Check if SRAM seed data matches ROM seed data to know if we've already initialized everything.
+    ldx #$0000
+-
+    lda.l rando_seed_data, x
+    cmp.l !SRAM_MW_SEED_DATA, x
+    bne .do_init
+    inx : inx
+    cpx #$0050
+    bne -
 
+    bra .end
+
+.do_init
     lda #$0000
     ldx #$0000
 
@@ -22,8 +30,14 @@ mw_init:
     cpx #$0400
     bne -
 
-    lda #$cafe
-    sta.l !SRAM_MW_INITIALIZED
+    ; Copy seed-data to SRAM (since ROM reading is not always guaranteed with qusb2snes)
+    ldx #$0000
+-
+    lda.l rando_seed_data, x
+    sta.l !SRAM_MW_SEED_DATA, x
+    inx : inx
+    cpx #$0050
+    bne -
     
 .end
     plp : ply : plx : pla
