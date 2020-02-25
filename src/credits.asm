@@ -328,27 +328,44 @@ init:
     lda.l events,x
     beq .endevents
     cmp !CREDITS_ADDR
-    bne +
+    bne .next_event
     lda.l events+2,x        ; Load command
     cmp #$0001
     beq .adjust_speed
     cmp #$000f
     beq .stop
-    bra +
+    cmp #$0010
+    beq .check_config
+    bra .next_event
+
 .adjust_speed
     lda.l events+4,x
     sta !CREDITS_SPEED
-    bra +
+    bra .next_event
+
 .stop
     lda #$000f
     sta !CREDITS_MODE
+    bra .next_event
 
-+
+.check_config
+    ; Load config flag offset and check it
+    lda.l events+4, x : phx : tax
+    lda.l config_flags&$ff0000, x : plx
+    cmp #$0000
+    bne .next_event
+
+    ; If it's zero, skip to the next part as defined in the event
+    lda.l events+6, x 
+    sta !CREDITS_ADDR
+    bra .next_event
+
+.next_event
     plx
     inx
     phx
     txa : asl #3 : tax
-    bra -
+    bra -    
 
 .endevents
     plx
@@ -1037,9 +1054,11 @@ alttp_shift_stat:
     rts
 
 events:
-    ;  tilemap pointer location                 cmd     val   extra
+    ;  tilemap pointer location                 cmd    val1   val2
     dw tilemap_data_randomizer_staff+$0800,   $0001,  $0004,  $0000
     dw tilemap_data_stop+$0800,               $000f,  $0000,  $0000
+    dw tilemap_data_alttp_sprite_credits,     $0010,  config_alttp_sprite,    tilemap_data_sm_sprite_credits
+    dw tilemap_data_sm_sprite_credits,        $0010,  config_sm_sprite,       tilemap_data_end_sprite_credits
     dw $0000
 
 stats:
@@ -1186,6 +1205,9 @@ tilemap_data:
     dw "      ANDREW       NATALIE      "
     dw "      andrew       natalie      "
     dw "                                "
+    dw "    QWERTYMODO     ARTHEAU      "
+    dw "    qwertymodo     artheau      "
+    dw "                                "
     dw "                                "
     dw "                                "
     !CYAN
@@ -1200,6 +1222,25 @@ tilemap_data:
     dw "                                "
     dw "                                "
     dw "                                "
+.alttp_sprite_credits
+    !PINK
+    dw "       ALTTP CUSTOM SPRITE      "
+    !BIG
+    dw "                                "
+    dw "                                "
+    dw "                                "
+    dw "                                "
+    dw "                                "
+.sm_sprite_credits
+    !ORANGE
+    dw "  SUPER METROID CUSTOM SPRITE   "
+    !BIG
+    dw "                                "
+    dw "                                "
+    dw "                                "
+    dw "                                "
+    dw "                                "
+.end_sprite_credits
     !PURPLE
     dw "       SPECIAL THANKS TO        "
     !BIG
@@ -1216,8 +1257,6 @@ tilemap_data:
     dw "                                "
     dw "   AND ALL OTHER BETA TESTERS   "
     dw "   and all other beta testers   "
-    dw "                                "
-    dw "                                "
     dw "                                "
     dw "                                "
     dw "    METROIDCONSTRUCTION COM     "
