@@ -15,5 +15,3 @@ incsrc "dmadata.asm"
 incsrc "dma.asm"
 incsrc "gunport.asm"
 incsrc "spinjump.asm"
-
-incsrc "credit.asm"
