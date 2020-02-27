@@ -1284,6 +1284,7 @@ tilemap_data:
     dw "                                "
     dw "                                "
     dw "                                "
+    dw "                                "
     !BLUE
     dw "    SM RANDOMIZER DEVELOPERS    "
     !BIG
