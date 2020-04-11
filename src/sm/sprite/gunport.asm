@@ -5,11 +5,11 @@
 ; memory since Deerforce were very wasteful in this section.
 
 ; $90:C7A5 has pointers to the gun port DMA locations. The now free space at
-; $90:86A3-87BC will be used for a table to DMA sets for all ten directions.
+; $90:86AF-87BC will be used for a table to DMA sets for all ten directions.
 
 gun_port_dma = $9A9A00
 
-org $D086A3
+org $D086AF
 
 gun_port_table:
 

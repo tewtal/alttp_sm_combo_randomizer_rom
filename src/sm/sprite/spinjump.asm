@@ -4,36 +4,33 @@
 ; First off, we need a new control code that checks for space jump, so that we
 ; can gate the animation appropriately.
 
-; Relocated this to freespace at the end of bank 90 to fit and not overwrite things.   -total
-org $D0F640
-base $90F640
+org $D08688
+base $908688
 control_code_routine:
-    LDA config_screwattack  
-    BEQ .config_disabled
-    
-    LDA $09A2       ; get item equipped info
-    BIT #$0200      ; check for space jump equipped
-    BNE .space_jump ; if space jump, branch to space jump stuff
-    LDA $0A96       ; get the pose number
-    CLC             ; prepare to do math
-    ADC #$001B      ; skip past the old screw attack to the new stuff
-    BRA .exit       ; then exit after doing some important things after branching
+    LDA $09A2           ; get item equipped info
+    BIT #$0200          ; check for space jump equipped
+    BNE .screw_attack   ; if space jump, branch to regular screw attack stuff
+    LDA.l config_screw_attack
+    BEQ .screw_attack   ; if disabled, do regular screw attack animation (if branch taken, uses one more clock cycle)
 
-.config_disabled
-    LDA $09A2       ; This code is here just to make sure both implementations 
-    BIT #$0200      ; uses the same amount of clock cycles for pose selection
-    BNE .space_jump
-    NOP : XBA       
+.spin_attack:
+    LDA.l $7E0A96       ; get the pose number (LDA.l here to add one more clock cycle to preserve timing)
+    CLC                 ; prepare to do math
+    ADC #$001B          ; skip past the old screw attack to the new stuff
+    BRA .exit           ; then prepare to end subroutine
 
-.space_jump:
-    LDA $0A96       ; get the pose number
-    INC A           ; just go to the next pose
+.screw_attack:
+    LDA $0A96           ; get the pose number
+    CLC                 ; prepare to do math
+    ADC #$0001          ; just add one to go to the old screw attack (instead of INC to preserves timing)
+    BRA .exit           ; then prepare to end subroutine (could skip, but timing)
 
 .exit:
-    STA $0A96       ; store the new pose in the correct spot
-    TAY             ; transfer to Y because reasons
-    SEC             ; flag the carry bit because reasons
+    STA $0A96           ; store the new pose in the correct spot
+    TAY                 ; transfer to Y because reasons
+    SEC                 ; flag the carry bit because reasons
     RTS
+
 
 ; Hook the subroutine to control code $F5
 
@@ -141,52 +138,54 @@ base $909DD4
 org $DB8000
 base $9B8000
 conditional_pose_routine:
-    LDA $09A2         ; get equipped items
-    BIT #$0020        ; check for gravity suit
-    BNE .equip_check  ; if gravity suit, underwater status is not important
-    JSL $90EC58       ; $12 / $14 = Samus' bottom / top boundary position
-    LDA $195E         ; get [FX Y position]
-    BMI .acid_check   ; if [FX Y position] < 0:, need to check for acid
-    CMP $14           ; check FX Y position against Samus's position
-    BPL .equip_check  ; above water, so underwater status is not important
-    LDA $197E         ; get physics flag
-    BIT #$0004        ; if liquid physics are disabled, underwater status is not important
+    LDA $09A2           ; get equipped items
+    BIT #$0020          ; check for gravity suit
+    BNE .equip_check    ; if gravity suit, underwater status is not important
+    JSL $90EC58         ; $12 / $14 = Samus' bottom / top boundary position
+    LDA $195E           ; get [FX Y position]
+    BMI .acid_check     ; if [FX Y position] < 0:, need to check for acid
+    CMP $14             ; check FX Y position against Samus's position
+    BPL .equip_check    ; above water, so underwater status is not important
+    LDA $197E           ; get physics flag
+    BIT #$0004          ; if liquid physics are disabled, underwater status is not important
     BNE .equip_check
-    BRA .first_pose   ; ok, you're probably underwater at this point
+    BRA .underwater     ; ok, you're probably underwater at this point
 
 .acid_check:
     LDA $1962
-    BMI .equip_check  ; if [lava/acid Y position] < 0, then there is no acid, so underwater status is not important
+    BMI .equip_check    ; if [lava/acid Y position] < 0, then there is no acid, so underwater status is not important
     CMP $14
-    BMI .first_pose   ; if [lava/acid Y position] < Samus' top boundary position, then you are underwater
+    BMI .underwater     ; if [lava/acid Y position] < Samus' top boundary position, then you are underwater
 
 .equip_check:
-    LDA $09A2         ; get equipped items
-    BIT #$0008        ; check for screw attack equipped
-    BEQ .first_pose   ; if screw attack not equipped, branch out
-    BIT #$0200        ; check for space jump
-    BEQ .spin_attack  ; if space jump not equipped, branch out
+    LDA $09A2           ; get equipped items
+    BIT #$0008          ; check for screw attack equipped
+    BEQ .first_pose     ; if screw attack not equipped, just do normal advance
+    BIT #$0200          ; check for space jump
+    BEQ .spin_attack    ; if space jump not equipped, branch out
 
 .screw_attack:
-    LDA #$0002        ; default to (new) second pose
-    STA $0A9A
-    RTL
-
-.first_pose:
-    LDA #$0001        ; default to first pose, as in classic
+    LDA #$0002          ; default to (new) second pose
     STA $0A9A
     RTL
 
 .spin_attack:
-    LDA config_screwattack  
-    BEQ +
-    LDA #$001C        ; skip over to our new spin attack section
+    LDA.l config_screw_attack
+    BEQ .screw_attack   ; if disabled, do regular screw attack animation (if branch taken, uses one more clock cycle)
+    LDA #$001C          ; skip over to our new spin attack section
+    STA.l $7E0A9A       ; (STA.l here to add one more clock cycle to preserve timing)
+    RTL
+
+.first_pose:
+    LDA #$0001          ; default to first pose, as in classic
     STA $0A9A
     RTL
-+
-    LDA #$0002
-    STA $0A9A
-    RTL
+
+.underwater             ; figure out if Samus jumped into, or is in, the water, by checking for animation $81 or $82
+    LDA $0A1C           ; get animation #
+    BIT #$0080          ; check for animations $81, $82
+    BEQ .first_pose     ; if not, then just do normal stuff
+    BRA .equip_check    ; but if so, we have to go through all the normal checks
 
 
 ; Hook the subroutine
