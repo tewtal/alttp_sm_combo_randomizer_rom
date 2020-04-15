@@ -383,6 +383,7 @@ AddReceivedItemExpanded:
 {
 	PHA : PHX
 		;JSL.l PreItemGet
+		JSR EnableTemporaryCone
 		
 		LDA $02D8 ; Item Value
 		JSR AttemptItemSubstitution
@@ -1066,6 +1067,42 @@ AttemptItemSubstitutionLong:
 	PLA
 .end
 	RTL
+;
+; Enables the light cone temporarily when picking up items in a dark room without the lamp
+;
+EnableTemporaryCone:
+		LDA $7EC005 ; Check if dark room
+		BEQ +
+		LDA $7EF34A ; Check if we have lamp
+		BNE +
+
+		LDA #$01
+		STA $1D		; Enable color math for BG1
+		STA $0458	; Set the "Lamp in dark room flag" temporarily
+		JSL $00F568 ; JSL OrientLampBg - Updates BG1 scroll positions for the lamp cone
+		
+		REP #$20    ; Write the scroll positions to the PPU registers
+		LDA $E0 : STA $120 : STA $210D 
+		LDA $E6 : STA $124 : STA $210E
+		SEP #$20
++
+		RTS
+
+DisableTemporaryCone:
+		PHA
+		LDA $7EC005	; Check if dark room
+		BEQ +
+		LDA $7EF34A ; Check if we have lamp
+		BNE +
+		LDA #$00
+		STA $1D
+		STA $458	; Disable the light cone while picking up an item
++
+		PLA
+		CMP #$02 : BEQ +
+		STZ $02E4
++			
+		RTL
 
 ;--------------------------------------------------------------------------------
 CountBottles:

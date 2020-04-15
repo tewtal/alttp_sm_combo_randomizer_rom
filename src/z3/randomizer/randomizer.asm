@@ -102,6 +102,7 @@ incsrc rngfixes.asm
 incsrc openmode.asm
 incsrc stats.asm
 incsrc textskip_functions.asm
+warnpc $f90000
 
 org $1C8000 ; text tables for translation
 incbin data/i18n_en.bin

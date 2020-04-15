@@ -121,9 +121,9 @@ JSL.l SpawnZelda : NOP #2
 ; ;================================================================================
 ; ; Alternate Goal
 ; ;--------------------------------------------------------------------------------
-; ;Invincible Ganon
-; org $06F2C8 ; <- 372C8 - Bank06.asm : 5776 (LDA $44 : CMP.b #$80 : BEQ .no_collision)
-; JSL.l GoalItemGanonCheck
+;Invincible Ganon
+;org $06F2C8 ; <- 372C8 - Bank06.asm : 5776 (LDA $44 : CMP.b #$80 : BEQ .no_collision)
+;JSL.l GoalItemGanonCheck
 ; ;--------------------------------------------------------------------------------
 ; ;Hammerable Ganon
 ; org $06F2EA ; <- 372EA - Bank06.asm : 5791 (LDA $0E20, X : CMP.b #$D6 : BCS .no_collision)
@@ -2486,3 +2486,9 @@ org $02a499 ; Overworld (JSL Player_Main)
 org $028849 ; Dungeon (JSL Player_Main)
     jsl alttp_mw_handle_queue
 
+
+
+; Dark room temporary light cone disable
+;
+org $08C531
+    jsl DisableTemporaryCone : nop #3
