@@ -5,6 +5,8 @@
 ; - https://github.com/Artheau/SpriteSomething/blob/v1.0.659/source/metroid3/rom.py
 ; - https://github.com/Artheau/SpriteSomething/blob/v1.0.659/source/metroid3/samus/rom_export.py
 
+incsrc "config.asm"
+
 incsrc "bugfixes.asm"
 incsrc "improvements.asm"
 
@@ -15,5 +17,3 @@ incsrc "dmadata.asm"
 incsrc "dma.asm"
 incsrc "gunport.asm"
 incsrc "spinjump.asm"
-
-incsrc "credit.asm"
