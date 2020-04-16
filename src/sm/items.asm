@@ -96,12 +96,47 @@ item_graphics:
     dw $8D00 : db $00, $02, $00, $00, $00, $02, $00, $00    ; Wave beam
     dw $8F00 : db $00, $00, $00, $00, $00, $00, $00, $00    ; Spazer
     dw $8E00 : db $00, $01, $00, $00, $00, $01, $00, $00    ; Plasma beam
+
+    ; C0
     dw $0008 : db $00, $00, $00, $00, $00, $00, $00, $00    ; Energy Tank
     dw $9000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; Reserve tank
     dw $000A : db $00, $00, $00, $00, $00, $00, $00, $00    ; Missile
     dw $000C : db $00, $00, $00, $00, $00, $00, $00, $00    ; Super Missile
     dw $000E : db $00, $00, $00, $00, $00, $00, $00, $00    ; Power Bomb
+    
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; C5 - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; C6 - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; C7 - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; C8 - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; C9 - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; CA - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; CB - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; CC - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; CD - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; CE - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; CF - Unused
 
+    dw $EE00 : db $03, $03, $03, $03, $03, $03, $03, $03    ; D0 - Crateria L1 Key
+    dw $EF00 : db $02, $02, $02, $02, $02, $02, $02, $02    ; D1 - Crateria L2 Key
+    dw $F000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; D2 - Crateria Boss Key
+
+    dw $EE00 : db $03, $03, $03, $03, $03, $03, $03, $03    ; D3 - Brinstar L1 Key
+    dw $EF00 : db $02, $02, $02, $02, $02, $02, $02, $02    ; D4 - Brinstar L2 Key
+    dw $F000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; D5 - Brinstar Boss Key
+
+    dw $EE00 : db $03, $03, $03, $03, $03, $03, $03, $03    ; D6 - Norfair L1 Key
+    dw $EF00 : db $02, $02, $02, $02, $02, $02, $02, $02    ; D7 - Norfair L2 Key
+    dw $F000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; D8 - Norfair Boss Key
+
+    dw $EE00 : db $03, $03, $03, $03, $03, $03, $03, $03    ; D9 - Maridia L1 Key
+    dw $EF00 : db $02, $02, $02, $02, $02, $02, $02, $02    ; DA - Maridia L2 Key
+    dw $F000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; DB - Maridia Boss Key
+
+    dw $EE00 : db $03, $03, $03, $03, $03, $03, $03, $03    ; DC - Wrecked Ship L1 Key
+    dw $F000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; DD - Wrecked Ship Boss Key
+
+    dw $EE00 : db $03, $03, $03, $03, $03, $03, $03, $03    ; DE - Lower Norfair L1 Key
+    dw $F000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; DF - Lower Norfair Boss Key
 
     ; ALTTP (00-AF)
     dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 00 Dummy - L1SwordAndShield        
@@ -142,8 +177,8 @@ item_graphics:
     dw $B800 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 21 Bug-Catching Net
     dw $CD00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 22 Blue Tunic
     dw $CE00 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 23 Red Tunic
-    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 24 Dummy - Key       
-    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 25 Dummy - Compass
+    dw $EB00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 24 Dummy - Key       
+    dw $EC00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 25 Dummy - Compass
     dw $D300 : db $02, $02, $02, $02, $02, $02, $02, $02        ; 26 Heart Container (no animation)
     dw $9400 : db $03, $03, $03, $03, $03, $03, $03, $03        ; 27 One bomb
     dw $D700 : db $03, $03, $03, $03, $03, $03, $03, $03        ; 28 3 Bombs
@@ -157,8 +192,8 @@ item_graphics:
 
     dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 30 Dummy - Blue potion (contents)
     dw $D800 : db $03, $03, $03, $03, $03, $03, $03, $03        ; 31 10 Bombs
-    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 32 Dummy - Big key
-    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 33 Dummy - Map
+    dw $EA00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 32 Dummy - Big key
+    dw $ED00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 33 Dummy - Map
     dw $D900 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 34 1 Rupee
     dw $DA00 : db $03, $03, $03, $03, $03, $03, $03, $03        ; 35 5 Rupees
     dw $DB00 : db $02, $02, $02, $02, $02, $02, $02, $02        ; 36 20 Rupees
@@ -198,6 +233,99 @@ item_graphics:
     dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 56 Dummy - Programmable 2
     dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 57 Dummy - Programmable 3
     dw $DE00 : db $01, $01, $01, $01, $01, $01, $01, $01        ; 58 Silver Arrows
+
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 59 - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 5A - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 5B - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 5C - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 5D - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 5E - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 5F - Unused
+
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 60 - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 61 - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 62 - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 63 - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 64 - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 65 - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 66 - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 67 - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 68 - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 69 - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 6A - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 6B - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 6C - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 6D - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 6E - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 6F - Unused
+
+    dw $ED00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 70 - Unused
+    dw $ED00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 71 - Unused
+    dw $ED00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 72 - Ganons Tower Map
+    dw $ED00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 73 - Turtle Rock Map
+    dw $ED00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 74 - Thieves' Town Map
+    dw $ED00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 75 - Tower of Hera Map
+    dw $ED00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 76 - Ice Palace Map
+    dw $ED00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 77 - Skull Woods Map
+    dw $ED00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 78 - Misery Mire Map
+    dw $ED00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 79 - Palace Of Darkness Map
+    dw $ED00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 7A - Swamp Palace Map
+    dw $ED00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 7B - Unused
+    dw $ED00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 7C - Desert Palace Map
+    dw $ED00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 7D - Eastern Palace Map
+    dw $ED00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 7E - Unused
+    dw $ED00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 7F - Hyrule Castle Map
+
+    dw $EC00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 80 - Unused
+    dw $EC00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 81 - Unused
+    dw $EC00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 82 - Ganons Tower Compass
+    dw $EC00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 83 - Turtle Rock Compass
+    dw $EC00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 84 - Thieves' Town Compass
+    dw $EC00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 85 - Tower of Hera Compass
+    dw $EC00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 86 - Ice Palace Compass
+    dw $EC00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 87 - Skull Woods Compass
+    dw $EC00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 88 - Misery Mire Compass
+    dw $EC00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 89 - Palace of Darkness Compass
+    dw $EC00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 8A - Swamp Palace Compass
+    dw $EC00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 8B - Unused
+    dw $EC00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 8C - Desert Palace Compass
+    dw $EC00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 8D - Eastern Palace Compass
+    dw $EC00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 8E - Unused
+    dw $EC00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 8F - Unused
+
+    dw $EA00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 90 - Unused
+    dw $EA00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 91 - Unused
+    dw $EA00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 92 - Ganons Tower Big Key
+    dw $EA00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 93 - Turtle Rock Big Key
+    dw $EA00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 94 - Thieves' Town Big Key
+    dw $EA00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 95 - Tower of Hera Big Key
+    dw $EA00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 96 - Ice Palace Big Key
+    dw $EA00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 97 - Skull Woods Big Key
+    dw $EA00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 98 - Misery Mire Big Key
+    dw $EA00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 99 - Palace of Darkness Big Key
+    dw $EA00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 9A - Swamp Palace Big Key
+    dw $EA00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 9B - Unused
+    dw $EA00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 9C - Desert Palace Big Key
+    dw $EA00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 9D - Eastern Palace Big Key
+    dw $EA00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 9E - Unused
+    dw $EA00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 9F - Unused
+
+    dw $EB00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; A0 - Hyrule Castle Small Key
+    dw $EB00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; A1 - Unused
+    dw $EB00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; A2 - Unused
+    dw $EB00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; A3 - Desert Palace Small Key
+    dw $EB00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; A4 - Castle Tower Small Key
+    dw $EB00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; A5 - Swamp Palace Small Key
+    dw $EB00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; A6 - Palace of Darkness Small Key
+    dw $EB00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; A7 - Misery Mire Small Key
+    dw $EB00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; A8 - Skull Woods Small Key
+    dw $EB00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; A9 - Ice Palace Small Key
+    dw $EB00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; AA - Tower of Hera Small Key
+    dw $EB00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; AB - Thieves' Town Small Key
+    dw $EB00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; AC - Turtle Rock Small Key
+    dw $EB00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; AD - Ganons Tower Small Key
+    dw $EB00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; AE - Unused
+    dw $EB00 : db $00, $00, $00, $00, $00, $00, $00, $00        ; AF - Unused
 
     ;dw $D300 : db $02, $02, $02, $02, $02, $02, $02, $02        ; Heart Container
     ;dw $D500 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 5 Arrows
@@ -605,6 +733,7 @@ receive_sm_item:
     plx
     rts
 
+print pc
 warnpc $850000
 
 org $c498e3
