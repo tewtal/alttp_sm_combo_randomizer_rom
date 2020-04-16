@@ -105,7 +105,7 @@ incsrc stats.asm
 incsrc textskip_functions.asm
 incsrc itemtext.asm
 incsrc textrenderer.asm
-warnpc $f90000
+warnpc $b8ffff
 
 org $1C8000 ; text tables for translation
 incbin data/i18n_en.bin
