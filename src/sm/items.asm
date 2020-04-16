@@ -41,14 +41,17 @@
 
 !EmptyBig = #EmptyBig
 !PlaceholderBig = #PlaceholderBig
+!DungeonItemBig = #DungeonItemBig
+!DungeonKeyItemBig = #DungeonKeyItemBig
+!KeycardBig = #KeycardBig
 
-;org $01E9BC
-;    db $c0
+org $01E9BC
+    db $a2
 
-; org $cf8432
-;     dw $efe0
-; org $cf8432+$5
-;     db $0A
+;  org $cf8432
+;      dw $efe0
+;  org $cf8432+$5
+;      db $Df
 
 ;org $cf86de
 ;    dw $efe4    ; Morph to progressive sword
@@ -137,6 +140,25 @@ item_graphics:
 
     dw $EE00 : db $03, $03, $03, $03, $03, $03, $03, $03    ; DE - Lower Norfair L1 Key
     dw $F000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; DF - Lower Norfair Boss Key
+
+    dw $F500 : db $00, $00, $00, $00, $00, $00, $00, $00    ; E0 - L1 Key Plaque
+    dw $F600 : db $00, $00, $00, $00, $00, $00, $00, $00    ; E1 - L2 Key Plaque
+    dw $F700 : db $00, $00, $00, $00, $00, $00, $00, $00    ; E2 - Boss Key Plaque
+
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; E3 - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; E4 - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; E5 - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; E6 - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; E7 - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; E8 - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; E9 - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; EA - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; EB - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; EC - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; ED - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; EE - Unused
+    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; EF - Unused
+
 
     ; ALTTP (00-AF)
     dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00        ; 00 Dummy - L1SwordAndShield        
@@ -601,14 +623,15 @@ i_load_rando_item:
 ; Pick up item
 i_pickup:
     phx : phy : php : phx
+
+    lda #$0000
+    sta !SM_MULTIWORLD_PICKUP
+
     lda.l config_multiworld
     beq .own_item
 
     lda $1dc7, x              ; Load PLM room argument
     asl #3 : tax
-
-    lda #$0000
-    sta !SM_MULTIWORLD_PICKUP
 
     lda.l rando_item_table, x       ; Load item type
     beq .own_item
@@ -630,10 +653,10 @@ i_pickup:
 .own_item
     plx
     lda !ITEM_PLM_BUF, x        ; Load adjusted item id (progression etc)
-    cmp #$0015
+    cmp #$0040
     bcc .smItem
     sec
-    sbc #$0015
+    sbc #$0040
     sta !ITEM_PLM_BUF, x        ; Readjust item id so it fits the ALTTP table again
     jsl alttp_item_pickup
     bra .end
@@ -672,7 +695,7 @@ load_item_id:
     bra +
 .alttpItem
     clc
-    adc #$0015                      ; Offset alttp items by #$14 to point to the correct table entries
+    adc #$0040                      ; Offset alttp items by #$40 to point to the correct table entries
 +
     ply
     tyx
@@ -720,8 +743,14 @@ check_upgrade_item_long:
     plb
     rtl
 
+receive_sm_item_long:
+    jsr receive_sm_item
+    rtl
+
 ; Item index to receive in A
 receive_sm_item:
+    cmp #$0015
+    bcs .customItem
     asl : asl : asl : asl
     phx
     clc
@@ -733,7 +762,37 @@ receive_sm_item:
     plx
     rts
 
-print pc
+.customItem
+    cmp #$0020
+    bcs .keycard
+    bra .end
+
+.keycard
+    and #$000f
+    sta $c7                     ; Store keycard index
+    clc : adc #$0080            ; Turn this into an event id
+    jsl $8081fa                 ; Set event (receive keycard)
+
+    lda !SM_MULTIWORLD_PICKUP
+    bne .multiPickup
+    lda #$0062
+    jsl $858080                 ; Display message 62 - keycard
+    bra .end
+
+.multiPickup
+    phx : phy
+    jsr SETFX
+    lda #$0037
+    jsl $809049
+    ply : plx
+    lda #$005d
+    jsl $858080                 ; Display multiworld message
+    lda #$0000
+    sta !SM_MULTIWORLD_PICKUP   
+
+.end
+    rts
+
 warnpc $850000
 
 org $c498e3
@@ -818,7 +877,8 @@ alttp_item_pickup:
     lda !SM_MULTIWORLD_PICKUP
     bne .multiworldItemId
 +
-    lda $7ffb00,x               ; Load previously saved item index
+    lda !ITEM_PLM_BUF,x               ; Load previously saved item index
+    sta $c7                           ; Store current item index
     bra .checkItemSwap
 .multiworldItemId                                
     lda $c1                     ; This item was gotten from another player in MW
@@ -849,6 +909,10 @@ alttp_item_pickup:
     beq .flippers_jmp
     cmp #$0007
     beq .silvers_jmp
+    cmp #$0010
+    beq .dungeon_jmp
+    cmp #$0011
+    beq .dungeon_key_jmp
     jmp .end
 
 .normal_item_jmp
@@ -867,6 +931,10 @@ alttp_item_pickup:
     jmp .flippers
 .silvers_jmp
     jmp .silvers
+.dungeon_jmp
+    jmp .dungeon
+.dungeon_key_jmp
+    jmp .dungeon_key
 
 .normal_item
     lda.l alttp_item_table+2,x               ; Get Item value
@@ -1033,6 +1101,33 @@ alttp_item_pickup:
     adc #$02
     sta.l !SRAM_ALTTP_ITEM_BUF+$40               ; Store silver arrows and bow
     %a16()
+    jmp .end
+
+.dungeon
+    %a16()
+    lda.l alttp_item_table+2, x ; Get dungeon item bitmask
+    phx : tyx
+    ora.l !SRAM_ALTTP_ITEM_BUF, x
+    sta.l !SRAM_ALTTP_ITEM_BUF, x
+    plx
+    lda $c7
+    and #$000f
+    sta $c7     ; Clear out extra bits from item index to use as dungeon id
+    jmp .end
+
+.dungeon_key
+    %a8()
+    lda.l alttp_item_table+2, x ; Get dungeon item value
+    phx : tyx
+    clc
+    adc !SRAM_ALTTP_ITEM_BUF, x
+    sta !SRAM_ALTTP_ITEM_BUF, x
+    cpx #$007C : bne + : sta !SRAM_ALTTP_ITEM_BUF+$1, x ; Store Hyrule keys to sewer keys
++   plx
+    %a16()
+    lda $c7
+    and #$000f
+    sta $c7     ; Clear out extra bits from item index to use as dungeon id
     jmp .end
 
 .nobow
@@ -1288,6 +1383,99 @@ namespace "alttp_item_"
     dw $0000, $0000, $0000, $0000       ; 57 Dummy - Programmable 3
     dw $0040, $0003, $0007, $001e       ; 58 Silver Arrows
 
+    dw $0000, $0000, $0000, $0000       ; 59 Unused
+    dw $0000, $0000, $0000, $0000       ; 5A Unused
+    dw $0000, $0000, $0000, $0000       ; 5B Unused
+    dw $0000, $0000, $0000, $0000       ; 5C Unused
+    dw $0000, $0000, $0000, $0000       ; 5D Unused
+    dw $0000, $0000, $0000, $0000       ; 5E Unused
+    dw $0000, $0000, $0000, $0000       ; 5F Unused
+
+    dw $0000, $0000, $0000, $0000       ; 60 Unused
+    dw $0000, $0000, $0000, $0000       ; 61 Unused
+    dw $0000, $0000, $0000, $0000       ; 62 Unused
+    dw $0000, $0000, $0000, $0000       ; 63 Unused
+    dw $0000, $0000, $0000, $0000       ; 64 Unused
+    dw $0000, $0000, $0000, $0000       ; 65 Unused
+    dw $0000, $0000, $0000, $0000       ; 66 Unused
+    dw $0000, $0000, $0000, $0000       ; 67 Unused
+    dw $0000, $0000, $0000, $0000       ; 68 Unused
+    dw $0000, $0000, $0000, $0000       ; 69 Unused
+    dw $0000, $0000, $0000, $0000       ; 6A Unused
+    dw $0000, $0000, $0000, $0000       ; 6B Unused
+    dw $0000, $0000, $0000, $0000       ; 6C Unused
+    dw $0000, $0000, $0000, $0000       ; 6D Unused
+    dw $0000, $0000, $0000, $0000       ; 6E Unused
+    dw $0000, $0000, $0000, $0000       ; 6F Unused
+
+    dw $0068, $0001, $0010, $005e       ; 70 - Unused
+    dw $0068, $0002, $0010, $005e       ; 71 - Unused
+    dw $0068, $0004, $0010, $005e       ; 72 - Ganons Tower Map
+    dw $0068, $0008, $0010, $005e       ; 73 - Turtle Rock Map
+    dw $0068, $0010, $0010, $005e       ; 74 - Thieves' Town Map
+    dw $0068, $0020, $0010, $005e       ; 75 - Tower of Hera Map
+    dw $0068, $0040, $0010, $005e       ; 76 - Ice Palace Map
+    dw $0068, $0080, $0010, $005e       ; 77 - Skull Woods Map
+    dw $0068, $0100, $0010, $005e       ; 78 - Misery Mire Map
+    dw $0068, $0200, $0010, $005e       ; 79 - Palace Of Darkness Map
+    dw $0068, $0400, $0010, $005e       ; 7A - Swamp Palace Map
+    dw $0068, $0800, $0010, $005e       ; 7B - Unused
+    dw $0068, $1000, $0010, $005e       ; 7C - Desert Palace Map
+    dw $0068, $2000, $0010, $005e       ; 7D - Eastern Palace Map
+    dw $0068, $C000, $0010, $005e       ; 7E - Unused
+    dw $0068, $C000, $0010, $005e       ; 7F - Hyrule Castle Map
+
+    dw $0064, $0001, $0010, $005f       ; 80 - Unused
+    dw $0064, $0002, $0010, $005f       ; 81 - Unused
+    dw $0064, $0004, $0010, $005f       ; 82 - Ganons Tower Compass
+    dw $0064, $0008, $0010, $005f       ; 83 - Turtle Rock Compass
+    dw $0064, $0010, $0010, $005f       ; 84 - Thieves' Town Compass
+    dw $0064, $0020, $0010, $005f       ; 85 - Tower of Hera Compass
+    dw $0064, $0040, $0010, $005f       ; 86 - Ice Palace Compass
+    dw $0064, $0080, $0010, $005f       ; 87 - Skull Woods Compass
+    dw $0064, $0100, $0010, $005f       ; 88 - Misery Mire Compass
+    dw $0064, $0200, $0010, $005f       ; 89 - Palace of Darkness Compass
+    dw $0064, $0400, $0010, $005f       ; 8A - Swamp Palace Compass
+    dw $0064, $0800, $0010, $005f       ; 8B - Unused
+    dw $0064, $1000, $0010, $005f       ; 8C - Desert Palace Compass
+    dw $0064, $2000, $0010, $005f       ; 8D - Eastern Palace Compass
+    dw $0064, $C000, $0010, $005f       ; 8E - Unused
+    dw $0064, $C000, $0010, $005f       ; 8F - Unused
+
+    dw $0066, $0001, $0010, $0060       ; 90 - Unused
+    dw $0066, $0002, $0010, $0060       ; 91 - Unused
+    dw $0066, $0004, $0010, $0060       ; 92 - Ganons Tower Big Key
+    dw $0066, $0008, $0010, $0060       ; 93 - Turtle Rock Big Key
+    dw $0066, $0010, $0010, $0060       ; 94 - Thieves' Town Big Key
+    dw $0066, $0020, $0010, $0060       ; 95 - Tower of Hera Big Key
+    dw $0066, $0040, $0010, $0060       ; 96 - Ice Palace Big Key
+    dw $0066, $0080, $0010, $0060       ; 97 - Skull Woods Big Key
+    dw $0066, $0100, $0010, $0060       ; 98 - Misery Mire Big Key
+    dw $0066, $0200, $0010, $0060       ; 99 - Palace of Darkness Big Key
+    dw $0066, $0400, $0010, $0060       ; 9A - Swamp Palace Big Key
+    dw $0066, $0800, $0010, $0060       ; 9B - Unused
+    dw $0066, $1000, $0010, $0060       ; 9C - Desert Palace Big Key
+    dw $0066, $2000, $0010, $0060       ; 9D - Eastern Palace Big Key
+    dw $0066, $C000, $0010, $0060       ; 9E - Unused
+    dw $0066, $C000, $0010, $0060       ; 9F - Unused
+
+    dw $007C, $0001, $0011, $0061       ; A0 - Hyrule Castle Small Key
+    dw $007C, $0001, $0011, $0061       ; A1 - Sewers Small Key
+    dw $007E, $0001, $0011, $0061       ; A2 - Eastern Palace Small Key
+    dw $007F, $0001, $0011, $0061       ; A3 - Desert Palace Small Key
+    dw $0080, $0001, $0011, $0061       ; A4 - Castle Tower Small Key
+    dw $0081, $0001, $0011, $0061       ; A5 - Swamp Palace Small Key
+    dw $0082, $0001, $0011, $0061       ; A6 - Palace of Darkness Small Key
+    dw $0083, $0001, $0011, $0061       ; A7 - Misery Mire Small Key
+    dw $0084, $0001, $0011, $0061       ; A8 - Skull Woods Small Key
+    dw $0085, $0001, $0011, $0061       ; A9 - Ice Palace Small Key
+    dw $0086, $0001, $0011, $0061       ; AA - Tower of Hera Small Key
+    dw $0087, $0001, $0011, $0061       ; AB - Thieves' Town Small Key
+    dw $0088, $0001, $0011, $0061       ; AC - Turtle Rock Small Key
+    dw $0089, $0001, $0011, $0061       ; AD - Ganons Tower Small Key
+    dw $008A, $0001, $0011, $0061       ; AE - Unused
+    dw $008B, $0001, $0011, $0061       ; AF - Unused
+
 ;    dw $006C, $0008, $0001, $0049       ; Heart Container
 ;    dw $0076, $0005, $0001, $004B       ; 5 Arrows
 
@@ -1361,6 +1549,13 @@ base $859643
     dw !EmptySmall, !Small, sword_fighter
     dw !PlaceholderBig, !Big, sm_item_sent
     dw !PlaceholderBig, !Big, sm_item_received
+
+    dw !DungeonItemBig,    !Big, map           ; 5E
+    dw !DungeonItemBig,    !Big, compass       ; 5F
+    dw !DungeonItemBig,    !Big, big_key       ; 60
+    dw !DungeonKeyItemBig, !Big, small_key     ; 61 
+    dw !KeycardBig,        !Big, keycard       ; 62
+
     dw !EmptySmall, !Small, btn_array
 
 table box.tbl,rtl
@@ -1504,11 +1699,47 @@ sm_item_received:
     dw "___           FROM           ___"
     dw "___          PLAYER          ___"
 
+map:
+    dw "___     THIS IS THE MAP      ___"
+    dw "___           FOR            ___"
+    dw "___                          ___"
+    dw "___          DUNGEON         ___"
+
+compass:
+    dw "___   THIS IS THE COMPASS    ___"
+    dw "___           FOR            ___"
+    dw "___                          ___"
+    dw "___          DUNGEON         ___"
+
+big_key:
+    dw "___    THIS IS THE BIG KEY   ___"
+    dw "___           FOR            ___"
+    dw "___                          ___"
+    dw "___          DUNGEON         ___"
+
+small_key:
+    dw "___    THIS IS A SMALL KEY   ___"
+    dw "___           FOR            ___"
+    dw "___                          ___"
+    dw "___          DUNGEON         ___"
+
+keycard:
+    dw "___       THIS IS THE        ___"
+    dw "___         KEYCARD          ___"
+    dw "___           FOR            ___"
+    dw "___          REGION          ___"
+
+
+
 cleartable
 
 btn_array:
 	DW $0000, $012A, $012A, $012C, $012C, $012C, $0000, $0000, $0000, $0000, $0000, $0000, $0120, $0000, $0000
 	DW $0000, $0000, $0000, $012A, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
+    DW $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
+    DW $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
+    DW $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
+    DW $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
     DW $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
     DW $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
     DW $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
@@ -1534,14 +1765,44 @@ item_names:
     dw "___         ICE BEAM         ___"
     dw "___        WAVE BEAM         ___"
     dw "___       S P A Z E R        ___"
-    dw "___       PLASMA BEAM        ___"
-    dw "___      AN ENERGY TANK      ___"
+    dw "___       PLASMA BEAM        ___" ; 0f
+    
+    dw "___      AN ENERGY TANK      ___" ; 10
     dw "___      A RESERVE TANK      ___"
     dw "___         MISSILES         ___"
     dw "___       SUPER MISSILES     ___"
     dw "___        POWER BOMBS       ___"
 
-    dw "___                          ___"       ; $15+ (alttp items)
+    dw "___                          ___"  ;15
+    dw "___                          ___"  ;16
+    dw "___                          ___"  ;17
+    dw "___                          ___"  ;18
+    dw "___                          ___"  ;19
+    dw "___                          ___"  ;1A
+    dw "___                          ___"  ;1B
+    dw "___                          ___"  ;1C
+    dw "___                          ___"  ;1D
+    dw "___                          ___"  ;1E
+    dw "___                          ___"  ;1F
+
+    dw "___   CRATERIA L 1 KEYCARD   ___" ; 20
+    dw "___   CRATERIA L 2 KEYCARD   ___" ; 21
+    dw "___  CRATERIA BOSS KEYCARD   ___" ; 22
+    dw "___   BRINSTAR L 1 KEYCARD   ___" ; 23
+    dw "___   BRINSTAR L 2 KEYCARD   ___" ; 24
+    dw "___  BRINSTAR BOSS KEYCARD   ___" ; 25
+    dw "___    NORFAIR L 1 KEYCARD   ___" ; 26
+    dw "___    NORFAIR L 2 KEYCARD   ___" ; 27
+    dw "___   NORFAIR BOSS KEYCARD   ___" ; 28
+    dw "___    MARIDIA L 1 KEYCARD   ___" ; 28
+    dw "___    MARIDIA L 2 KEYCARD   ___" ; 2A
+    dw "___   MARIDIA BOSS KEYCARD   ___" ; 2B
+    dw "___ WRECKED SHIP L 1 KEYCARD ___" ; 2C
+    dw "___ WRECKED SHIP BOSS KEYCARD___" ; 2D
+    dw "___LOWER NORFAIR L 1 KEYCARD ___" ; 2E
+    dw "___LOWER NORFAIR BOSS KEYCARD___" ; 2F
+
+    dw "___                          ___"       ; $30+ (alttp items)
     dw "___       MASTER SWORD       ___"
     dw "___      TEMPERED SWORD      ___"
     dw "___        GOLD SWORD        ___"
@@ -1637,11 +1898,275 @@ item_names:
     dw "___                          ___"
     dw "___    PROGRESSIVE SWORD     ___"
     dw "___    PROGRESSIVE SHIELD    ___"
-    dw "___    PROGRESSIVE ARMOR     ___"
+    
+    dw "___    PROGRESSIVE ARMOR     ___"  ; 60
     dw "___    PROGRESSIVE GLOVE     ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___                          ___" ; 6F
+
+    dw "___                          ___" ; 70
+    dw "___                          ___"
+    dw "___     GANONS TOWER MAP     ___"
+    dw "___     TURTLE ROCK MAP      ___"
+    dw "___     THIEVES TOWN MAP     ___"
+    dw "___    TOWER OF HERA MAP     ___"
+    dw "___      ICE PALACE MAP      ___"
+    dw "___      SKULL WOODS MAP     ___"
+    dw "___      MISERY MIRE MAP     ___"
+    dw "___  PALACE OF DARKNESS MAP  ___"
+    dw "___      SWAMP PALACE MAP    ___"
+    dw "___                          ___"
+    dw "___     DESERT PALACE MAP    ___"
+    dw "___    EASTERN PALACE MAP    ___"
+    dw "___                          ___"
+    dw "___     HYRULE CASTLE MAP    ___" ; 7F
+
+    dw "___                          ___" ; 80
+    dw "___                          ___"
+    dw "___   GANONS TOWER COMPASS   ___"
+    dw "___   TURTLE ROCK COMPASS    ___"
+    dw "___   THIEVES TOWN COMPASS   ___"
+    dw "___  TOWER OF HERA COMPASS   ___"
+    dw "___    ICE PALACE COMPASS    ___"
+    dw "___    SKULL WOODS COMPASS   ___"
+    dw "___    MISERY MIRE COMPASS   ___"
+    dw "___PALACE OF DARKNESS COMPASS___"
+    dw "___    SWAMP PALACE COMPASS  ___"
+    dw "___                          ___"
+    dw "___   DESERT PALACE COMPASS  ___"
+    dw "___  EASTERN PALACE COMPASS  ___"
+    dw "___                          ___"
+    dw "___                          ___" ; 8F
+
+    dw "___                          ___" ; 90
+    dw "___                          ___"
+    dw "___   GANONS TOWER BIG KEY   ___"
+    dw "___   TURTLE ROCK BIG KEY    ___"
+    dw "___   THIEVES TOWN BIG KEY   ___"
+    dw "___  TOWER OF HERA BIG KEY   ___"
+    dw "___    ICE PALACE BIG KEY    ___"
+    dw "___    SKULL WOODS BIG KEY   ___"
+    dw "___    MISERY MIRE BIG KEY   ___"
+    dw "___PALACE OF DARKNESS BIG KEY___"
+    dw "___   SWAMP PALACE BIG KEY   ___"
+    dw "___                          ___"
+    dw "___   DESERT PALACE BIG KEY  ___"
+    dw "___  EASTERN PALACE BIG KEY  ___"
+    dw "___                          ___"
+    dw "___                          ___" ; 9F    
+
+    dw "___     HYRULE CASTLE KEY    ___" ; A0
+    dw "___        SEWERS KEY        ___"
+    dw "___    EASTERN PALACE KEY    ___"
+    dw "___     DESERT PALACE KEY    ___"
+    dw "___      CASTLE TOWER KEY    ___"
+    dw "___      SWAMP PALACE KEY    ___"
+    dw "___  PALACE OF DARKNESS KEY  ___"
+    dw "___      MISERY MIRE KEY     ___"
+    dw "___      SKULL WOODS KEY     ___"
+    dw "___       ICE PALACE KEY     ___"
+    dw "___     TOWER OF HERA KEY    ___"
+    dw "___      THIEVES TOWN KEY    ___"
+    dw "___      TURTLE ROCK KEY     ___"
+    dw "___      GANONS TOWER KEY    ___"
+    dw "___                          ___"
+    dw "___                          ___" ; AF    
+
+dungeon_names:
+    dw "___          UNUSED          ___" ; 0
+    dw "___          UNUSED          ___" ; 1
+    dw "___       GANONS TOWER       ___" ; 2
+    dw "___       TURTLE ROCK        ___" ; 3
+    dw "___       THIEVES TOWN       ___" ; 4
+    dw "___      TOWER OF HERA       ___" ; 5
+    dw "___        ICE PALACE        ___" ; 6
+    dw "___       SKULL WOODS        ___" ; 7
+    dw "___       MISERY MIRE        ___" ; 8
+    dw "___    PALACE OF DARKNESS    ___" ; 9
+    dw "___       SWAMP PALACE       ___" ; A
+    dw "___          UNUSED          ___" ; B
+    dw "___       DESERT PALACE      ___" ; C
+    dw "___      EASTERN PALACE      ___" ; D
+    dw "___          UNUSED          ___" ; E
+    dw "___       HYRULE CASTLE      ___" ; F
+
+dungeon_names_key:
+    dw "___       HYRULE CASTLE      ___" ; 0
+    dw "___          UNUSED          ___" ; 1
+    dw "___          UNUSED          ___" ; 2
+    dw "___       DESERT PALACE      ___" ; 3
+    dw "___       CASTLE TOWER       ___" ; 4
+    dw "___       SWAMP PALACE       ___" ; 5
+    dw "___    PALACE OF DARKNESS    ___" ; 6
+    dw "___       MISERY MIRE        ___" ; 7
+    dw "___       SKULL WOODS        ___" ; 8
+    dw "___        ICE PALACE        ___" ; 9
+    dw "___      TOWER OF HERA       ___" ; A
+    dw "___       THIEVES TOWN       ___" ; B
+    dw "___       TURTLE ROCK        ___" ; C
+    dw "___       GANONS TOWER       ___" ; D
+    dw "___          UNUSED          ___" ; E
+    dw "___          UNUSED          ___" ; F
+
+region_names:
+    dw "___         CRATERIA         ___" ; 0
+    dw "___         CRATERIA         ___" ; 1
+    dw "___         CRATERIA         ___" ; 2
+    dw "___         BRINSTAR         ___" ; 3
+    dw "___         BRINSTAR         ___" ; 4
+    dw "___         BRINSTAR         ___" ; 5
+    dw "___         NORFAIR          ___" ; 6
+    dw "___         NORFAIR          ___" ; 7
+    dw "___         NORFAIR          ___" ; 8
+    dw "___         MARIDIA          ___" ; 9
+    dw "___         MARIDIA          ___" ; A
+    dw "___         MARIDIA          ___" ; B
+    dw "___       WRECKED SHIP       ___" ; C
+    dw "___       WRECKED SHIP       ___" ; D
+    dw "___      LOWER NORFAIR       ___" ; E
+    dw "___      LOWER NORFAIR       ___" ; F
+
+keycard_names:
+    dw "___     LEVEL 1 KEYCARD      ___" ; 0
+    dw "___     LEVEL 2 KEYCARD      ___" ; 1
+    dw "___       BOSS KEYCARD       ___" ; 2
+    dw "___     LEVEL 1 KEYCARD      ___" ; 3
+    dw "___     LEVEL 2 KEYCARD      ___" ; 4
+    dw "___       BOSS KEYCARD       ___" ; 5
+    dw "___     LEVEL 1 KEYCARD      ___" ; 6
+    dw "___     LEVEL 2 KEYCARD      ___" ; 7
+    dw "___       BOSS KEYCARD       ___" ; 8
+    dw "___     LEVEL 1 KEYCARD      ___" ; 9
+    dw "___     LEVEL 2 KEYCARD      ___" ; A
+    dw "___       BOSS KEYCARD       ___" ; B
+    dw "___     LEVEL 1 KEYCARD      ___" ; C
+    dw "___       BOSS KEYCARD       ___" ; D
+    dw "___     LEVEL 1 KEYCARD      ___" ; E
+    dw "___       BOSS KEYCARD       ___" ; F
 
 
 cleartable
+
+EmptyBig:
+	REP #$30
+    LDY #$0000
+	JMP $841D
+PlaceholderBig:
+    REP #$30
+    JSR write_placeholders
+    LDY #$0000
+    JMP $841D
+DungeonItemBig:
+    REP #$30
+    JSR write_dungeon
+    LDY #$0000
+    JMP $841D
+DungeonKeyItemBig:
+    REP #$30
+    JSR write_dungeon_key
+    LDY #$0000
+    JMP $841D
+KeycardBig:
+    REP #$30
+    JSR write_keycard
+    LDY #$0000
+    JMP $841D
+
+write_dungeon:
+    phx : phy
+    lda $1c1f
+    cmp #$005e
+    beq .adjust
+    cmp #$005f
+    beq .adjust
+    cmp #$0060
+    beq .adjust
+    bra .end
+
+.adjust
+    lda $c7                ; Load dungeon id
+    asl #6 : tay
+    ldx #$0000
+-
+    lda dungeon_names, y
+    sta.l $7e3300, x
+    inx #2 : iny #2
+    cpx #$0040
+    bne -
+
+.end
+    ply : plx
+    lda #$0020
+    rts
+
+write_dungeon_key:
+    phx : phy
+    lda $1c1f
+    cmp #$0061
+    beq .adjust
+    bra .end
+
+.adjust
+    lda $c7                ; Load dungeon id
+    asl #6 : tay
+    ldx #$0000
+-
+    lda dungeon_names_key, y
+    sta.l $7e3300, x
+    inx #2 : iny #2
+    cpx #$0040
+    bne -
+
+.end
+    ply : plx
+    lda #$0020
+    rts
+
+write_keycard:
+    phx : phy
+    lda $1c1f
+    cmp #$0062
+    beq .adjust
+    bra .end
+
+.adjust
+    lda $c7                ; Load keycard index
+    asl #6 : tay
+    phy
+
+    ldx #$0000
+-
+    lda keycard_names, y
+    sta.l $7e3280, x
+    inx #2 : iny #2
+    cpx #$0040
+    bne -
+
+    ply
+    ldx #$0000
+-
+    lda region_names, y
+    sta.l $7e3300, x
+    inx #2 : iny #2
+    cpx #$0040
+    bne -
+
+.end
+    ply : plx
+    lda #$0020
+    rts
 
 write_placeholders:
     phx : phy
@@ -1661,7 +2186,7 @@ write_placeholders:
     bra +
 .alttpItem
     clc
-    adc #$0015
+    adc #$0030
 +
     asl #6 : tay
     ldx #$0000
@@ -1719,15 +2244,6 @@ fix_1c1f:
 +
 	ADC #$027F
 	RTS
-EmptyBig:
-	REP #$30
-    LDY #$0000
-	JMP $841D
-PlaceholderBig:
-    REP #$30
-    JSR write_placeholders
-    LDY #$0000
-    JMP $841D
 
 org $c58243
 base $858243

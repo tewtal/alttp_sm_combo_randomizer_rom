@@ -228,7 +228,7 @@ AddReceivedItemExpandedGetItem:
 +
 
 	LDA $02D8 ; check inventory
-	;JSL.l FreeDungeonItemNotice
+	JSL.l FreeDungeonItemNotice
 	CMP.b #$0B : BNE + ; Bow
 		LDA !INVENTORY_SWAP_2 : AND.b #$40 : BEQ ++
 		LDA.l SilverArrowsUseRestriction : BNE ++
@@ -345,6 +345,8 @@ AddReceivedItemExpandedGetItem:
 			STA $7EF37C ; copy sewers to HC
 		++
 		
+
+
 		LDA.l GenericKeys : BEQ +
 		.generic
 			LDA $7EF36F : INC : STA $7EF36F
@@ -354,7 +356,12 @@ AddReceivedItemExpandedGetItem:
 				LDA $7EF36F : INC : STA $7EF36F
 			++
 			BRL .done
-	+
+		+
+		; Check if we got a key for the dungeon we're currently in, and increment the dungeon key count
+		LDA $40C : CMP #$FF : BEQ .done
+		TXA : ASL : CMP $40C : BNE .done
+		LDA.l $7EF36F : INC : STA.l $7EF36F
+
 	.done	
 	jsl alttp_receive_sm_item	; Check for SM items
 	PLX
@@ -600,9 +607,14 @@ AddReceivedItemExpanded:
 
 	; #$B0 - SM Items
 	db $50, $51, $52, $53, $54, $55, $56, $57, $58, $59, $5A, $5B, $5C, $5D, $5E, $5F ; Super Metroid
+	
+	; #$C0 - SM Items
 	db $60, $61, $62, $63, $64, $49, $49, $49, $49, $49, $49, $49, $49, $49, $49, $49 ; Super Metroid
-	db $49, $49, $49, $49, $49, $49, $49, $49, $49, $49, $49, $49, $49, $49, $49, $49 ; Unused
-	db $49, $49, $49, $49, $49, $49, $49, $49, $49, $49, $49, $49, $49, $49, $49, $49 ; Unused
+	
+	; #$D0 - SM Items (Keycards)
+	db $65, $66, $67, $65, $66, $67, $65, $66, $67, $65, $66, $67, $65, $67, $65, $67 ; Super Metroid
+
+	db $48, $48, $48, $48, $48, $48, $48, $48, $48, $48, $48, $48, $48, $48, $48, $48 ; Unused
 
 .wide_item_flag
     db $00, $00, $00, $00, $00, $02, $02, $00
@@ -680,9 +692,9 @@ AddReceivedItemExpanded:
 	db  4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 ; Free Small Key
 	
 	; #$B0 - SM Items
-	db  1, 5, 1, 2, 2, 4, 2, 2, 2, 1, 4, 1, 2, 2, 2, 4 ; Unused
-	db  1, 1, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 ; Unused
-	db  4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 ; Unused
+	db  1, 5, 1, 2, 2, 4, 2, 2, 2, 1, 4, 1, 2, 2, 2, 4 ; SM Items #1
+	db  1, 1, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 ; SM Items #2
+	db  2, 1, 2, 2, 1, 2, 2, 1, 2, 2, 1, 2, 2, 2, 2, 2 ; Keycards
 	db  4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 ; Unused
 	db  4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 ; Unused
 
@@ -1074,6 +1086,8 @@ EnableTemporaryCone:
 		LDA $7EC005 ; Check if dark room
 		BEQ +
 		LDA $7EF34A ; Check if we have lamp
+		BNE +
+		LDA $045A   ; Check if torches are lit
 		BNE +
 
 		LDA #$01

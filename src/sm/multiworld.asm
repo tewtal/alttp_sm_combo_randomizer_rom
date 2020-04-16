@@ -42,6 +42,8 @@ sm_mw_receive_item:
     pha : phx
     cmp #$00b0                  ; If below B0 it's an alttp item
     bcc .alttpItem
+    cmp #$00c5
+    bcs .smCustomItem           ; Above C5 is custom SM items
     sec
     sbc #$00b0
     asl #4 : tax
@@ -61,6 +63,17 @@ sm_mw_receive_item:
     lda #$0001
     sta.l !SM_MULTIWORLD_PICKUP
     jsl alttp_item_pickup
+    plx : pla
+    rts
+
+.smCustomItem
+    pha
+    lda #$0001
+    sta.l !SM_MULTIWORLD_PICKUP
+    pla
+    sec
+    sbc #$00b0
+    jsl receive_sm_item_long
     plx : pla
     rts
 

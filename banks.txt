@@ -13,6 +13,12 @@ Bank            Mirror banks    Content
 42:0000-7FFF    62              -- ALTTP Randomizer RNG Block --
 
 43:0000-7FFF    63              -- Free space --
+
+44:0000-7FFF    64              -- SM Custom Sprite ---
+...                             -- SM Custom Sprite ---
+4B:0000-7FFF    6B              -- SM Custom Sprite ---
+
+4C:0000-7FFF    6C              -- Free space --
 ...                             -- Free space --
 4F:0000-7FFF    6F              -- Free space --
 
@@ -20,7 +26,11 @@ Bank            Mirror banks    Content
 ...                             -- ALTTP Additional Graphics --
 53:0000-7FFF    73              -- ALTTP Additional Graphics --
 
-54:0000-7FFF    74              -- Free space --
+54:0000-7FFF    74              -- SM Custom Sprite ---
+...                             -- SM Custom Sprite ---
+5A:0000-7FFF    7A              -- SM Custom Sprite ---
+
+5B:0000-7FFF    7B              -- Free space --
 ...                             -- Free space --
 5D:0000-7FFF    7D              -- Free space --
 
@@ -54,11 +64,14 @@ Bank            Mirror banks    Content
 8C:8000-F3EF    CC              SM Bank #8C
 8D:8000-FFFF    CD              SM Bank #8D
 8E:8000-E5FF    CE              SM Bank #8E
+8E:F000-FFFF    CE              -- SM Keysanity Keycard Code --
 8F:8000-E99F    CF              SM Bank #8F - Room MDB
 8F:EA00-EAFF    CF              -- SM Golden 4 Skip --
 8F:EB00-EBFF    CF              -- SM Wake Zebes --
 8F:EC00-ECFF    CF              -- SM Escape Climb fix --
 8F:ED00-EDFF    CF              -- New LN Refill Room Header --
+8F:F700-F800    CF              -- SM PLM Injection Code --
+8F:F800-FFFF    CF              -- SM PLM Injection Table --
 90:8000-F63F    D0              SM Bank #90
 91:8000-FFFF    D1              SM Bank #91
 92:8000-EDFF    D2              SM Bank #92
