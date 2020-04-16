@@ -339,7 +339,7 @@ alttp_mw_dialogtable:
     db "   received from   "
 
 alttp_mw_item_names:
-    db "   Grappling Beam  " ; 00 (b0) (sm items)
+    db "   Grappling Beam  "             ; 00 (b0) (sm items)
     db "    X-Ray Scope    "
     db "     Varia Suit    "
     db "    Spring Ball    "
@@ -361,36 +361,36 @@ alttp_mw_item_names:
     db "   Super Missiles  "
     db "    Power Bombs    "
 
-    db "                   " ; 15
-    db "                   " ; 16
-    db "                   " ; 17
-    db "                   " ; 18
-    db "                   " ; 19
-    db "                   " ; 1A
-    db "                   " ; 1B
-    db "                   " ; 1C
-    db "                   " ; 1D
-    db "                   " ; 1E
-    db "                   " ; 1F
+    db "                   "  ;15
+    db "                   "  ;16
+    db "                   "  ;17
+    db "                   "  ;18
+    db "                   "  ;19
+    db "                   "  ;1A
+    db "                   "  ;1B
+    db "                   "  ;1C
+    db "                   "  ;1D
+    db "                   "  ;1E
+    db "                   "  ;1F
  
-    db "                   " ; 20
-    db "                   " ; 21
-    db "                   " ; 22
-    db "                   " ; 20
-    db "                   " ; 21
-    db "                   " ; 22
-    db "                   " ; 20
-    db "                   " ; 21
-    db "                   " ; 22
-    db "                   " ; 20
-    db "                   " ; 21
-    db "                   " ; 22
-    db "                   " ; 2C
-    db "                   " ; 2D
-    db "                   " ; 2E
-    db "                   " ; 2F
+    db " Crateria L 1 Card " ; 20
+    db " Crateria L 2 Card " ; 21
+    db " Crateria Boss Card" ; 22
+    db " Brinstar L 1 Card " ; 20
+    db " Brinstar L 2 Card " ; 21
+    db " Brinstar Boss Card" ; 22
+    db " Norfair L 1 Card  " ; 20
+    db " Norfair L 2 Card  " ; 21
+    db " Norfair Boss Card " ; 22
+    db " Maridia L 1 Card  " ; 20
+    db " Maridia L 2 Card  " ; 21
+    db " Maridia Boss Card " ; 22
+    db "  W.Ship L 1 Card  " ; 2C
+    db "  W.Ship Boss Card " ; 2D
+    db "L.Norfair L 1 Card " ; 2E
+    db "L.Norfair Boss Card" ; 2F
 
-    db "                   " ; $30+ (alttp items)
+    db "                   "       ; $30+ (alttp items)
     db "    Master Sword   "
     db "   Tempered Sword  "
     db "     Gold Sword    "
@@ -478,7 +478,7 @@ alttp_mw_item_names:
     db "                   "
     db "                   "
     db "                   "
-    db "   Silver Arrows   " ; 58
+    db "   Silver Arrows   "   ; 58
     db "                   "
     db "                   "
     db "                   "
@@ -504,6 +504,74 @@ alttp_mw_item_names:
     db "                   "
     db "                   " ; 6F 
 
+    db "                   "  ; 70
+    db "                   "
+    db " Ganon's Tower Map "
+    db "  Turtle Rock Map  "
+    db " Thieves' Town Map "
+    db " Tower of Hera Map "
+    db "  Ice Palace Map   "
+    db "  Skull Woods Map  "
+    db "  Misery Mire Map  "
+    db "  Dark Palace Map  "
+    db "  Swamp Palace Map "
+    db "                   "
+    db " Desert Palace Map "
+    db " Eastern Palace Map"
+    db "                   "
+    db " Hyrule Castle Map "  ; 7F
+
+    db "                   "  ; 80
+    db "                   "
+    db "  G. Tower Compass "
+    db "Turtle Rock Compass"
+    db "   T. Town Compass "
+    db "    Hera Compass   "
+    db "Ice Palace Compass "
+    db "Skull Woods Compass"
+    db "Misery Mire Compass"
+    db "Dark Palace Compass"
+    db "  Swamp P. Compass "
+    db "                   "
+    db " Desert P. Compass "
+    db "Eastern P. Compass "
+    db "                   "
+    db "                   "  ; 8F
+
+    db "                   "  ; 90
+    db "                   "
+    db " Ganon's Tower B.K "
+    db "  Turtle Rock B.K  "
+    db " Thieves' Town B.K "
+    db " Tower of Hera B.K "
+    db "  Ice Palace B.K   "
+    db "  Skull Woods B.K  "
+    db "  Misery Mire B.K  "
+    db "  Dark Palace B.K  "
+    db "  Swamp Palace B.K "
+    db "                   "
+    db " Desert Palace B.K "
+    db " Eastern Palace B.K"
+    db "                   "
+    db "                   "  ; 9F
+
+    db " Hyrule Castle Key " ; A0
+    db "    Sewers Key     "
+    db " Eastern Palace Key"
+    db " Desert Palace Key "
+    db " Castle Tower Key  "
+    db " Swamp Palace Key  "
+    db "  Dark Palace Key  "
+    db "  Misery Mire Key  "
+    db "  Skull Woods Key  "
+    db "  Ice Palace Key   "
+    db " Tower of Hera Key "
+    db " Thieves' Town Key "
+    db "  Turtle Rock Key  "
+    db " Ganon's Tower Key "
+    db "                   "
+    db "                   " ; AF   
+ 
 alttp_dialog_char_table:
     ; Each unsupported symbol translate to "?" $C6 for visual indication
     ;  <sp> !    "    #    $    %    &    '    (    )    *    +    ,    -    .    /

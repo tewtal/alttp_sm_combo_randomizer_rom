@@ -154,8 +154,10 @@ JSL.l StatBonkCounter
 ;JSL.l IncrementSmallKeys
 ;--------------------------------------------------------------------------------
 ;org $06D18D ; <- 3518D - sprite_absorbable.asm : 274 (LDA $7EF36F : INC A : STA $7EF36F)
-; org $06D192 ; <- 35192 - sprite_absorbable.asm : 274 (STA $7EF36F)
-; JSL.l IncrementSmallKeysNoPrimary
+
+org $06D192 ; <- 35192 - sprite_absorbable.asm : 274 (STA $7EF36F)
+JSL.l IncrementSmallKeysNoPrimary
+
 ; ;--------------------------------------------------------------------------------
 ; org $00F945 ; <- 7945 - Bank00.asm : 8557 (JSL SavePalaceDeaths)
 ; JSL.l StatTransitionCounter ; we're not bothering to restore the instruction we wrote over
@@ -195,38 +197,38 @@ JSL.l IncrementFairyRevivalCounter
 ;JSL.l DialogOverride
 ;NOP #7
 ;--------------------------------------------------------------------------------
-; org $0EF1FF ; 0x771FF <- vwf.asm : 1212 (LDA $7F1200, X : AND.w #$007F : SUB.w #$0066 : BPL .commandByte)
-; JSL.l DialogOverride
-; org $0EF2DC ; every other LDA $7F1200, X in vwf.asm
-; JSL.l DialogOverride
-; org $0EF315
-; JSL.l DialogOverride
-; org $0EF332
-; JSL.l DialogOverride
-; org $0EF375
-; JSL.l DialogOverride
-; org $0EF394
-; JSL.l DialogOverride
-; org $0EF511
-; JSL.l DialogOverride
-; org $0EF858
-; JSL.l DialogOverride
-; org $0EFA26
-; JSL.l DialogOverride
-; org $0EFA4C
-; JSL.l DialogOverride
-; org $0EFAB4
-; JSL.l DialogOverride
-; org $0EFAC8
-; JSL.l DialogOverride
-; org $0EFAE1
-; JSL.l DialogOverride
-; org $0EFB11
-; JSL.l DialogOverride
+org $0EF1FF ; 0x771FF <- vwf.asm : 1212 (LDA $7F1200, X : AND.w #$007F : SUB.w #$0066 : BPL .commandByte)
+JSL.l DialogOverride
+org $0EF2DC ; every other LDA $7F1200, X in vwf.asm
+JSL.l DialogOverride
+org $0EF315
+JSL.l DialogOverride
+org $0EF332
+JSL.l DialogOverride
+org $0EF375
+JSL.l DialogOverride
+org $0EF394
+JSL.l DialogOverride
+org $0EF511
+JSL.l DialogOverride
+org $0EF858
+JSL.l DialogOverride
+org $0EFA26
+JSL.l DialogOverride
+org $0EFA4C
+JSL.l DialogOverride
+org $0EFAB4
+JSL.l DialogOverride
+org $0EFAC8
+JSL.l DialogOverride
+org $0EFAE1
+JSL.l DialogOverride
+org $0EFB11
+JSL.l DialogOverride
 ; ;--------------------------------------------------------------------------------
-; org $0EFBC6 ; <- 77BC6 - vwf.asm : 2717 (LDA.b #$1C : STA $1CE9)
-; JSL.l ResetDialogPointer
-; RTS
+org $0EFBC6 ; <- 77BC6 - vwf.asm : 2717 (LDA.b #$1C : STA $1CE9)
+JSL.l ResetDialogPointer
+RTS
 ; ;--------------------------------------------------------------------------------
 ; org $0EED0B ; <- PC 0x76D0B - Bank0E.asm : 3276 (LDA $E924, Y : STA $1008, X)
 ; JSL.l EndingSequenceTableOverride
@@ -1030,8 +1032,8 @@ JSL.l DrawHUDArrows : BRA +
 	NOP #18
 +
 ; ;--------------------------------------------------------------------------------
-; org $01CF67 ; <- CF67 - Bank01.asm : 11625 (STA $7EF36F)
-; JSL.l DecrementSmallKeys
+org $01CF67 ; <- CF67 - Bank01.asm : 11625 (STA $7EF36F)
+JSL.l DecrementSmallKeys
 ; ;--------------------------------------------------------------------------------
 org $0DED04 ; <- 6ED04 - equipment.asm : 1963 (REP #$30)
 JSL.l DrawHUDDungeonItems

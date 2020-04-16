@@ -31,6 +31,8 @@ incsrc "sm/max_ammo.asm"                    ; Super Metroid max ammo patch by pe
 incsrc "sm/multiworld.asm"                  ; Super Metroid Multiworld support features
 incsrc "sm/sprite/sprite.asm"               ; Super Metroid custom Samus sprite "engine" by Artheau
 incsrc "sm/titlescreen.asm"                 ; Super Metroid Upload New Title Screen GFX
+incsrc "sm/keycards.asm"                    ; Super Metroid Keycard system
+incsrc "sm/plminject.asm"                   ; Super Metroid PLM Injection
 
 ; --- ALTTP code ---
 incsrc "z3/hirom.asm"	                    ; ALTTP ExHiROM patch

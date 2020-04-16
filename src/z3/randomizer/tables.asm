@@ -135,9 +135,9 @@ db #$00 ; #$00 = Off (default) - #$01 = On
 ;--------------------------------------------------------------------------------
 org $40003B ; PC 0x18003B - PC 0x18003C
 MapMode:
-db #$00 ; #$00 = Always On (default) - #$01 = Require Map Item
+db #$01 ; #$00 = Always On (default) - #$01 = Require Map Item
 CompassMode:
-db #$00 ; #$00 = Off (default) - #$01 = Display Dungeon Count w/Compass - #$02 = Display Dungeon Count Always
+db #$01 ; #$00 = Off (default) - #$01 = Display Dungeon Count w/Compass - #$02 = Display Dungeon Count Always
 ;--------------------------------------------------------------------------------
 org $40003D ; PC 0x18003D
 PersistentFloodgate:
@@ -179,7 +179,7 @@ db #$00 ; #$00 = Off (default) - #$01 = On
 ;--------------------------------------------------------------------------------
 org $400045 ; PC 0x180045
 HUDDungeonItems:
-db #$00 ; display ----dcba a: Small Keys, b: Big Key, c: Map, d: Compass
+db #$0f ; display ----dcba a: Small Keys, b: Big Key, c: Map, d: Compass
 ;--------------------------------------------------------------------------------
 org $400046 ; PC 0x180046 Link's starting equipment
 LinkStartingRupees:
@@ -774,7 +774,7 @@ db #$01 ; #00 = Never Locked - #$01 = Locked During Escape (default)
 ;================================================================================
 org $40016A ; PC 0x18016A
 FreeItemText:
-db #$00 ; #00 = Off (default) - #$01 = On
+db #$01 ; #00 = Off (default) - #$01 = On
 ;================================================================================
 org $40016B ; PC 0x18016B - 0x18016D
 HardModeExclusionCaneOfByrnaUsage:

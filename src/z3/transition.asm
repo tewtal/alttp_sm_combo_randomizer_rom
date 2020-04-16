@@ -383,7 +383,7 @@ zelda_copy_sm_items:
     lda.l !SRAM_SM_START,x        
     sta.l !SRAM_SM_ITEM_BUF,X      ; save to temporary buffer
     inx : inx
-    cpx #$0040
+    cpx #$0080
     bne -
 
     plp
@@ -403,7 +403,7 @@ zelda_save_sm_items:        ; Restores SM items to the real SRAM
     lda.l !SRAM_SM_ITEM_BUF,X    
     sta.l !SRAM_SM_START,x       
     inx : inx
-    cpx #$0040
+    cpx #$0080
     bne -
 
     jsl sm_fix_checksum     ; Update SM checksum so the savefile doesn't get deleted

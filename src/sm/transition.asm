@@ -162,7 +162,7 @@ sm_fix_checksum:
     phy
     php
 
-     %ai16()
+    %ai16()
     
     lda $14
     pha
