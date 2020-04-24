@@ -103,6 +103,7 @@ incsrc rngfixes.asm
 incsrc openmode.asm
 incsrc stats.asm
 incsrc textskip_functions.asm
+incsrc textrenderer.asm
 warnpc $f90000
 
 org $1C8000 ; text tables for translation
