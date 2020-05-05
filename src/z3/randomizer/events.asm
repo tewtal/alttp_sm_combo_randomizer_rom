@@ -213,3 +213,9 @@ PostItemAnimation:
 .end
 RTL
 ;--------------------------------------------------------------------------------
+OnBeginSaveAndQuit:
+	LDA.b #$01
+	STA.l !SRAM_SAVING ; Set saving flag to temporarily prevent soft reset
+	LDA.b #$17 : STA $10 ; thing we wrote over. Go to save and quit module
+RTL
+;--------------------------------------------------------------------------------

@@ -462,6 +462,8 @@ alttp_mw_check_softreset:
     lda $00
     cmp #$30
     bne .end
+    lda.l !SRAM_SAVING
+    bne .end
     jmp alttp_mw_softreset
 
 .end

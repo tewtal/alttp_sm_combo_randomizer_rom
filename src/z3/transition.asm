@@ -414,9 +414,18 @@ zelda_save_sm_items:        ; Restores SM items to the real SRAM
     pla
     rtl
 
+zelda_save_start_hook:
+    ; The save routine will be disrupted by NMI if this takes too long.
+    ; Avoid doing anything time consuming here.
+    lda #$01
+    sta.l !SRAM_SAVING
+    rtl
+
 zelda_save_done_hook:
     jsl zelda_save_sm_items
     jsl mw_save_sram
+    lda #$0000
+    sta.l !SRAM_SAVING
     sep #$30
     plb
     rtl
