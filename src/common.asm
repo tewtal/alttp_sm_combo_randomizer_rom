@@ -71,11 +71,12 @@ reset:              ; Always reset to SM
 	sei
 	clc
 	xce
-    lda #$00
-    sta !SRAM_CURRENT_GAME+1
-    lda #$ff
-;    lda #$11
+    %a16()
+    lda #$00ff
     sta !SRAM_CURRENT_GAME
+    lda #$0000
+    sta !SRAM_SAVING
+    %a8()
 ;	lda !SRAM_CURRENT_GAME
 ;	bne +
 ;	jml $008000

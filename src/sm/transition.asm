@@ -4,6 +4,10 @@ org $c18003
 base $818003
     jml sm_save_hook
 
+org $c1807F
+base $81807F
+    jml sm_save_done_hook
+
 org $c18087
 base $818087
     jml sm_load_hook
@@ -195,10 +199,18 @@ sm_save_hook:
     pea $7e00
     plb
     plb
+    lda #$0001
+    sta.l !SRAM_SAVING
     jsl sm_save_alttp_items
     jsl stats_save_sram
     jsl mw_save_sram
     jml $81800b
+
+sm_save_done_hook:
+    lda #$0000
+    sta.l !SRAM_SAVING
+    ply : plx : clc : plb : plp
+    rtl
 
 sm_load_hook:
     phb : phx : phy

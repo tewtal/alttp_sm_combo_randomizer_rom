@@ -136,9 +136,16 @@ sm_mw_autosave:
 
 sm_mw_check_softreset:
     lda $8b
-    cmp #$3030
+    cmp #$3030          ; Check if Start+Select+L+R are pressed
     bne +
-    stz $05e5
-    jml $808462
+    lda.l !SRAM_SAVING  ; Don't reset while saving to SRAM
+    bne +
+    lda $0617           ; Don't reset if uploading to the APU
+    bne +
+    lda $0998           ; Don't reset during SM boot or title screen
+    cmp #$0002
+    bcc +
+    stz $4200           ; Disable NMI and joypad autoread
+    jml $808462         ; Jump to SM soft-reset
 +
     rtl

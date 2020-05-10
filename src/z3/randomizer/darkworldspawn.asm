@@ -3,6 +3,7 @@
 ;--------------------------------------------------------------------------------
 DarkWorldSaveFix:
 	LDA.b #$a0 : PHA : PLB ; thing we wrote over - data bank change
+	JSL.l zelda_save_start_hook
 	JSL.l DarkWorldFlagSet
 	JSL.l MasterSwordFollowerClear
 	JSL.l StatSaveCounter

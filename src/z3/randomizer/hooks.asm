@@ -2492,3 +2492,7 @@ org $028849 ; Dungeon (JSL Player_Main)
 ;
 org $08C531
     jsl DisableTemporaryCone : nop #3
+
+; Hook the beginning of Save & Quit to add soft-reset restrictions
+org $00fa2b ; Bank00.asm : 8724 (LDA.b #$17 : STA $10)
+    jsl OnBeginSaveAndQuit
