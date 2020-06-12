@@ -195,7 +195,7 @@ sm_fix_checksum:
     rtl
 
 sm_save_hook:
-    phb : phx : phy
+    phb : phx : phy : pha
     pea $7e00
     plb
     plb
@@ -204,6 +204,7 @@ sm_save_hook:
     jsl sm_save_alttp_items
     jsl stats_save_sram
     jsl mw_save_sram
+    pla
     jml $81800b
 
 sm_save_done_hook:
