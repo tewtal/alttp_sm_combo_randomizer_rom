@@ -37,6 +37,7 @@ Bank            Mirror banks    Content
 82:F800-FEFF    C2              -- SM Seed display code --
 82:FF00-FFFF    C2              -- SM Menu Code --
 83:8000-AD6F    C3              SM Bank #83 - Doors
+83:AC00-AC7F    C3              -- New LN Refill Exit (Teleport) Door Data --
 84:8000-EFDF    C4              SM Bank #84 - PLMs
 84:EFE0-FFFF    C4              -- SM PLM's for ALTTP Items --
 85:8000-964F    C5              SM Bank #85
@@ -57,6 +58,7 @@ Bank            Mirror banks    Content
 8F:EA00-EAFF    CF              -- SM Golden 4 Skip --
 8F:EB00-EBFF    CF              -- SM Wake Zebes --
 8F:EC00-ECFF    CF              -- SM Escape Climb fix --
+8F:ED00-EDFF    CF              -- New LN Refill Room Header --
 90:8000-F63F    D0              SM Bank #90
 91:8000-FFFF    D1              SM Bank #91
 92:8000-EDFF    D2              SM Bank #92

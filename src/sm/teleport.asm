@@ -90,7 +90,7 @@ sm_teleport_table:
         db $f2, $ff
 
     ; LN GT refill -> Misery mire right side fairy              98a6
-    dw $9a7a, $0115, $0040 
+    dw NewLNRefillDoorData_exit, $0115, $0040 
         db $70, $00, $16, $01, $64, $0c, $36, $01, $c7, $0c, $b8, $01, $70, $00, $26, $03          
         db $d3, $0c, $c1, $01, $00, $0c, $1e, $0f, $00, $00, $00, $03, $20, $0b, $00, $10
         db $00, $ff, $00, $04, $00, $21, $42, $16, $00, $00, $0a, $00, $f6, $ff, $fa, $ff
