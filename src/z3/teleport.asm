@@ -96,5 +96,5 @@ zelda_teleport_table:
     dw $0122, $8bce, $0035  ; Links house -> Parlor (from Crateria Map station)
     dw $00e5, $97c2, $0003  ; Death mountain cave -> Norfair map station
     dw $010e, $a894, $0077  ; Dark world ice rod cave -> Maridia missile refill
-    dw $0115, $98a6, $0070  ; Misery mire right side -> LN GT Refill
+    dw $0115, NewLNRefillDoorData_entry, $0070  ; Misery mire right side -> LN GT Refill
     dw $0000
