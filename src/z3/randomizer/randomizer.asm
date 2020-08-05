@@ -53,6 +53,7 @@ incsrc hooks.asm
 incsrc treekid.asm
 incsrc spriteswap.asm
 incsrc sharedplayerpalettefix.asm
+incsrc fairyfountainrooms.asm
 
 org $cae980             ; Free space in SM bank 85
 base $8ae980
