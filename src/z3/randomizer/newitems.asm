@@ -335,7 +335,7 @@ AddReceivedItemExpandedGetItem:
 			BIT.b #$C0 : BEQ +++ : LDA.b #$C0 : +++ ; Make Hyrule Castle / Sewers Count for Both
 			ORA $7EF367 : STA $7EF367 ; Big Key 2
 		BRL .done
-	+ CMP.b #$A0 : !BLT + : CMP.b #$B0 : !BGE + ; Free Small Key
+	+ CMP.b #$A0 : !BLT .done : CMP.b #$B0 : !BGE .done ; Free Small Key
 		AND #$0F : TAX
 		LDA $7EF37C, X : INC : STA $7EF37C, X ; Increment Key Count
 		
@@ -357,6 +357,7 @@ AddReceivedItemExpandedGetItem:
 			++
 			BRL .done
 		+
+
 		; Check if we got a key for the dungeon we're currently in, and increment the dungeon key count
 		LDA $40C : CMP #$FF : BEQ .done
 		TXA : ASL : CMP $40C : BNE .done
