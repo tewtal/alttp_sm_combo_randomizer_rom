@@ -49,6 +49,69 @@ org $c4ee02
 org $c2b4c5
     db $0c
 
+
+; Mother Brain Cutscene Edits
+org $e98824
+    db $01, $00
+org $e98848
+    db $01, $00
+org $e98867
+    db $01, $00
+org $e9887f
+    db $01, $00
+org $e98bdb
+    db $04, $00
+org $e9897d
+    db $10, $00
+org $e989af
+    db $10, $00
+org $e989e1
+    db $10, $00
+org $e98a09
+    db $10, $00
+org $e98a31
+    db $10, $00
+org $e98a63
+    db $10, $00
+org $e98a95
+    db $10, $00
+org $e98b33
+    db $10, $00
+org $e98dc6
+    db $b0
+org $e98b8d
+    db $12, $00
+org $e98d74
+    db $00, $00
+org $e98d86
+    db $00, $00
+org $e98daf
+    db $00, $01
+org $e98e51
+    db $01, $00
+org $e9b93a
+    db $00, $01
+org $e98eef
+    db $0a, $00
+org $e98f0f
+    db $60, $00
+org $e9af4e
+    db $0a, $00
+org $e9af0d
+    db $0a, $00
+org $e9b00d
+    db $00, $00
+org $e9b132
+    db $40, $00
+org $e9b16d
+    db $00, $00
+org $e9b19f
+    db $20, $00
+org $e9b1b2
+    db $30, $00
+org $e9b20c
+    db $03, $00
+
 ; Fix door event bits
 org $c38bd0
     db $40
