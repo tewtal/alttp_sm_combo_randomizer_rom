@@ -57,7 +57,7 @@ NewLNRefillRoom:
     dw $98A6 				; Back to Screw attack room
 	dw NewLNRefillDoorData_exit 	; New door leading out to ALTTP
 	
-org $c3ac00
+org $c3ae00
 NewLNRefillDoorData:
 ; New door table data for the added door
 .exit
