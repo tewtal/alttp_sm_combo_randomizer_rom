@@ -671,6 +671,16 @@ db #$FF ; no substitution
 ;OldHauntedGroveItem:
 ;	db #$14 ; #$14 = Flute
 ;--------------------------------------------------------------------------------
+org $06C8DB ; PC $348DB
+FairyBoomerang:
+	db #$2A ; Trigger on red boomerang
+org $06C8EB ; PC $348EB
+FairyShield:
+	db #$05 ; Trigger on red shield
+org $06C910 ; PC $34910
+FairyBow:
+	db #$3B ; Trigger on bow with silver arrows
+;--------------------------------------------------------------------------------
 ;2B:Bottle Already Filled w/ Red Potion
 ;2C:Bottle Already Filled w/ Green Potion
 ;2D:Bottle Already Filled w/ Blue Potion
