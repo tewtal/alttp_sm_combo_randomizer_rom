@@ -1,84 +1,59 @@
+BRINSTAR_MAP = $8000
+BRINSTAR_VISIBLE = $9827
+CRATERIA_MAP = $9000
+CRATERIA_VISIBLE = $9727
+NORFAIR_MAP = $A000
+NORFAIR_VISIBLE = $9927
+WRECKED_SHIP_MAP = $B000
+WRECKED_SHIP_VISIBLE = $9A27
+MARIDIA_MAP = $C000
+MARIDIA_VISIBLE = $9B27
+TOURIAN_MAP = $D000
+TOURIAN_VISIBLE = $9C27
+CERES_MAP = $E000
+CERES_VISIBLE = $9D27
 
-; exhirom  ; for crossover
-; lorom ; for vanilla SM
+; Place the portal tiles into the maps where needed.
+; Each of these maps is 64x32 tiles big, split into two 32x32 blocks.
+; First is the left 32x32 tiles, and then following is the rightmost 32x32 tiles
 
-; org $82C74D  ; location in Vanilla
-org $C2C74D  ; location in Crossover
-base $82C74D
-; first we set our pointers for map icons
-DW Crateria_names
-DW Brinstar_names
-DW Norfair_names
-DW WS_names
-DW Maridia_names
-DW Tourian_names
+; To place a maptile at X,Y calculate ((X%32)*2 + Y*64) + ((X/32) * 0x800)
+macro write_map_tile(start, x, y, tile)
+    org $F50000+<start>+((((<x>%32)*2)+(<y>*64))+((<x>/32)*$800))
+        dw <tile>
+endmacro
 
-; org $82F740
-org $C2F740
-base $82F740
-; we're adding in 2 names for Crateria from vanilla, so we have to move this to free space
-; format is XX coordinate, YY coordinate, icon
-Crateria_names:
-DW $002C,$0070,$005A  ; Brinstar
-DW $00B8,$00B8,$005A  ; Brinstar
-DW $0110,$0068,$005A  ; Brinstar
-DW $0178,$0020,$005C  ; Wrecked Ship
-DW $01A0,$0080,$005D  ; Maridia
-DW $0080,$0078,$005E  ; Tourian
-DW $FFFF
+; Modifies the maptiles that can be revealed by a map station, 1 byte is 8 tiles, one per bit
+macro write_map_visibility(start, x, y, value)
+    org $C20000+<start>+(((<x>%32)/8)+(<y>*4)+((<x>/32)*$80))
+        db <value>
+endmacro
 
-;base off
+; Write crateria portal icon
+%write_map_tile(CRATERIA_MAP, $14, $8, $0c1a)
 
-; org $82C759
-org $C2C759
-base $82C759
-Brinstar_names:
-DW $0048,$0008,$0059  ; Crateria
-DW $00D0,$0040,$0059  ; Crateria
-DW $0128,$0020,$0059  ; Crateria
-DW $0140,$0090,$005D  ; Maridia
-DW $0148,$00C0,$005B  ; Norfair
-DW $FFFF
+; Blank out inaccessible crateria room tiles
+%write_map_tile(CRATERIA_MAP, $15, $08, $0c1f)
+%write_map_tile(CRATERIA_MAP, $16, $08, $0c1f)
+%write_map_tile(CRATERIA_MAP, $17, $08, $0c1f)
 
-; we will be adding in both portal locations to Norfair eventually
-Norfair_names:
-DW $0050,$0008,$005A  ; Brinstar
-DW $FFFF
+; Write maridia portal icon
+%write_map_tile(MARIDIA_MAP, $26, $09, $0c1a)
 
-WS_names:
-DW $0040,$0080,$0059  ; Crateria
-DW $00C0,$0080,$0059  ; Crateria
-DW $FFFF
+; Write upper norfair portal icon
+%write_map_tile(NORFAIR_MAP, $09, $05, $4c1a)
 
-Maridia_names:
-DW $0108,$0008,$0059  ; Crateria
-DW $0030,$00A0,$005A  ; Brinstar
-DW $0078,$00A0,$005A  ; Brinstar
-DW $FFFF
-
-Tourian_names:
-DW $0098,$0048,$0059  ; Crateria
-DW $FFFF
-
-;base off
-
-; padbyte $FF : pad $82C7CB
+; Write lower norfair portal icon
+%write_map_tile(NORFAIR_MAP, $16, $10, $0c1a)
+; Modify the norfair default visible map tiles to show the lower norfair portal
+%write_map_visibility(NORFAIR_VISIBLE, $16, $10, $02)
 
 
-; these two lines are just the graphics for the portal indicator
-; org $9AB3A0  ; location in vanilla SM
-org $DAB3A0  ; location in crossover
-base $9AB3A0
+
+; Insert the new portal map tile into the map tile bank
+org $DAB3A0 
 DB $00,$E0,$60,$95,$7C,$80,$7C,$80,$7C,$80,$7C,$80,$60,$95,$00,$E0
 
-; org $B68340  ; location in vanilla SM
-org $F68340  ; location in crossover
-base $B68340
+org $F68340
 DB $00,$E0,$60,$95,$7C,$80,$7C,$80,$7C,$80,$7C,$80,$60,$95,$00,$E0
 DB $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
-
-org $F58000  ; location in crossover
-base $B58000
-; org $B58000  ; location in vanilla SM
-
-incbin "data/sm_maps.bin"  ; add in all of our necessary map changes
