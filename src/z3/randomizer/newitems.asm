@@ -1075,6 +1075,9 @@ EnableTemporaryCone:
 		BEQ +
 		LDA $7EF34A ; Check if we have lamp
 		BNE +
+		LDA $7E00A0 
+		CMP #$55  ; Check if we're in secret passage
+		BEQ +
 
 		LDA #$01
 		STA $1D		; Enable color math for BG1
