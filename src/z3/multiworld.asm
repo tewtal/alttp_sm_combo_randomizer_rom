@@ -236,10 +236,16 @@ alttp_multiworld_dialog:
     bra +
 .alttpItem
     clc
-    adc #$0015
+    adc #$0030
 +
 
-    asl #4 : tax
+    %a8()
+    sta $211b : xba : sta $211b
+    lda #$13
+    sta $211c
+    %ai16()
+
+    ldx $2134
     ldy #$0000
 -    
     phx
@@ -254,14 +260,16 @@ alttp_multiworld_dialog:
     iny #2
     plx
     inx
-    cpy #$001E
+    cpy #$0026
     bne -    
 
     lda $1cf0
     and #$00ff
-    asl #5
+    cmp #$0000
+    beq +
     clc
-    adc #$000E
+    adc #$0012
++
     tax
 
 -
@@ -277,13 +285,15 @@ alttp_multiworld_dialog:
     iny #2
     plx
     inx
-    cpy #$0038
+    cpy #$004C
     bne -
 
     lda #$ff00
     tyx
     sta.l $7f1200, x
-    iny #2
+    sta.l $7f1200+$2, x
+    sta.l $7f1200+$4, x
+    tya : clc : adc #$0006 : tay
 
     lda !MULTIWORLD_DIALOG_PLAYER
     and #$00ff
@@ -301,8 +311,16 @@ alttp_multiworld_dialog:
     iny #2
     plx
     inx
-    cpy #$0052
+    cpy #$006A
     bne -
+
+    tyx
+    lda #$FF00
+    sta.l $7f1200, x
+    sta.l $7f1200+$2, x
+    sta.l $7f1200+$4, x
+    sta.l $7f1200+$6, x
+    tya : clc : adc #$0008 : tay
 
     stz !MULTIWORLD_DIALOG
     stz !MULTIWORLD_DIALOG_ITEM
@@ -313,140 +331,178 @@ alttp_multiworld_dialog:
 
 
 alttp_mw_dialogtable:
-    ; Dialog boxes are 14 characters wide
-    ;   0123456789ABCD
+    ; Dialog boxes are 19 characters wide
+    ;   0123456789ABCDEF012
 .give
-    db "              "
-    db "  FOUND FOR   "
-    db "0123" ; Padding
-
+    db " found for player  "
 .get
-    db "              "
-    db "RECEIVED FROM "
-    db "0123" ; Padding
+    db "   received from   "
 
 alttp_mw_item_names:
-    db "GRAPPLING BEAM__"             ; 00 (b0) (sm items)
-    db " X-RAY SCOPE  __"
-    db "  VARIA SUIT  __"
-    db " SPRING BALL  __"
-    db "MORPHING BALL __"
-    db " SCREW ATTACK __"
-    db " GRAVITY SUIT __"
-    db "HI-JUMP BOOTS __"
-    db "  SPACE JUMP  __"
-    db "    BOMBS     __"
-    db "SPEED BOOSTER __"
-    db " CHARGE BEAM  __"
-    db "   ICE BEAM   __"
-    db "   WAVE BEAM  __"
-    db " S P A Z E R  __"
-    db " PLASMA BEAM  __"  
-    db " ENERGY TANK  __"
-    db " RESERVE TANK __"
-    db "   MISSILES   __"
-    db "SUPER MISSILES__"
-    db " POWER BOMBS  __"
+    db "   Grappling Beam  "             ; 00 (b0) (sm items)
+    db "    X-Ray Scope    "
+    db "     Varia Suit    "
+    db "    Spring Ball    "
+    db "   Morphing Ball   "
+    db "    Screw Attack   "
+    db "    Gravity Suit   "
+    db "   Hi-Jump Boots   "
+    db "     Space Jump    "
+    db "        Bomb       "
+    db "   Speed Booster   "
+    db "    Charge Beam    "
+    db "      Ice Beam     "
+    db "      Wave Beam    "
+    db " ~~ S P a z E R ~~ "
+    db "    Plasma Beam    "  
+    db "    Energy Tank    "
+    db "    Reserve Tank   "
+    db "      Missiles     "
+    db "   Super Missiles  "
+    db "    Power Bombs    "
 
-    db "              __"       ; $15+ (alttp items)
-    db " MASTER SWORD __"
-    db "TEMPERED SWORD__"
-    db "  GOLD SWORD  __"
-    db "    SHIELD    __"
-    db "  RED SHIELD  __"
-    db "MIRROR SHIELD __"
-    db "   FIRE ROD   __"
-    db "    ICE ROD   __"
-    db "    HAMMER    __"
-    db "   HOOKSHOT   __"
-    db "      BOW     __"
-    db "BLUE BOOMERANG__"
-    db " MAGIC POWDER __"
-    db "              __"
-    db "    BOMBOS    __"
-    db "     ETHER    __"
-    db "     QUAKE    __"
-    db "     LAMP     __"
-    db "    SHOVEL    __"
-    db "     FLUTE    __"
-    db "    SOMARIA   __"
-    db "    BOTTLE    __"
-    db "PIECE OF HEART__"
-    db "CANE OF BYRNA __"
-    db "  MAGIC CAPE  __"
-    db "    MIRROR    __"
-    db "  POWER GLOVE __"
-    db " TITAN'S MITT __"
-    db "BOOK OF MUDORA__"
-    db "ZORAS FLIPPERS__"
-    db "  MOON PEARL  __"
-    db "              __"
-    db "    BUG NET   __"
-    db "   BLUE MAIL  __"
-    db "    RED MAIL  __"
-    db "              __"
-    db "              __"
-    db "  FULL HEART  __"
-    db "   ONE BOMB   __"
-    db "  THREE BOMBS __"
-    db "   MUSHROOM   __"
-    db "RED BOOMERANG __"
-    db "  RED POTION  __"
-    db " GREEN POTION __"
-    db " BLUE POTION  __"
-    db "              __"
-    db "              __"
-    db "              __"
-    db "  TEN BOMBS   __"
-    db "              __"
-    db "              __"
-    db "   ONE RUPEE  __"
-    db "  FIVE RUPEES __"
-    db "TWENTY RUPEES __"
-    db "              __"
-    db "              __"
-    db "              __"
-    db "      BOW     __"
-    db " SILVER ARROW __"
-    db "      BEE     __"
-    db "     FAIRY    __"
-    db "  FULL HEART  __"
-    db "  FULL HEART  __"
-    db "HUNDRED RUPEES__"
-    db " FIFTY RUPEES __"
-    db "              __"
-    db " SINGLE ARROW __"
-    db "  TEN ARROWS  __"
-    db "              __"
-    db "  300 RUPEES  __"
-    db "TWENTY RUPEES __"
-    db "   GOOD BEE   __"
-    db "FIGHTERS SWORD__"
-    db "              __"
-    db "PEGASUS BOOTS __"
-    db "              __"
-    db "              __"
-    db "  HALF MAGIC  __"
-    db "QUARTER MAGIC __"
-    db " MASTER SWORD __"
-    db "  5 BOMB CAP  __"
-    db " 10 BOMB CAP  __"
-    db "  5 ARROW CAP __"
-    db " 10 ARROW CAP __"
-    db "              __"
-    db "              __"
-    db "              __"
-    db " SILVER ARROW __"   ; 58
-    db "              __"
-    db "              __"
-    db "              __"
-    db "              __"
-    db "              __"
-    db "SWORD UPGRADE __"
-    db "SHIELD UPGRADE__"
-    db "ARMOUR UPGRADE__"
-    db "GLOVE UPGRADE __"
+    db "                   "  ;15
+    db "                   "  ;16
+    db "                   "  ;17
+    db "                   "  ;18
+    db "                   "  ;19
+    db "                   "  ;1A
+    db "                   "  ;1B
+    db "                   "  ;1C
+    db "                   "  ;1D
+    db "                   "  ;1E
+    db "                   "  ;1F
+ 
+    db "                   " ; 20
+    db "                   " ; 21
+    db "                   " ; 22
+    db "                   " ; 20
+    db "                   " ; 21
+    db "                   " ; 22
+    db "                   " ; 20
+    db "                   " ; 21
+    db "                   " ; 22
+    db "                   " ; 20
+    db "                   " ; 21
+    db "                   " ; 22
+    db "                   " ; 2C
+    db "                   " ; 2D
+    db "                   " ; 2E
+    db "                   " ; 2F
 
+    db "                   "       ; $30+ (alttp items)
+    db "    Master Sword   "
+    db "   Tempered Sword  "
+    db "     Gold Sword    "
+    db "     Toy Shield    "
+    db "     Red Shield    "
+    db "   Mirror Shield   "
+    db "      Fire Rod     "
+    db "       Ice Rod     "
+    db "       Hammer      "
+    db "  Hookshot, BOING! "
+    db "        Bow        "
+    db "   Blue Boomerang  "
+    db "    Magic Powder   "
+    db "                   "
+    db "       Bombos      "
+    db "       Ether       "
+    db "       Quake       "
+    db "       Lamp        "
+    db "       Shovel      "
+    db "       Flute       "
+    db "  Cane of Somaria  "
+    db "       Bottle      "
+    db "   Piece of Heart  "
+    db "   Cane of Byrna   "
+    db "     Magic Cape    "
+    db "    Magic Mirror   "
+    db "     Power Glove   "
+    db "    Titan's Mitt   "
+    db "   Book of Mudora  "
+    db "  Zora's Flippers  "
+    db "     Moon Pearl    "
+    db "                   "
+    db "      Bug Net      "
+    db "     Blue Mail     "
+    db "      Red Mail     "
+    db "                   "
+    db "                   "
+    db "  Heart Container  "
+    db "      One Bomb     "
+    db "     Three Bombs   "
+    db "      Mushroom     "
+    db "   Red Boomerang   "
+    db "     Red Potion    "
+    db "    Green Potion   "
+    db "     Blue Potion   "
+    db "                   "
+    db "                   "
+    db "                   "
+    db "     Ten Bombs     "
+    db "                   "
+    db "                   "
+    db "   A single Rupee  "
+    db "     Five Rupees   "
+    db "   Twenty Rupees   "
+    db "                   "
+    db "                   "
+    db "                   "
+    db "        Bow        "
+    db "   Silver Arrows   "
+    db "        Bee        "
+    db "       Fairy       "
+    db "  Heart Container  "
+    db "  Heart Container  "
+    db "One Hundred Rupees "
+    db "    Fifty Rupees   "
+    db "                   "
+    db "   A single Arrow  "
+    db "     Ten Arrows    "
+    db "                   "
+    db "     300 Rupees    "
+    db "   Twenty Rupees   "
+    db "    A good Bee     "
+    db "  Fighter's Sword  "
+    db "                   "
+    db "   Pegasus Boots   "
+    db "                   "
+    db "                   "
+    db "     Half Magic    "
+    db "   Quarter Magic   "
+    db "    Master Sword   "
+    db "  5 Bomb Capacity  "
+    db "  10 Bomb Capacity "
+    db " 5 Arrow Capacity  "
+    db " 10 Arrow Capactiy "
+    db "                   "
+    db "                   "
+    db "                   "
+    db "   Silver Arrows   "   ; 58
+    db "                   "
+    db "                   "
+    db "                   "
+    db "                   "
+    db "                   "
+    db "   Sword Upgrade   "
+    db "   Shield Upgrade  "
+    
+    db "   Armour Upgrade  "
+    db "   Glove Upgrade   "
+    db "                   "
+    db "                   "
+    db "                   "
+    db "                   "
+    db "                   "
+    db "                   "
+    db "                   "
+    db "                   "
+    db "                   "
+    db "                   "
+    db "                   "
+    db "                   "
+    db "                   "
+    db "                   "  ; 6F 
 
 alttp_dialog_char_table:
     db $FF, $C7, $D8, $FF, $FF, $FF, $FF, $D8, $FF, $FF, $FF, $FF, $C8, $C9, $CD, $00
@@ -454,6 +510,9 @@ alttp_dialog_char_table:
     db $FF, $AA, $AB, $AC, $AD, $AE, $AF, $B0, $B1, $B2, $B3, $B4, $B5, $B6, $B7, $B8
     db $B9, $BA, $BB, $BC, $BD, $BE, $BF, $C0, $C1, $C2, $C3, $C4, $FF, $FF, $E0, $FF
 
+; Lowercase Letters
+    db $FF, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39, $3A, $3B, $3C, $3D, $3E
+    db $3F, $40, $41, $42, $43, $44, $45, $46, $47, $48, $49, $4A, $4B, $4C, $CE, $4E
 
 alttp_mw_check_softreset:
     lda $4219 : sta $01
