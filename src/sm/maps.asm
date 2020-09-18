@@ -82,3 +82,14 @@ base $B58000
 ; org $B58000  ; location in vanilla SM
 
 incbin "data/sm_maps.bin"  ; add in all of our necessary map changes
+
+; This fills in the bitfields responsible for triggering the
+; "Map Station Reveals This Tile" behavior. Since the map
+; stations are all activated by default, this should cause
+; the entire map to be revealed from the start of the game.
+org $C29727
+fillbyte $ff : fill $FF ; Crateria
+fillbyte $ff : fill $FF ; Norfair
+fillbyte $ff : fill $FF ; Wrecked Ship
+fillbyte $ff : fill $FF ; Maridia
+fillbyte $ff : fill $FF ; Tourian
