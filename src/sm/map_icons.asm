@@ -7,7 +7,8 @@ org $C2FB80 ; Beginning of a large block of free space
 base $82FB80
 Map_Labels_Hijack:
 PHA ; getting the keysanity flag in A, so let's preserve it first
-LDA config_keysanity ; check to see if this is keysanity
+LDA $80FF52 ; load config bits
+BIT #$2000 ; check to see if this is keysanity
 BEQ After_Door_Icons ; if A is zero then skip the door icons
 JSL Draw_Door_Icons
 After_Door_Icons:
