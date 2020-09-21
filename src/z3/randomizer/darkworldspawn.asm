@@ -48,7 +48,10 @@ SetDeathWorldChecked:
 	LDA $1B : BEQ + ; skip this for indoors
 		LDA $040C : CMP #$FF : BNE .done ; unless it's a cave
 
-		LDA $A0 : BNE + : LDA GanonPyramidRespawn : BEQ + ; check if we died in ganon's room and pyramid respawn is enabled
+    ; check if we died in ganon's room and pyramid respawn is enabled
+		LDA $A0 : BNE +
+    LDA $A1 : BNE + 
+    LDA GanonPyramidRespawn : BEQ +
 			BRA .pyramid
 	+
 JMP DoWorldFix
