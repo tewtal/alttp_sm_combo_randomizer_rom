@@ -121,7 +121,11 @@ keycard_update_layer3:
     dex #2
     bpl -
 
+    LDA $80FF52 ; load config bits
+    BIT #$2000 ; check to see if this is keysanity
+    BEQ skip_keycard_map_layer3_update
     jsr keycard_draw_maptext
+skip_keycard_map_layer3_update:
 
     ldx $0330  
     lda #$0F00
