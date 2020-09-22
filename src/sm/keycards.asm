@@ -121,7 +121,10 @@ keycard_update_layer3:
     dex #2
     bpl -
 
+    lda config_keysanity
+    beq keycard_maptext_skip
     jsr keycard_draw_maptext
+keycard_maptext_skip:
 
     ldx $0330  
     lda #$0F00
