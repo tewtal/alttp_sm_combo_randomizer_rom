@@ -6,12 +6,10 @@ Return_From_Hijack:
 org $C2FB80 ; Beginning of a large block of free space
 base $82FB80
 Map_Labels_Hijack:
-PHA ; getting the keysanity flag in A, so let's preserve it first
 LDA config_keysanity ; check to see if this is keysanity
 BEQ After_Door_Icons ; if A is zero then skip the door icons
 JSL Draw_Door_Icons
 After_Door_Icons:
-PLA
 
 REP #$30 ; this is the code that was overwritten
 PHB      ; by the JMP into this routine
@@ -78,6 +76,7 @@ DW $00B4,$0017,$1D01  ; 1 - Landing Site > Gauntlet Entrance
 DW $00FC,$000F,$1D01  ; 1 - Landing Site > Crateria Power Bombs
 DW $011C,$0027,$1D02  ; 2 - Kihunter Room > Moat
 DW $005C,$0047,$1D0B  ; B - Green Pirate Shaft > Statues Hallway
+DW $00C4,$0037,$1D0B  ; B - Bomb Torizo
 DW $016C,$000F,$1D01  ; 1 - West Ocean > (WS) "Peekaboo Room"
 DW $015C,$0017,$1D01  ; 1 - West Ocean > (WS) Bowling Alley
 DW $FFFF
@@ -95,11 +94,12 @@ Norfair_door_icons:
 DW $004C,$001F,$1D01  ; 1 - Business Center > Ice Beam Gate
 DW $0014,$003F,$1D01  ; 1 - Crocomire Speedway > Crumble Shaft
 DW $0084,$0027,$1D02  ; 2 - Cathedral > Rising Tide
-DW $00BC,$0020,$1D02  ; 2 - Single Chamber > Bubble Mountain
+DW $00BC,$001F,$1D02  ; 2 - Single Chamber > Bubble Mountain
 DW $00AC,$002F,$1D02  ; 2 - U.N. Farm > Bubble Mountain
 DW $00B0,$0033,$1D02  ; 2 - Purple Shaft > Bubble Mountain
 DW $0078,$0053,$1D0B  ; B - Crocomire
 ;Lower Norfair:
+DW $00EC,$001F,$1D01  ; 1 - Single Chamber > Three Musketeers
 DW $00F4,$0057,$1D01  ; 1 - WRITG > Amphitheater
 DW $00BC,$0087,$1D0B  ; B - Ridley
 DW $FFFF
@@ -107,6 +107,7 @@ DW $FFFF
 Wrecked_Ship_door_icons:
 DW $005C,$005F,$1D01  ; 1 - (Cr) West Ocean > "Peekaboo Room"
 DW $004C,$0067,$1D01  ; 1 - (Cr) West Ocean > Bowling Alley
+DW $0054,$006F,$1D01  ; 1 - Gravity Suit Room
 DW $0094,$009F,$1D0B  ; B - Phantoon
 DW $FFFF
 
@@ -115,6 +116,7 @@ DW $008C,$004F,$1D01  ; 1 - Mt.Everest > Crab Shaft
 DW $009C,$0057,$1D01  ; 1 - Aqueduct > Crab Shaft
 DW $00BC,$0047,$1D02  ; 2 - Botwoon
 DW $0104,$0047,$1D02  ; 2 - Halfie Climb > Botwoon E-Tank
+DW $0104,$003F,$1D0B  ; B - Cactus Alley > Halfie Climb
 DW $0144,$004F,$1D0B  ; B - Draygon
 DW $FFFF
 
@@ -153,6 +155,8 @@ Door2_Icon_Spritemap:
 DW $0001, $0000 : DB $00 : DW $2422
 DoorB_Icon_Spritemap:
 DW $0001, $0000 : DB $00 : DW $2423
+
+warnpc $C2FF6A
 
 ; Spritemap pointers
 ; Index = (local_address - $C569) / 2
