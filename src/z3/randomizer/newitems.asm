@@ -1076,13 +1076,13 @@ EnableTemporaryCone:
 		LDA $7EF34A ; Check if we have lamp
 		BNE +
     
-    REP #$20
+		REP #$20
 		LDA $7E00A0 
 		CMP #$0055  ; Check if we're in secret passage
 		BEQ +
-    CMP #$0109 ; Check if we're in the potion shop
-    BEQ +      ; (check both bytes or problems will happen in PoD)
-		CMP #$00E4 ; Check if we're in old man's cave (the save location)
+		CMP #$0109  ; Check if we're in the potion shop
+		BEQ +       ; (check both bytes or problems will happen in PoD)
+		CMP #$00E4  ; Check if we're in old man's cave (the save location)
 		BEQ +
     
 		LDA #$01
