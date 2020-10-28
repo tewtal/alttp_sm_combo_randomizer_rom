@@ -235,6 +235,13 @@ sm_copy_alttp_items: ; Copies ALTTP items into a temporary SRAM buffer used when
     inx : inx
     cpx #$0100
     bne -
+    ldx #$0000
+-
+    lda.l !SRAM_ALTTP_START+$420,x    ; copy 420-467 from ALTTP SRAM (reference z3/randomizer/stats.asm)
+    sta.l !SRAM_ALTTP_STATS_BUF,x     ; save to temporary buffer
+    inx : inx
+    cpx #$0048
+    bne -
 
     plp
     plx
@@ -252,6 +259,13 @@ sm_save_alttp_items: ; Restores ALTTP items to the real SRAM
     sta.l !SRAM_ALTTP_START+$300,x    ; copy 300-3FF from ALTTP SRAM
     inx : inx
     cpx #$0100
+    bne -
+    ldx #$0000
+-
+    lda.l !SRAM_ALTTP_STATS_BUF,x     ; copy from temporary buffer
+    sta.l !SRAM_ALTTP_START+$420,x    ; save to 420-467 in ALTTP SRAM
+    inx : inx
+    cpx #$0048
     bne -
 
     plp
