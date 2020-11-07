@@ -1123,6 +1123,10 @@ alttp_item_pickup:
     adc !SRAM_ALTTP_ITEM_BUF, x
     sta !SRAM_ALTTP_ITEM_BUF, x
     cpx #$007C : bne + : sta !SRAM_ALTTP_ITEM_BUF+$1, x ; Store Hyrule keys to sewer keys
++   lda !SRAM_ALTTP_SMALLKEY_BUF-$7C, x ; Subtract base offset 0x7C to get index into dungeon small key stats buffer
+    inc a
+    sta !SRAM_ALTTP_SMALLKEY_BUF-$7C, x
+    cpx #$007C : bne + : sta !SRAM_ALTTP_SMALLKEY_BUF-$7C+$1, x ; Store Sewer keys to Hyrule Castle keys
 +   plx
     %a16()
     lda $c7
