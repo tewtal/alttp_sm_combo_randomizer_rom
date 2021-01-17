@@ -505,14 +505,21 @@ alttp_mw_item_names:
     db "                   "  ; 6F 
 
 alttp_dialog_char_table:
-    db $FF, $C7, $D8, $FF, $FF, $FF, $FF, $D8, $FF, $FF, $FF, $FF, $C8, $C9, $CD, $00
-    db $A0, $A1, $A2, $A3, $A4, $A5, $A6, $A7, $A8, $A9, $FF, $FF, $E2, $DF, $E3, $C6
-    db $FF, $AA, $AB, $AC, $AD, $AE, $AF, $B0, $B1, $B2, $B3, $B4, $B5, $B6, $B7, $B8
-    db $B9, $BA, $BB, $BC, $BD, $BE, $BF, $C0, $C1, $C2, $C3, $C4, $FF, $FF, $E0, $FF
+    ; Each unsupported symbol translate to "?" $C6 for visual indication
+    ;  <sp> !    "    #    $    %    &    '    (    )    *    +    ,    -    .    /
+    db $FF, $C7, $D8, $4C, $C6, $C6, $C6, $D8, $C6, $C6, $C6, $C6, $C8, $C9, $CD, $C6
+    ;  0    1    2    3    4    5    6    7    8    9    :    ;    <    =    >    ?
+    db $A0, $A1, $A2, $A3, $A4, $A5, $A6, $A7, $A8, $A9, $4A, $C6, $C6, $C6, $C6, $C6
+    ;  @    A    B    C    D    E    F    G    H    I    J    K    L    M    N    O
+    db $4B, $AA, $AB, $AC, $AD, $AE, $AF, $B0, $B1, $B2, $B3, $B4, $B5, $B6, $B7, $B8
+    ;  P    Q    R    S    T    U    V    W    X    Y    Z    [    \    ]    ^    _
+    db $B9, $BA, $BB, $BC, $BD, $BE, $BF, $C0, $C1, $C2, $C3, $C6, $C6, $C6, $C6, $C6
 
 ; Lowercase Letters
-    db $FF, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39, $3A, $3B, $3C, $3D, $3E
-    db $3F, $40, $41, $42, $43, $44, $45, $46, $47, $48, $49, $4A, $4B, $4C, $CE, $4E
+    ;  `    a    b    c    d    e    f    g    h    i    j    k    l    m    n    o
+    db $C6, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39, $3A, $3B, $3C, $3D, $3E
+    ;  p    q    r    s    t    u    v    w    x    y    z    {    |    }    ~    <del>
+    db $3F, $40, $41, $42, $43, $44, $45, $46, $47, $48, $49, $C6, $C6, $C6, $CE, $C6
 
 alttp_mw_check_softreset:
     lda $4219 : sta $01

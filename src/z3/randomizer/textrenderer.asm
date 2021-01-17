@@ -176,6 +176,7 @@ RenderCharExtended:
 ;  t---- ----u
 ;  t = thin spacing (0 px instead of 3 px)
 ;  u = uncompressed character loaded from offset
+; NOTE: Update alttp_dialog_char_table in z3/multiworld.asm when adding new characters
 FontProperties:
 ;      props, offset
     dw $0000, $0000     ; 00

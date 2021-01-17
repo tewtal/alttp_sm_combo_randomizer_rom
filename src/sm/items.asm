@@ -1567,8 +1567,9 @@ write_placeholders:
     rts
 
 char_table:
+    ; Each unsupported value translate to "?" $38FE to raise a visual indication
     ;  <sp>   !      "      #      $      %      &      '      (      )      *      +      ,      -      .      /
-    dw $384E, $38FF, $38FD, $38FE, $38FE, $380A, $38FE, $38FD, $38FE, $38FE, $38FE, $38FE, $38FB, $38FC, $38FA, $38FE
+    dw $384E, $38FF, $38FC, $38FE, $38FE, $380A, $38FE, $38FC, $38FE, $38FE, $38FE, $38FE, $38FB, $38CF, $38FA, $38FE
     ;  0      1      2      3      4      5      6      7      8      9      :      ;      <      =      >      ?
     dw $3809, $3800, $3801, $3802, $3803, $3804, $3805, $3806, $3807, $3808, $38FE, $38FE, $38FE, $38FE, $38FE, $38FE
     ;  @      A      B      C      D      E      F      G      H      I      J      K      L      M      N      O
