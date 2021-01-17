@@ -1390,7 +1390,7 @@ btn_array:
 
 table box_yellow.tbl,rtl
 item_names:
-    dw "___      GRAPPLING BEAM      ___"   ; 00 (b0) (sm items)
+    dw "___      GRAPPLING BEAM      ___" ; 00 (b0) (sm items)
     dw "___       X-RAY SCOPE        ___"
     dw "___        VARIA SUIT        ___"
     dw "___       SPRING BALL        ___"
@@ -1412,7 +1412,7 @@ item_names:
     dw "___       SUPER MISSILES     ___"
     dw "___        POWER BOMBS       ___"
 
-    dw "___                          ___"       ; $15+ (alttp items)
+    dw "___                          ___" ; $15+ (alttp items)
     dw "___       MASTER SWORD       ___"
     dw "___      TEMPERED SWORD      ___"
     dw "___        GOLD SWORD        ___"
@@ -1500,7 +1500,7 @@ item_names:
     dw "___                          ___"
     dw "___                          ___"
     dw "___                          ___"
-    dw "___       SILVER ARROWS      ___"   ; 58
+    dw "___       SILVER ARROWS      ___" ; 58
     dw "___                          ___"
     dw "___                          ___"
     dw "___                          ___"

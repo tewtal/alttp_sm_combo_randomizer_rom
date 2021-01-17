@@ -339,7 +339,7 @@ alttp_mw_dialogtable:
     db "   received from   "
 
 alttp_mw_item_names:
-    db "   Grappling Beam  "             ; 00 (b0) (sm items)
+    db "   Grappling Beam  " ; 00 (b0) (sm items)
     db "    X-Ray Scope    "
     db "     Varia Suit    "
     db "    Spring Ball    "
@@ -361,17 +361,17 @@ alttp_mw_item_names:
     db "   Super Missiles  "
     db "    Power Bombs    "
 
-    db "                   "  ;15
-    db "                   "  ;16
-    db "                   "  ;17
-    db "                   "  ;18
-    db "                   "  ;19
-    db "                   "  ;1A
-    db "                   "  ;1B
-    db "                   "  ;1C
-    db "                   "  ;1D
-    db "                   "  ;1E
-    db "                   "  ;1F
+    db "                   " ; 15
+    db "                   " ; 16
+    db "                   " ; 17
+    db "                   " ; 18
+    db "                   " ; 19
+    db "                   " ; 1A
+    db "                   " ; 1B
+    db "                   " ; 1C
+    db "                   " ; 1D
+    db "                   " ; 1E
+    db "                   " ; 1F
  
     db "                   " ; 20
     db "                   " ; 21
@@ -390,7 +390,7 @@ alttp_mw_item_names:
     db "                   " ; 2E
     db "                   " ; 2F
 
-    db "                   "       ; $30+ (alttp items)
+    db "                   " ; $30+ (alttp items)
     db "    Master Sword   "
     db "   Tempered Sword  "
     db "     Gold Sword    "
@@ -478,7 +478,7 @@ alttp_mw_item_names:
     db "                   "
     db "                   "
     db "                   "
-    db "   Silver Arrows   "   ; 58
+    db "   Silver Arrows   " ; 58
     db "                   "
     db "                   "
     db "                   "
@@ -502,7 +502,7 @@ alttp_mw_item_names:
     db "                   "
     db "                   "
     db "                   "
-    db "                   "  ; 6F 
+    db "                   " ; 6F 
 
 alttp_dialog_char_table:
     ; Each unsupported symbol translate to "?" $C6 for visual indication
