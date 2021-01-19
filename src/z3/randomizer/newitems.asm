@@ -1075,20 +1075,29 @@ EnableTemporaryCone:
 		BEQ +
 		LDA $7EF34A ; Check if we have lamp
 		BNE +
+
+		REP #$20
 		LDA $7E00A0 
-		CMP #$55  ; Check if we're in secret passage
+		CMP #$0055  ; Check if we're in secret passage
 		BEQ +
+		CMP #$0109  ; Check if we're in the potion shop
+		BEQ +       ; (check both bytes or problems will happen in PoD)
+		CMP #$00E4  ; Check if we're in old man's cave (the save location)
+		BEQ +
+		CMP #$010A  ; Check if we're in aginah's cave
+		BEQ +
+
 
 		LDA #$01
 		STA $1D		; Enable color math for BG1
 		STA $0458	; Set the "Lamp in dark room flag" temporarily
 		JSL $00F568 ; JSL OrientLampBg - Updates BG1 scroll positions for the lamp cone
-		
-		REP #$20    ; Write the scroll positions to the PPU registers
+
+		; Write the scroll positions to the PPU registers
 		LDA $E0 : STA $120 : STA $210D 
 		LDA $E6 : STA $124 : STA $210E
-		SEP #$20
 +
+		SEP #$20
 		RTS
 
 DisableTemporaryCone:
