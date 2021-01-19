@@ -41,3 +41,4 @@ incsrc "z3/items.asm"                       ; ALTTP Super Metroid Items
 incsrc "z3/ending.asm"                      ; ALTTP Ending Conditions
 incsrc "z3/newgame.asm"                     ; ALTTP New Game Initialization
 incsrc "z3/multiworld.asm"                  ; ALTTP Multiworld support features
+incsrc "z3/skiptitle.asm"                   ; ALTTP Skip Title Screen and File Select Screen
