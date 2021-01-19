@@ -855,6 +855,16 @@ alttp_item_pickup:
 .no_heartpiece
     sta.l !SRAM_ALTTP_ITEM_BUF,x             ; Store heartpieces
 .piece_end
+    lda !SRAM_ALTTP_STATS_BUF+$28            ; Increment global heart piece counter in stats buffer
+    inc a                                    ; Logic copied from z3/randomizer/inventory.asm heartpiece routine
+    and #$1f
+    tax
+    lda !SRAM_ALTTP_STATS_BUF+$28
+    and #$e0
+    sta !SRAM_ALTTP_STATS_BUF+$28
+    txa
+    ora !SRAM_ALTTP_STATS_BUF+$28
+    sta !SRAM_ALTTP_STATS_BUF+$28
     %a16()
     plx
     jmp .end
