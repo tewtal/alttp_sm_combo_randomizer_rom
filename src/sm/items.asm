@@ -1400,7 +1400,7 @@ btn_array:
 
 table box_yellow.tbl,rtl
 item_names:
-    dw "___      GRAPPLING BEAM      ___"   ; 00 (b0) (sm items)
+    dw "___      GRAPPLING BEAM      ___" ; 00 (b0) (sm items)
     dw "___       X-RAY SCOPE        ___"
     dw "___        VARIA SUIT        ___"
     dw "___       SPRING BALL        ___"
@@ -1422,7 +1422,7 @@ item_names:
     dw "___       SUPER MISSILES     ___"
     dw "___        POWER BOMBS       ___"
 
-    dw "___                          ___"       ; $15+ (alttp items)
+    dw "___                          ___" ; $15+ (alttp items)
     dw "___       MASTER SWORD       ___"
     dw "___      TEMPERED SWORD      ___"
     dw "___        GOLD SWORD        ___"
@@ -1510,7 +1510,7 @@ item_names:
     dw "___                          ___"
     dw "___                          ___"
     dw "___                          ___"
-    dw "___       SILVER ARROWS      ___"   ; 58
+    dw "___       SILVER ARROWS      ___" ; 58
     dw "___                          ___"
     dw "___                          ___"
     dw "___                          ___"
@@ -1577,13 +1577,20 @@ write_placeholders:
     rts
 
 char_table:
-    ;  <sp>     !      "      #      $      %      %      '      (      )      *      +      ,      -      .      /
-    dw $384E, $38FF, $38FD, $38FE, $38FE, $380A, $38FE, $38FD, $38FE, $38FE, $38FE, $38FE, $38FB, $38FC, $38FA, $38FE
-    ;    0      1      2      3      4      5      6      7      8      9      :      ;      <      =      >      ?
+    ; Each unsupported value translate to "?" $38FE to raise a visual indication
+    ;  <sp>   !      "      #      $      %      &      '      (      )      *      +      ,      -      .      /
+    dw $384E, $38FF, $38FC, $38FE, $38FE, $380A, $38FE, $38FC, $38FE, $38FE, $38FE, $38FE, $38FB, $38CF, $38FA, $38FE
+    ;  0      1      2      3      4      5      6      7      8      9      :      ;      <      =      >      ?
     dw $3809, $3800, $3801, $3802, $3803, $3804, $3805, $3806, $3807, $3808, $38FE, $38FE, $38FE, $38FE, $38FE, $38FE
-    ;    @      A      B      C      D      E      F      G      H      I      J      K      L      M      N      O 
+    ;  @      A      B      C      D      E      F      G      H      I      J      K      L      M      N      O
     dw $38FE, $38E0, $38E1, $38E2, $38E3, $38E4, $38E5, $38E6, $38E7, $38E8, $38E9, $38EA, $38EB, $38EC, $38ED, $38EE
-    ;    P      Q      R      S      T      U      V      W      X      Y      Z      [      \      ]      ^      _   
+    ;  P      Q      R      S      T      U      V      W      X      Y      Z      [      \      ]      ^      _
+    dw $38EF, $38F0, $38F1, $38F2, $38F3, $38F4, $38F5, $38F6, $38F7, $38F8, $38F9, $38FE, $38FE, $38FE, $38FE, $38FE
+
+; Lowercase Letters, which simply translate to uppercase
+    ;  `      A      B      C      D      E      F      G      H      I      J      K      L      M      N      O
+    dw $38FE, $38E0, $38E1, $38E2, $38E3, $38E4, $38E5, $38E6, $38E7, $38E8, $38E9, $38EA, $38EB, $38EC, $38ED, $38EE
+    ;  P      Q      R      S      T      U      V      W      X      Y      Z      {      |      }      ~      <DEL>
     dw $38EF, $38F0, $38F1, $38F2, $38F3, $38F4, $38F5, $38F6, $38F7, $38F8, $38F9, $38FE, $38FE, $38FE, $38FE, $38FE
 
 org $c58749
