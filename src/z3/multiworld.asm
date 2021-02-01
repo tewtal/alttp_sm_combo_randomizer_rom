@@ -241,16 +241,18 @@ alttp_multiworld_dialog:
 
     %a8()
     sta $211b : xba : sta $211b
-    lda #$13
+    lda #$14
     sta $211c
     %ai16()
 
     ldx $2134
     ldy #$0000
+    phx : tyx : lda #$0074 : sta $7f1200, x : plx : iny
 -    
     phx
     lda.l alttp_mw_item_names, x
     and #$00ff
+    beq ++
     tax
     lda.l alttp_dialog_char_table-$20, x
     and #$00ff
@@ -260,15 +262,18 @@ alttp_multiworld_dialog:
     iny #2
     plx
     inx
-    cpy #$0026
-    bne -    
+    bra -    
+
+++
+    plx
+    phx : tyx : lda #$0075 : sta $7f1200, x : plx : iny
 
     lda $1cf0
     and #$00ff
     cmp #$0000
     beq +
     clc
-    adc #$0012
+    adc #$0013
 +
     tax
 
@@ -276,6 +281,7 @@ alttp_multiworld_dialog:
     phx
     lda.l alttp_mw_dialogtable, x
     and #$00ff
+    beq ++
     tax
     lda.l alttp_dialog_char_table-$20, x
     and #$00ff
@@ -285,8 +291,11 @@ alttp_multiworld_dialog:
     iny #2
     plx
     inx
-    cpy #$004C
-    bne -
+    bra -
+
+++
+    plx
+    phx : tyx : lda #$0076 : sta $7f1200, x : plx : iny
 
     lda #$ff00
     tyx
@@ -298,10 +307,13 @@ alttp_multiworld_dialog:
     lda !MULTIWORLD_DIALOG_PLAYER
     and #$00ff
     asl #4 : tax
+    
 -    
     phx
     lda.l rando_player_table, x
     and #$00ff
+    cmp #$0000                  ; FIXME: this will break if we use extended player data (needs to be fixed by then)
+    beq ++
     tax
     lda.l alttp_dialog_char_table-$20, x
     and #$00ff
@@ -311,9 +323,9 @@ alttp_multiworld_dialog:
     iny #2
     plx
     inx
-    cpy #$006A
-    bne -
-
+    bra -
+++
+    plx
     tyx
     lda #$FF00
     sta.l $7f1200, x
@@ -334,243 +346,243 @@ alttp_mw_dialogtable:
     ; Dialog boxes are 19 characters wide
     ;   0123456789ABCDEF012
 .give
-    db " found for player  "
+    db " found for player  ", $00
 .get
-    db "   received from   "
+    db "   received from   ", $00
 
 alttp_mw_item_names:
-    db "   Grappling Beam  "             ; 00 (b0) (sm items)
-    db "    X-Ray Scope    "
-    db "     Varia Suit    "
-    db "    Spring Ball    "
-    db "   Morphing Ball   "
-    db "    Screw Attack   "
-    db "    Gravity Suit   "
-    db "   Hi-Jump Boots   "
-    db "     Space Jump    "
-    db "        Bomb       "
-    db "   Speed Booster   "
-    db "    Charge Beam    "
-    db "      Ice Beam     "
-    db "      Wave Beam    "
-    db " ~~ S P a z E R ~~ "
-    db "    Plasma Beam    "  
-    db "    Energy Tank    "
-    db "    Reserve Tank   "
-    db "      Missiles     "
-    db "   Super Missiles  "
-    db "    Power Bombs    "
+    db "   Grappling Beam  ", $00             ; 00 (b0) (sm items)
+    db "    X-Ray Scope    ", $00
+    db "     Varia Suit    ", $00
+    db "    Spring Ball    ", $00
+    db "   Morphing Ball   ", $00
+    db "    Screw Attack   ", $00
+    db "    Gravity Suit   ", $00
+    db "   Hi-Jump Boots   ", $00
+    db "     Space Jump    ", $00
+    db "        Bomb       ", $00
+    db "   Speed Booster   ", $00
+    db "    Charge Beam    ", $00
+    db "      Ice Beam     ", $00
+    db "      Wave Beam    ", $00
+    db " ~~ S P a z E R ~~ ", $00
+    db "    Plasma Beam    ", $00
+    db "    Energy Tank    ", $00
+    db "    Reserve Tank   ", $00
+    db "      Missiles     ", $00
+    db "   Super Missiles  ", $00
+    db "    Power Bombs    ", $00
 
-    db "                   "  ;15
-    db "                   "  ;16
-    db "                   "  ;17
-    db "                   "  ;18
-    db "                   "  ;19
-    db "                   "  ;1A
-    db "                   "  ;1B
-    db "                   "  ;1C
-    db "                   "  ;1D
-    db "                   "  ;1E
-    db "                   "  ;1F
+    db "                   ", $00  ;15
+    db "                   ", $00  ;16
+    db "                   ", $00  ;17
+    db "                   ", $00  ;18
+    db "                   ", $00  ;19
+    db "                   ", $00  ;1A
+    db "                   ", $00  ;1B
+    db "                   ", $00  ;1C
+    db "                   ", $00  ;1D
+    db "                   ", $00  ;1E
+    db "                   ", $00  ;1F
  
-    db " Crateria L 1 Card " ; 20
-    db " Crateria L 2 Card " ; 21
-    db " Crateria Boss Card" ; 22
-    db " Brinstar L 1 Card " ; 20
-    db " Brinstar L 2 Card " ; 21
-    db " Brinstar Boss Card" ; 22
-    db " Norfair L 1 Card  " ; 20
-    db " Norfair L 2 Card  " ; 21
-    db " Norfair Boss Card " ; 22
-    db " Maridia L 1 Card  " ; 20
-    db " Maridia L 2 Card  " ; 21
-    db " Maridia Boss Card " ; 22
-    db "  W.Ship L 1 Card  " ; 2C
-    db "  W.Ship Boss Card " ; 2D
-    db "L.Norfair L 1 Card " ; 2E
-    db "L.Norfair Boss Card" ; 2F
+    db " Crateria L 1 Card ", $00 ; 20
+    db " Crateria L 2 Card ", $00 ; 21
+    db " Crateria Boss Card", $00 ; 22
+    db " Brinstar L 1 Card ", $00 ; 20
+    db " Brinstar L 2 Card ", $00 ; 21
+    db " Brinstar Boss Card", $00 ; 22
+    db " Norfair L 1 Card  ", $00 ; 20
+    db " Norfair L 2 Card  ", $00 ; 21
+    db " Norfair Boss Card ", $00 ; 22
+    db " Maridia L 1 Card  ", $00 ; 20
+    db " Maridia L 2 Card  ", $00 ; 21
+    db " Maridia Boss Card ", $00 ; 22
+    db "  W.Ship L 1 Card  ", $00 ; 2C
+    db "  W.Ship Boss Card ", $00 ; 2D
+    db "L.Norfair L 1 Card ", $00 ; 2E
+    db "L.Norfair Boss Card", $00 ; 2F
 
-    db "                   "       ; $30+ (alttp items)
-    db "    Master Sword   "
-    db "   Tempered Sword  "
-    db "     Gold Sword    "
-    db "     Toy Shield    "
-    db "     Red Shield    "
-    db "   Mirror Shield   "
-    db "      Fire Rod     "
-    db "       Ice Rod     "
-    db "       Hammer      "
-    db "  Hookshot, BOING! "
-    db "        Bow        "
-    db "   Blue Boomerang  "
-    db "    Magic Powder   "
-    db "                   "
-    db "       Bombos      "
-    db "       Ether       "
-    db "       Quake       "
-    db "       Lamp        "
-    db "       Shovel      "
-    db "       Flute       "
-    db "  Cane of Somaria  "
-    db "       Bottle      "
-    db "   Piece of Heart  "
-    db "   Cane of Byrna   "
-    db "     Magic Cape    "
-    db "    Magic Mirror   "
-    db "     Power Glove   "
-    db "    Titan's Mitt   "
-    db "   Book of Mudora  "
-    db "  Zora's Flippers  "
-    db "     Moon Pearl    "
-    db "                   "
-    db "      Bug Net      "
-    db "     Blue Mail     "
-    db "      Red Mail     "
-    db "                   "
-    db "                   "
-    db "  Heart Container  "
-    db "      One Bomb     "
-    db "     Three Bombs   "
-    db "      Mushroom     "
-    db "   Red Boomerang   "
-    db "     Red Potion    "
-    db "    Green Potion   "
-    db "     Blue Potion   "
-    db "                   "
-    db "                   "
-    db "                   "
-    db "     Ten Bombs     "
-    db "                   "
-    db "                   "
-    db "   A single Rupee  "
-    db "     Five Rupees   "
-    db "   Twenty Rupees   "
-    db "                   "
-    db "                   "
-    db "                   "
-    db "        Bow        "
-    db "   Silver Arrows   "
-    db "        Bee        "
-    db "       Fairy       "
-    db "  Heart Container  "
-    db "  Heart Container  "
-    db "One Hundred Rupees "
-    db "    Fifty Rupees   "
-    db "                   "
-    db "   A single Arrow  "
-    db "     Ten Arrows    "
-    db "                   "
-    db "     300 Rupees    "
-    db "   Twenty Rupees   "
-    db "    A good Bee     "
-    db "  Fighter's Sword  "
-    db "                   "
-    db "   Pegasus Boots   "
-    db "                   "
-    db "                   "
-    db "     Half Magic    "
-    db "   Quarter Magic   "
-    db "    Master Sword   "
-    db "  5 Bomb Capacity  "
-    db "  10 Bomb Capacity "
-    db " 5 Arrow Capacity  "
-    db " 10 Arrow Capactiy "
-    db "                   "
-    db "                   "
-    db "                   "
-    db "   Silver Arrows   "   ; 58
-    db "                   "
-    db "                   "
-    db "                   "
-    db "                   "
-    db "                   "
-    db "   Sword Upgrade   "
-    db "   Shield Upgrade  "
-    
-    db "   Armour Upgrade  "
-    db "   Glove Upgrade   "
-    db "                   "
-    db "                   "
-    db "                   "
-    db "                   "
-    db "                   "
-    db "                   "
-    db "                   "
-    db "                   "
-    db "                   "
-    db "                   "
-    db "                   "
-    db "                   "
-    db "                   "
-    db "                   " ; 6F 
+    db "                   ", $00       ; $30+ (alttp items)
+    db "    Master Sword   ", $00
+    db "   Tempered Sword  ", $00
+    db "     Gold Sword    ", $00
+    db "     Toy Shield    ", $00
+    db "     Red Shield    ", $00
+    db "   Mirror Shield   ", $00
+    db "      Fire Rod     ", $00
+    db "       Ice Rod     ", $00
+    db "       Hammer      ", $00
+    db "  Hookshot, BOING! ", $00
+    db "        Bow        ", $00
+    db "   Blue Boomerang  ", $00
+    db "    Magic Powder   ", $00
+    db "                   ", $00
+    db "       Bombos      ", $00
+    db "       Ether       ", $00
+    db "       Quake       ", $00
+    db "       Lamp        ", $00
+    db "       Shovel      ", $00
+    db "       Flute       ", $00
+    db "  Cane of Somaria  ", $00
+    db "       Bottle      ", $00
+    db "   Piece of Heart  ", $00
+    db "   Cane of Byrna   ", $00
+    db "     Magic Cape    ", $00
+    db "    Magic Mirror   ", $00
+    db "     Power Glove   ", $00
+    db "    Titan's Mitt   ", $00
+    db "   Book of Mudora  ", $00
+    db "  Zora's Flippers  ", $00
+    db "     Moon Pearl    ", $00
+    db "                   ", $00
+    db "      Bug Net      ", $00
+    db "     Blue Mail     ", $00
+    db "      Red Mail     ", $00
+    db "                   ", $00
+    db "                   ", $00
+    db "  Heart Container  ", $00
+    db "      One Bomb     ", $00
+    db "     Three Bombs   ", $00
+    db "      Mushroom     ", $00
+    db "   Red Boomerang   ", $00
+    db "     Red Potion    ", $00
+    db "    Green Potion   ", $00
+    db "     Blue Potion   ", $00
+    db "                   ", $00
+    db "                   ", $00
+    db "                   ", $00
+    db "     Ten Bombs     ", $00
+    db "                   ", $00
+    db "                   ", $00
+    db "   A single Rupee  ", $00
+    db "     Five Rupees   ", $00
+    db "   Twenty Rupees   ", $00
+    db "                   ", $00
+    db "                   ", $00
+    db "                   ", $00
+    db "        Bow        ", $00
+    db "   Silver Arrows   ", $00
+    db "        Bee        ", $00
+    db "       Fairy       ", $00
+    db "  Heart Container  ", $00
+    db "  Heart Container  ", $00
+    db "One Hundred Rupees ", $00
+    db "    Fifty Rupees   ", $00
+    db "                   ", $00
+    db "   A single Arrow  ", $00
+    db "     Ten Arrows    ", $00
+    db "                   ", $00
+    db "     300 Rupees    ", $00
+    db "   Twenty Rupees   ", $00
+    db "    A good Bee     ", $00
+    db "  Fighter's Sword  ", $00
+    db "                   ", $00
+    db "   Pegasus Boots   ", $00
+    db "                   ", $00
+    db "                   ", $00
+    db "     Half Magic    ", $00
+    db "   Quarter Magic   ", $00
+    db "    Master Sword   ", $00
+    db "  5 Bomb Capacity  ", $00
+    db "  10 Bomb Capacity ", $00
+    db " 5 Arrow Capacity  ", $00
+    db " 10 Arrow Capactiy ", $00
+    db "                   ", $00
+    db "                   ", $00
+    db "                   ", $00
+    db "   Silver Arrows   ", $00   ; 58
+    db "                   ", $00
+    db "                   ", $00
+    db "                   ", $00
+    db "                   ", $00
+    db "                   ", $00
+    db "   Sword Upgrade   ", $00
+    db "   Shield Upgrade  ", $00
 
-    db "                   "  ; 70
-    db "                   "
-    db " Ganon's Tower Map "
-    db "  Turtle Rock Map  "
-    db " Thieves' Town Map "
-    db " Tower of Hera Map "
-    db "  Ice Palace Map   "
-    db "  Skull Woods Map  "
-    db "  Misery Mire Map  "
-    db "  Dark Palace Map  "
-    db "  Swamp Palace Map "
-    db "                   "
-    db " Desert Palace Map "
-    db " Eastern Palace Map"
-    db "                   "
-    db " Hyrule Castle Map "  ; 7F
+    db "   Armour Upgrade  ", $00
+    db "   Glove Upgrade   ", $00
+    db "                   ", $00
+    db "                   ", $00
+    db "                   ", $00
+    db "                   ", $00
+    db "                   ", $00
+    db "                   ", $00
+    db "                   ", $00
+    db "                   ", $00
+    db "                   ", $00
+    db "                   ", $00
+    db "                   ", $00
+    db "                   ", $00
+    db "                   ", $00
+    db "                   ", $00 ; 6F 
 
-    db "                   "  ; 80
-    db "                   "
-    db "  G. Tower Compass "
-    db "Turtle Rock Compass"
-    db "   T. Town Compass "
-    db "    Hera Compass   "
-    db "Ice Palace Compass "
-    db "Skull Woods Compass"
-    db "Misery Mire Compass"
-    db "Dark Palace Compass"
-    db "  Swamp P. Compass "
-    db "                   "
-    db " Desert P. Compass "
-    db "Eastern P. Compass "
-    db "                   "
-    db "                   "  ; 8F
+    db "                   ", $00  ; 70
+    db "                   ", $00
+    db " Ganon's Tower Map ", $00
+    db "  Turtle Rock Map  ", $00
+    db " Thieves' Town Map ", $00
+    db " Tower of Hera Map ", $00
+    db "  Ice Palace Map   ", $00
+    db "  Skull Woods Map  ", $00
+    db "  Misery Mire Map  ", $00
+    db "  Dark Palace Map  ", $00
+    db "  Swamp Palace Map ", $00
+    db "                   ", $00
+    db " Desert Palace Map ", $00
+    db " Eastern Palace Map", $00
+    db "                   ", $00
+    db " Hyrule Castle Map ", $00  ; 7F
 
-    db "                   "  ; 90
-    db "                   "
-    db " Ganon's Tower B.K "
-    db "  Turtle Rock B.K  "
-    db " Thieves' Town B.K "
-    db " Tower of Hera B.K "
-    db "  Ice Palace B.K   "
-    db "  Skull Woods B.K  "
-    db "  Misery Mire B.K  "
-    db "  Dark Palace B.K  "
-    db "  Swamp Palace B.K "
-    db "                   "
-    db " Desert Palace B.K "
-    db " Eastern Palace B.K"
-    db "                   "
-    db "                   "  ; 9F
+    db "                   ", $00  ; 80
+    db "                   ", $00
+    db "  G. Tower Compass ", $00
+    db "Turtle Rock Compass", $00
+    db "   T. Town Compass ", $00
+    db "    Hera Compass   ", $00
+    db "Ice Palace Compass ", $00
+    db "Skull Woods Compass", $00
+    db "Misery Mire Compass", $00
+    db "Dark Palace Compass", $00
+    db "  Swamp P. Compass ", $00
+    db "                   ", $00
+    db " Desert P. Compass ", $00
+    db "Eastern P. Compass ", $00
+    db "                   ", $00
+    db "                   ", $00  ; 8F
 
-    db " Hyrule Castle Key " ; A0
-    db "    Sewers Key     "
-    db " Eastern Palace Key"
-    db " Desert Palace Key "
-    db " Castle Tower Key  "
-    db " Swamp Palace Key  "
-    db "  Dark Palace Key  "
-    db "  Misery Mire Key  "
-    db "  Skull Woods Key  "
-    db "  Ice Palace Key   "
-    db " Tower of Hera Key "
-    db " Thieves' Town Key "
-    db "  Turtle Rock Key  "
-    db " Ganon's Tower Key "
-    db "                   "
-    db "                   " ; AF   
+    db "                   ", $00  ; 90
+    db "                   ", $00
+    db " Ganon's Tower B.K ", $00
+    db "  Turtle Rock B.K  ", $00
+    db " Thieves' Town B.K ", $00
+    db " Tower of Hera B.K ", $00
+    db "  Ice Palace B.K   ", $00
+    db "  Skull Woods B.K  ", $00
+    db "  Misery Mire B.K  ", $00
+    db "  Dark Palace B.K  ", $00
+    db "  Swamp Palace B.K ", $00
+    db "                   ", $00
+    db " Desert Palace B.K ", $00
+    db " Eastern Palace B.K", $00
+    db "                   ", $00
+    db "                   ", $00  ; 9F
+
+    db " Hyrule Castle Key ", $00 ; A0
+    db "    Sewers Key     ", $00
+    db " Eastern Palace Key", $00
+    db " Desert Palace Key ", $00
+    db " Castle Tower Key  ", $00
+    db " Swamp Palace Key  ", $00
+    db "  Dark Palace Key  ", $00
+    db "  Misery Mire Key  ", $00
+    db "  Skull Woods Key  ", $00
+    db "  Ice Palace Key   ", $00
+    db " Tower of Hera Key ", $00
+    db " Thieves' Town Key ", $00
+    db "  Turtle Rock Key  ", $00
+    db " Ganon's Tower Key ", $00
+    db "                   ", $00
+    db "                   ", $00 ; AF   
  
 alttp_dialog_char_table:
     ; Each unsupported symbol translate to "?" $C6 for visual indication

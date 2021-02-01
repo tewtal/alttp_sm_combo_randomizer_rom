@@ -1102,6 +1102,7 @@ EnableTemporaryCone:
 		CMP #$010A  ; Check if we're in aginah's cave
 		BEQ +
 
+		SEP #$20
 
 		LDA #$01
 		STA $1D		; Enable color math for BG1
