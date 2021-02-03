@@ -135,9 +135,9 @@ db #$00 ; #$00 = Off (default) - #$01 = On
 ;--------------------------------------------------------------------------------
 org $40003B ; PC 0x18003B - PC 0x18003C
 MapMode:
-db #$01 ; #$00 = Always On (default) - #$01 = Require Map Item
+db #$00 ; #$00 = Always On (default) - #$01 = Require Map Item
 CompassMode:
-db #$01 ; #$00 = Off (default) - #$01 = Display Dungeon Count w/Compass - #$02 = Display Dungeon Count Always
+db #$00 ; #$00 = Off (default) - #$01 = Display Dungeon Count w/Compass - #$02 = Display Dungeon Count Always
 ;--------------------------------------------------------------------------------
 org $40003D ; PC 0x18003D
 PersistentFloodgate:
@@ -179,7 +179,7 @@ db #$00 ; #$00 = Off (default) - #$01 = On
 ;--------------------------------------------------------------------------------
 org $400045 ; PC 0x180045
 HUDDungeonItems:
-db #$0f ; display ----dcba a: Small Keys, b: Big Key, c: Map, d: Compass
+db #$00 ; display ----dcba a: Small Keys, b: Big Key, c: Map, d: Compass
 ;--------------------------------------------------------------------------------
 org $400046 ; PC 0x180046 Link's starting equipment
 LinkStartingRupees:

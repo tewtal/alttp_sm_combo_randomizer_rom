@@ -45,13 +45,13 @@
 !DungeonKeyItemBig = #DungeonKeyItemBig
 !KeycardBig = #KeycardBig
 
-org $01E9BC
-    db $a2
+; org $01E9BC
+;     db $d1
 
-;  org $cf8432
-;      dw $efe0
-;  org $cf8432+$5
-;      db $Df
+; org $cf8432
+;     dw $efe0
+; org $cf8432+$5
+;     db $D2
 
 ;org $cf86de
 ;    dw $efe4    ; Morph to progressive sword
@@ -119,26 +119,26 @@ item_graphics:
     dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; CE - Unused
     dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; CF - Unused
 
-    dw $EE00 : db $03, $03, $03, $03, $03, $03, $03, $03    ; D0 - Crateria L1 Key
-    dw $EF00 : db $02, $02, $02, $02, $02, $02, $02, $02    ; D1 - Crateria L2 Key
+    dw $EE00 : db $03, $00, $00, $00, $03, $00, $00, $00    ; D0 - Crateria L1 Key
+    dw $EF00 : db $02, $00, $00, $00, $02, $00, $00, $00    ; D1 - Crateria L2 Key
     dw $F000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; D2 - Crateria Boss Key
 
-    dw $EE00 : db $03, $03, $03, $03, $03, $03, $03, $03    ; D3 - Brinstar L1 Key
-    dw $EF00 : db $02, $02, $02, $02, $02, $02, $02, $02    ; D4 - Brinstar L2 Key
+    dw $EE00 : db $03, $00, $00, $00, $03, $00, $00, $00    ; D3 - Brinstar L1 Key
+    dw $EF00 : db $02, $00, $00, $00, $02, $00, $00, $00    ; D4 - Brinstar L2 Key
     dw $F000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; D5 - Brinstar Boss Key
 
-    dw $EE00 : db $03, $03, $03, $03, $03, $03, $03, $03    ; D6 - Norfair L1 Key
-    dw $EF00 : db $02, $02, $02, $02, $02, $02, $02, $02    ; D7 - Norfair L2 Key
+    dw $EE00 : db $03, $00, $00, $00, $03, $00, $00, $00    ; D6 - Norfair L1 Key
+    dw $EF00 : db $02, $00, $00, $00, $02, $00, $00, $00    ; D7 - Norfair L2 Key
     dw $F000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; D8 - Norfair Boss Key
 
-    dw $EE00 : db $03, $03, $03, $03, $03, $03, $03, $03    ; D9 - Maridia L1 Key
-    dw $EF00 : db $02, $02, $02, $02, $02, $02, $02, $02    ; DA - Maridia L2 Key
+    dw $EE00 : db $03, $00, $00, $00, $03, $00, $00, $00    ; D9 - Maridia L1 Key
+    dw $EF00 : db $02, $00, $00, $00, $02, $00, $00, $00    ; DA - Maridia L2 Key
     dw $F000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; DB - Maridia Boss Key
 
-    dw $EE00 : db $03, $03, $03, $03, $03, $03, $03, $03    ; DC - Wrecked Ship L1 Key
+    dw $EE00 : db $03, $00, $00, $00, $03, $00, $00, $00    ; DC - Wrecked Ship L1 Key
     dw $F000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; DD - Wrecked Ship Boss Key
 
-    dw $EE00 : db $03, $03, $03, $03, $03, $03, $03, $03    ; DE - Lower Norfair L1 Key
+    dw $EE00 : db $03, $00, $00, $00, $03, $00, $00, $00    ; DE - Lower Norfair L1 Key
     dw $F000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; DF - Lower Norfair Boss Key
 
     dw $F500 : db $00, $00, $00, $00, $00, $00, $00, $00    ; E0 - L1 Key Plaque
