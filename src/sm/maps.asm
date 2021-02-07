@@ -48,8 +48,6 @@ endmacro
 ; Modify the norfair default visible map tiles to show the lower norfair portal
 %write_map_visibility(NORFAIR_VISIBLE, $16, $10, $02)
 
-
-
 ; Insert the new portal map tile into the map tile bank
 org $DAB3A0 
 DB $00,$E0,$60,$95,$7C,$80,$7C,$80,$7C,$80,$7C,$80,$60,$95,$00,$E0
@@ -57,3 +55,14 @@ DB $00,$E0,$60,$95,$7C,$80,$7C,$80,$7C,$80,$7C,$80,$60,$95,$00,$E0
 org $F68340
 DB $00,$E0,$60,$95,$7C,$80,$7C,$80,$7C,$80,$7C,$80,$60,$95,$00,$E0
 DB $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+
+; This fills in the bitfields responsible for triggering the
+; "Map Station Reveals This Tile" behavior. Since the map
+; stations are all activated by default, this should cause
+; the entire map to be revealed from the start of the game.
+org $C29727
+fillbyte $ff : fill $FF ; Crateria
+fillbyte $ff : fill $FF ; Norfair
+fillbyte $ff : fill $FF ; Wrecked Ship
+fillbyte $ff : fill $FF ; Maridia
+fillbyte $ff : fill $FF ; Tourian

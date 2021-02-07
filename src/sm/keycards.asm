@@ -238,8 +238,8 @@ keycard_draw_maptext:
 table box.tbl,rtl
     dw "CBNMWL"
 .cards
-    dw "1"
-    dw "2"
+    dw $2C00
+    dw $2801
 table box_yellow.tbl,rtl
     dw "B"
 cleartable
