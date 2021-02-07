@@ -34,6 +34,7 @@ incsrc "sm/sprite/sprite.asm"               ; Super Metroid custom Samus sprite 
 incsrc "sm/titlescreen.asm"                 ; Super Metroid Upload New Title Screen GFX
 incsrc "sm/keycards.asm"                    ; Super Metroid Keycard system
 incsrc "sm/plminject.asm"                   ; Super Metroid PLM Injection
+incsrc "sm/messagebox.asm"                  ; Super Metroid Messagebox improvements
 
 ; --- ALTTP code ---
 incsrc "z3/hirom.asm"	                    ; ALTTP ExHiROM patch

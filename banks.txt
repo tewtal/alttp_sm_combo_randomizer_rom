@@ -56,6 +56,7 @@ Bank            Mirror banks    Content
 87:8000-C96F    C7              SM Bank #87
 87:F000-FFFF    C7              -- ALTTP Randomizer Static Code --
 88:8000-EE3F    C8              SM Bank #88
+88:F000-F700    C8              -- SM Messagebox Lowercase Code and Data --
 89:8000-AEFF    C9              SM Bank #89 - Item Graphics
 89:AF00-FFFF    C9              -- SM ALTTP Item Graphics --
 8A:8000-E97F    CA              SM Bank #8A

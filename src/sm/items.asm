@@ -1575,172 +1575,172 @@ base $859643
 table box.tbl,rtl
     ;   0                              31
 bow:
-    dw "______        BOW        _______"
+    dw "______        Bow        _______"
 silver_arrows:
-    dw "______   SILVER ARROWS   _______"
+    dw "______   Silver Arrows   _______"
 blue_boomerang:
-    dw "______  BLUE BOOMERANG   _______"
+    dw "______  Blue Boomerang   _______"
 red_boomerang:
-    dw "______   RED BOOMERANG   _______"
+    dw "______   Red Boomerang   _______"
 hookshot:
-    dw "______     HOOKSHOT      _______"
+    dw "______     Hookshot      _______"
 bomb_1:
-    dw "______      1 BOMB       _______"
+    dw "______      1 Bomb       _______"
 mushroom:
-    dw "______     MUSHROOM      _______"
+    dw "______     Mushroom      _______"
 powder:
-    dw "______   MAGIC POWDER    _______"
+    dw "______    Magic Powder   _______"
 firerod:
-    dw "______     FIRE ROD      _______"
+    dw "______     Fire Rod      _______"
 icerod:
-    dw "______     ICE ROD       _______"
+    dw "______     Ice Rod       _______"
 bombos:
-    dw "______      BOMBOS       _______"
+    dw "______      Bombos       _______"
 ether:
-    dw "______      ETHER        _______"
+    dw "______      Ether        _______"
 quake:
-    dw "______      QUAKE        _______"
+    dw "______      Quake        _______"
 lamp:
-    dw "______       LAMP        _______"
+    dw "______       Lamp        _______"
 hammer:
-    dw "______      HAMMER       _______"
+    dw "______      Hammer       _______"
 shovel:
-    dw "______      SHOVEL       _______"
+    dw "______      Shovel       _______"
 flute:
-    dw "______      FLUTE        _______"
+    dw "______      Flute        _______"
 net:
-    dw "______ BUG-CATCHING NET  _______"
+    dw "______ Bug-catching Net  _______"
 book:
-    dw "______  BOOK OF MUDORA   _______"
+    dw "______  Book of Mudora   _______"
 bottle_empty:
-    dw "______      BOTTLE       _______"
+    dw "______      Bottle       _______"
 bottle_red:
-    dw "______    RED POTION     _______"
+    dw "______    Red Potion     _______"
 bottle_green:
-    dw "______   GREEN POTION    _______"
+    dw "______   Green Potion    _______"
 bottle_blue:
-    dw "______   BLUE POTION     _______"
+    dw "______   Blue Potion     _______"
 bottle_bee:
-    dw "______       BEE         _______"
+    dw "______       Bee         _______"
 bottle_good_bee:
-    dw "______     GOOD BEE      _______"
+    dw "______     Good Bee      _______"
 bottle_fairy:
-    dw "______      FAIRY        _______"
+    dw "______      Fairy        _______"
 somaria:
-    dw "______  CANE OF SOMARIA  _______"
+    dw "______  Cane of Somaria  _______"
 byrna:
-    dw "______   CANE OF BYRNA   _______"
+    dw "______   Cane of Byrna   _______"
 cape:
-    dw "______    MAGIC CAPE     _______"
+    dw "______    Magic Cape     _______"
 mirror:
-    dw "______      MIRROR       _______"
+    dw "______      Mirror       _______"
 glove:
-    dw "______    POWER GLOVE    _______"
+    dw "______    Power Glove    _______"
 mitt:
-    dw "______   TITAN'S MITT    _______"
+    dw "______   Titan's Mitt    _______"
 boots:
-    dw "______   PEGASUS BOOTS   _______"
+    dw "______   Pegasus Boots   _______"
 flippers:
-    dw "______  ZORA'S FLIPPERS  _______"
+    dw "______  Zora's Flippers  _______"
 pearl:
-    dw "______    MOON PEARL     _______"
+    dw "______    Moon Pearl     _______"
 sword_master:
-    dw "______   MASTER SWORD    _______"
+    dw "______   Master Sword    _______"
 sword_tempered:
-    dw "______  TEMPERED SWORD   _______"
+    dw "______  Tempered Sword   _______"
 sword_gold:
-    dw "______    GOLD SWORD     _______"
+    dw "______    Gold Sword     _______"
 tunic_blue:
-    dw "______     BLUE MAIL     _______"
+    dw "______     Blue Mail     _______"
 tunic_red:
-    dw "______      RED MAIL     _______"
+    dw "______      Red Mail     _______"
 shield:
-    dw "______      SHIELD       _______"
+    dw "______   Small Shield    _______"
 shield_red:
-    dw "______    RED SHIELD     _______"
+    dw "______    Red Shield     _______"
 shield_mirror:
-    dw "______   MIRROR SHIELD   _______"
+    dw "______   Mirror Shield   _______"
 heart_piece:
-    dw "______   HEART PIECE     _______"
+    dw "______   Heart Piece     _______"
 heart_container:
-    dw "______  HEART CONTAINER  _______"
+    dw "______  Heart Container  _______"
 arrow_1:
-    dw "______     1 ARROW       _______"
+    dw "______     1 Arrow       _______"
 arrows_5:
-    dw "______     5 ARROWS      _______"
+    dw "______     5 Arrows      _______"
 arrows_10:
-    dw "______     10 ARROWS     _______"
+    dw "______     10 Arrows     _______"
 bombs_3:
-    dw "______      3 BOMBS      _______"
+    dw "______      3 Bombs      _______"
 bombs_10:
-    dw "______     10 BOMBS      _______"
+    dw "______     10 Bombs      _______"
 rupee_1:
-    dw "______      1 RUPEE      _______"
+    dw "______      1 Rupee      _______"
 rupees_5:
-    dw "______     5 RUPEES      _______"
+    dw "______     5 Rupees      _______"
 rupees_20:
-    dw "______     20 RUPEES     _______"
+    dw "______     20 Rupees     _______"
 rupees_50:
-    dw "______     50 RUPEES     _______"
+    dw "______     50 Rupees     _______"
 rupees_100:
-    dw "______    100 RUPEES     _______"
+    dw "______    100 Rupees     _______"
 rupees_300:
-    dw "______    300 RUPEES     _______"
+    dw "______    300 Rupees     _______"
 magic_half:
-    dw "______    HALF MAGIC     _______"
+    dw "______    Half Magic     _______"
 magic_quarter:
-    dw "______   QUARTER MAGIC   _______"
+    dw "______   Quarter Magic   _______"
 bomb_upgrade_5:
-    dw "______  5 BOMB CAPACITY  _______"
+    dw "______  5 Bomb capacity  _______"
 bomb_upgrade_10:
-    dw "______ 10 BOMB CAPACITY  _______"
+    dw "______ 10 Bomb capacity  _______"
 arrow_upgrade_5:
-    dw "______  5 ARROW CAPACITY _______"
+    dw "______  5 Arrow capacity _______"
 arrow_upgrade_10:
-    dw "______ 10 ARROW CAPACITY _______"
+    dw "______ 10 Arrow capacity _______"
 sword_fighter:
-    dw "______  FIGHTER'S SWORD  _______"
+    dw "______  Fighter's Sword  _______"
 
 sm_item_sent:
-    dw "___         YOU FOUND        ___"
+    dw "___         You found        ___"
     dw "___      ITEM NAME HERE      ___"
-    dw "___           FOR            ___"
+    dw "___           for            ___"
     dw "___          PLAYER          ___"
 
 sm_item_received:
-    dw "___       YOU RECEIVED       ___"
+    dw "___       You received       ___"
     dw "___      ITEM NAME HERE      ___"
-    dw "___           FROM           ___"
+    dw "___           from           ___"
     dw "___          PLAYER          ___"
 
 map:
-    dw "___     THIS IS THE MAP      ___"
-    dw "___           FOR            ___"
+    dw "___     This is the map      ___"
+    dw "___           for            ___"
     dw "___                          ___"
     dw "___          DUNGEON         ___"
 
 compass:
-    dw "___   THIS IS THE COMPASS    ___"
-    dw "___           FOR            ___"
+    dw "___   This is the compass    ___"
+    dw "___           for            ___"
     dw "___                          ___"
     dw "___          DUNGEON         ___"
 
 big_key:
-    dw "___    THIS IS THE BIG KEY   ___"
-    dw "___           FOR            ___"
+    dw "___    This is the big key   ___"
+    dw "___           for            ___"
     dw "___                          ___"
     dw "___          DUNGEON         ___"
 
 small_key:
-    dw "___    THIS IS A SMALL KEY   ___"
-    dw "___           FOR            ___"
+    dw "___    This is a small key   ___"
+    dw "___           for            ___"
     dw "___                          ___"
     dw "___          DUNGEON         ___"
 
 keycard:
-    dw "___       THIS IS THE        ___"
+    dw "___       This is the        ___"
     dw "___         KEYCARD          ___"
-    dw "___           FOR            ___"
+    dw "___           for            ___"
     dw "___          REGION          ___"
 
 
@@ -1764,28 +1764,28 @@ btn_array:
 
 table box_yellow.tbl,rtl
 item_names:
-    dw "___      GRAPPLING BEAM      ___" ; 00 (b0) (sm items)
-    dw "___       X-RAY SCOPE        ___"
-    dw "___        VARIA SUIT        ___"
-    dw "___       SPRING BALL        ___"
-    dw "___       MORPHING BALL      ___"
-    dw "___       SCREW ATTACK       ___"
-    dw "___       GRAVITY SUIT       ___"
-    dw "___       HI-JUMP BOOTS      ___"
-    dw "___        SPACE JUMP        ___"
-    dw "___          BOMBS           ___"
-    dw "___       SPEED BOOSTER      ___"
-    dw "___       CHARGE BEAM        ___"
-    dw "___         ICE BEAM         ___"
-    dw "___        WAVE BEAM         ___"
-    dw "___       S P A Z E R        ___"
-    dw "___       PLASMA BEAM        ___" ; 0f
+    dw "___      Grappling Beam      ___" ; 00 (b0) (sm items)
+    dw "___       X-Ray Scope        ___"
+    dw "___        Varia Suit        ___"
+    dw "___       Spring Ball        ___"
+    dw "___       Morphing Ball      ___"
+    dw "___       Screw Attack       ___"
+    dw "___       Gravity Suit       ___"
+    dw "___       Hi-Jump Boots      ___"
+    dw "___        Space Jump        ___"
+    dw "___          Bombs           ___"
+    dw "___       Speed Booster      ___"
+    dw "___       Charge Beam        ___"
+    dw "___         Ice Beam         ___"
+    dw "___        Wave Beam         ___"
+    dw "___     ~ S p A z E r ~      ___"
+    dw "___       Plasma Beam        ___" ; 0f
     
-    dw "___      AN ENERGY TANK      ___" ; 10
-    dw "___      A RESERVE TANK      ___"
-    dw "___         MISSILES         ___"
-    dw "___       SUPER MISSILES     ___"
-    dw "___        POWER BOMBS       ___"
+    dw "___      An Energy Tank      ___" ; 10
+    dw "___      A Reserve Tank      ___"
+    dw "___         Missiles         ___"
+    dw "___       Super Missiles     ___"
+    dw "___        Power Bombs       ___"
 
     dw "___                          ___"  ;15
     dw "___                          ___"  ;16
@@ -1799,122 +1799,122 @@ item_names:
     dw "___                          ___"  ;1E
     dw "___                          ___"  ;1F
 
-    dw "___   CRATERIA L 1 KEYCARD   ___" ; 20
-    dw "___   CRATERIA L 2 KEYCARD   ___" ; 21
-    dw "___  CRATERIA BOSS KEYCARD   ___" ; 22
-    dw "___   BRINSTAR L 1 KEYCARD   ___" ; 23
-    dw "___   BRINSTAR L 2 KEYCARD   ___" ; 24
-    dw "___  BRINSTAR BOSS KEYCARD   ___" ; 25
-    dw "___    NORFAIR L 1 KEYCARD   ___" ; 26
-    dw "___    NORFAIR L 2 KEYCARD   ___" ; 27
-    dw "___   NORFAIR BOSS KEYCARD   ___" ; 28
-    dw "___    MARIDIA L 1 KEYCARD   ___" ; 28
-    dw "___    MARIDIA L 2 KEYCARD   ___" ; 2A
-    dw "___   MARIDIA BOSS KEYCARD   ___" ; 2B
-    dw "___ WRECKED SHIP L 1 KEYCARD ___" ; 2C
-    dw "___ WRECKED SHIP BOSS KEYCARD___" ; 2D
-    dw "___LOWER NORFAIR L 1 KEYCARD ___" ; 2E
-    dw "___LOWER NORFAIR BOSS KEYCARD___" ; 2F
+    dw "___   Crateria L 1 Keycard   ___" ; 20
+    dw "___   Crateria L 2 Keycard   ___" ; 21
+    dw "___  Crateria Boss Keycard   ___" ; 22
+    dw "___   Brinstar L 1 Keycard   ___" ; 23
+    dw "___   Brinstar L 2 Keycard   ___" ; 24
+    dw "___  Brinstar Boss Keycard   ___" ; 25
+    dw "___    Norfair L 1 Keycard   ___" ; 26
+    dw "___    Norfair L 2 Keycard   ___" ; 27
+    dw "___   Norfair Boss Keycard   ___" ; 28
+    dw "___    Maridia L 1 Keycard   ___" ; 28
+    dw "___    Maridia L 2 Keycard   ___" ; 2A
+    dw "___   Maridia Boss Keycard   ___" ; 2B
+    dw "___ Wrecked Ship L 1 Keycard ___" ; 2C
+    dw "___ Wrecked Ship Boss Keycard___" ; 2D
+    dw "___Lower Norfair L 1 Keycard ___" ; 2E
+    dw "___Lower Norfair Boss Keycard___" ; 2F
 
     dw "___                          ___"       ; $30+ (alttp items)
-    dw "___       MASTER SWORD       ___"
-    dw "___      TEMPERED SWORD      ___"
-    dw "___        GOLD SWORD        ___"
-    dw "___          SHIELD          ___"
-    dw "___        RED SHIELD        ___"
-    dw "___       MIRROR SHIELD      ___"
-    dw "___         FIRE ROD         ___"
-    dw "___         ICE ROD          ___"
-    dw "___          HAMMER          ___"
-    dw "___         HOOKSHOT         ___"
-    dw "___           BOW            ___"
-    dw "___      BLUE BOOMERANG      ___"
-    dw "___       MAGIC POWDER       ___"
+    dw "___       Master Sword       ___"
+    dw "___      Tempered Sword      ___"
+    dw "___        Gold Sword        ___"
+    dw "___       Small Shield       ___"
+    dw "___        Red Shield        ___"
+    dw "___       Mirror Shield      ___"
+    dw "___         Fire Rod         ___"
+    dw "___         Ice Rod          ___"
+    dw "___          Hammer          ___"
+    dw "___         Hookshot         ___"
+    dw "___           Bow            ___"
+    dw "___      Blue Boomerang      ___"
+    dw "___       Magic Powder       ___"
     dw "___                          ___"
-    dw "___          BOMBOS          ___"
-    dw "___          ETHER           ___"
-    dw "___          QUAKE           ___"
-    dw "___           LAMP           ___"
-    dw "___          SHOVEL          ___"
-    dw "___          FLUTE           ___"
-    dw "___      CANE OF SOMARIA     ___"
-    dw "___          BOTTLE          ___"
-    dw "___       HEART PIECE        ___"
-    dw "___       CANE OF BYRNA      ___"
-    dw "___        MAGIC CAPE        ___"
-    dw "___          MIRROR          ___"
-    dw "___        POWER GLOVE       ___"
-    dw "___       TITAN'S MITT       ___"
-    dw "___      BOOK OF MUDORA      ___"
-    dw "___      ZORA'S FLIPPERS     ___"
-    dw "___        MOON PEARL        ___"
+    dw "___          Bombos          ___"
+    dw "___          Ether           ___"
+    dw "___          Quake           ___"
+    dw "___           Lamp           ___"
+    dw "___          Shovel          ___"
+    dw "___          Flute           ___"
+    dw "___      Cane of Somaria     ___"
+    dw "___          Bottle          ___"
+    dw "___       Heart Piece        ___"
+    dw "___       Cane of Byrna      ___"
+    dw "___        Magic Cape        ___"
+    dw "___          Mirror          ___"
+    dw "___        Power Glove       ___"
+    dw "___       Titan's Mitt       ___"
+    dw "___      Book of Mudora      ___"
+    dw "___      Zora's Flippers     ___"
+    dw "___        Moon Pearl        ___"
     dw "___                          ___"
-    dw "___     BUG-CATCHING NET     ___"
-    dw "___         BLUE MAIL        ___"
-    dw "___          RED MAIL        ___"
-    dw "___                          ___"
-    dw "___                          ___"
-    dw "___      HEART CONTAINER     ___"
-    dw "___          1 BOMB          ___"
-    dw "___          3 BOMBS         ___"
-    dw "___         MUSHROOM         ___"
-    dw "___       RED BOOMERANG      ___"
-    dw "___        RED POTION        ___"
-    dw "___       GREEN POTION       ___"
-    dw "___       BLUE POTION        ___"
+    dw "___     Bug-catching Net     ___"
+    dw "___         Blue Mail        ___"
+    dw "___          Red Mail        ___"
     dw "___                          ___"
     dw "___                          ___"
-    dw "___                          ___"
-    dw "___         10 BOMBS         ___"
-    dw "___                          ___"
-    dw "___                          ___"
-    dw "___          1 RUPEE         ___"
-    dw "___         5 RUPEES         ___"
-    dw "___         20 RUPEES        ___"
+    dw "___      Heart Container     ___"
+    dw "___          1 Bomb          ___"
+    dw "___          3 Bombs         ___"
+    dw "___         Mushroom         ___"
+    dw "___       Red Boomerang      ___"
+    dw "___        Red Potion        ___"
+    dw "___       Green Potion       ___"
+    dw "___       Blue Potion        ___"
     dw "___                          ___"
     dw "___                          ___"
     dw "___                          ___"
-    dw "___           BOW            ___"
-    dw "___       SILVER ARROWS      ___"
-    dw "___           BEE            ___"
-    dw "___          FAIRY           ___"
-    dw "___      HEART CONTAINER     ___"
-    dw "___      HEART CONTAINER     ___"
-    dw "___        100 RUPEES        ___"
-    dw "___         50 RUPEES        ___"
-    dw "___                          ___"
-    dw "___         1 ARROW          ___"
-    dw "___         10 ARROWS        ___"
-    dw "___                          ___"
-    dw "___        300 RUPEES        ___"
-    dw "___         20 RUPEES        ___"
-    dw "___         GOOD BEE         ___"
-    dw "___      FIGHTER'S SWORD     ___"
-    dw "___                          ___"
-    dw "___       PEGASUS BOOTS      ___"
+    dw "___         10 Bombs         ___"
     dw "___                          ___"
     dw "___                          ___"
-    dw "___        HALF MAGIC        ___"
-    dw "___       QUARTER MAGIC      ___"
-    dw "___       MASTER SWORD       ___"
-    dw "___      5 BOMB CAPACITY     ___"
-    dw "___     10 BOMB CAPACITY     ___"
-    dw "___      5 ARROW CAPACITY    ___"
-    dw "___     10 ARROW CAPACITY    ___"
+    dw "___          1 Rupee         ___"
+    dw "___         5 Rupees         ___"
+    dw "___         20 Rupees        ___"
     dw "___                          ___"
     dw "___                          ___"
     dw "___                          ___"
-    dw "___       SILVER ARROWS      ___" ; 58
+    dw "___           Bow            ___"
+    dw "___       Silver Arrows      ___"
+    dw "___           Bee            ___"
+    dw "___          Fairy           ___"
+    dw "___      Heart Container     ___"
+    dw "___      Heart Container     ___"
+    dw "___        100 Rupees        ___"
+    dw "___         50 Rupees        ___"
+    dw "___                          ___"
+    dw "___         1 Arrow          ___"
+    dw "___         10 Arrows        ___"
+    dw "___                          ___"
+    dw "___        300 Rupees        ___"
+    dw "___         20 Rupees        ___"
+    dw "___         Good Bee         ___"
+    dw "___      Fighter's Sword     ___"
+    dw "___                          ___"
+    dw "___       Pegasus Boots      ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___        Half Magic        ___"
+    dw "___       Quarter Magic      ___"
+    dw "___       Master Sword       ___"
+    dw "___      5 Bomb capacity     ___"
+    dw "___     10 Bomb capacity     ___"
+    dw "___      5 Arrow capacity    ___"
+    dw "___     10 Arrow capacity    ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___                          ___"
+    dw "___       Silver arrows      ___" ; 58
     dw "___                          ___"
     dw "___                          ___"
     dw "___                          ___"
     dw "___                          ___"
     dw "___                          ___"
-    dw "___    PROGRESSIVE SWORD     ___"
-    dw "___    PROGRESSIVE SHIELD    ___"
+    dw "___       Sword Upgrade      ___"
+    dw "___       Shield Uprade      ___"
     
-    dw "___    PROGRESSIVE ARMOR     ___"  ; 60
-    dw "___    PROGRESSIVE GLOVE     ___"
+    dw "___      Armour Upgrade      ___"  ; 60
+    dw "___       Glove Upgrade      ___"
     dw "___                          ___"
     dw "___                          ___"
     dw "___                          ___"
@@ -1932,143 +1932,143 @@ item_names:
 
     dw "___                          ___" ; 70
     dw "___                          ___"
-    dw "___     GANONS TOWER MAP     ___"
-    dw "___     TURTLE ROCK MAP      ___"
-    dw "___     THIEVES TOWN MAP     ___"
-    dw "___    TOWER OF HERA MAP     ___"
-    dw "___      ICE PALACE MAP      ___"
-    dw "___      SKULL WOODS MAP     ___"
-    dw "___      MISERY MIRE MAP     ___"
-    dw "___  PALACE OF DARKNESS MAP  ___"
-    dw "___      SWAMP PALACE MAP    ___"
+    dw "___     Ganon's Tower Map    ___"
+    dw "___     Turtle Rock Map      ___"
+    dw "___     Thieves' Town Map    ___"
+    dw "___    Tower of Hera Map     ___"
+    dw "___      Ice Palace Map      ___"
+    dw "___      Skull Woods Map     ___"
+    dw "___      Misery Mire Map     ___"
+    dw "___  Palace of Darkness Map  ___"
+    dw "___      Swamp Palace Map    ___"
     dw "___                          ___"
-    dw "___     DESERT PALACE MAP    ___"
-    dw "___    EASTERN PALACE MAP    ___"
+    dw "___     Desert Palace Map    ___"
+    dw "___    Eastern Palace Map    ___"
     dw "___                          ___"
-    dw "___     HYRULE CASTLE MAP    ___" ; 7F
+    dw "___     HYRULE CASTLE Map    ___" ; 7F
 
     dw "___                          ___" ; 80
     dw "___                          ___"
-    dw "___   GANONS TOWER COMPASS   ___"
-    dw "___   TURTLE ROCK COMPASS    ___"
-    dw "___   THIEVES TOWN COMPASS   ___"
-    dw "___  TOWER OF HERA COMPASS   ___"
-    dw "___    ICE PALACE COMPASS    ___"
-    dw "___    SKULL WOODS COMPASS   ___"
-    dw "___    MISERY MIRE COMPASS   ___"
-    dw "___PALACE OF DARKNESS COMPASS___"
-    dw "___    SWAMP PALACE COMPASS  ___"
+    dw "___   Ganon's Tower Compass  ___"
+    dw "___   Turtle Rock Compass    ___"
+    dw "___   Thieves' Town Compass  ___"
+    dw "___  Tower of Hera Compass   ___"
+    dw "___    Ice Palace Compass    ___"
+    dw "___    Skull Woods Compass   ___"
+    dw "___    Misery Mire Compass   ___"
+    dw "___Palace of Darkness Compass___"
+    dw "___    Swamp Palace Compass  ___"
     dw "___                          ___"
-    dw "___   DESERT PALACE COMPASS  ___"
-    dw "___  EASTERN PALACE COMPASS  ___"
+    dw "___   Desert Palace Compass  ___"
+    dw "___  Eastern Palace Compass  ___"
     dw "___                          ___"
     dw "___                          ___" ; 8F
 
     dw "___                          ___" ; 90
     dw "___                          ___"
-    dw "___   GANONS TOWER BIG KEY   ___"
-    dw "___   TURTLE ROCK BIG KEY    ___"
-    dw "___   THIEVES TOWN BIG KEY   ___"
-    dw "___  TOWER OF HERA BIG KEY   ___"
-    dw "___    ICE PALACE BIG KEY    ___"
-    dw "___    SKULL WOODS BIG KEY   ___"
-    dw "___    MISERY MIRE BIG KEY   ___"
-    dw "___PALACE OF DARKNESS BIG KEY___"
-    dw "___   SWAMP PALACE BIG KEY   ___"
+    dw "___   Ganon's Tower Big Key  ___"
+    dw "___   Turtle Rock Big Key    ___"
+    dw "___  Thieves' Town Big Key   ___"
+    dw "___  Tower of Hera Big Key   ___"
+    dw "___    Ice Palace Big Key    ___"
+    dw "___    Skull Woods Big Key   ___"
+    dw "___    Misery Mire Big Key   ___"
+    dw "___Palace of Darkness Big Key___"
+    dw "___   Swamp Palace Big Key   ___"
     dw "___                          ___"
-    dw "___   DESERT PALACE BIG KEY  ___"
-    dw "___  EASTERN PALACE BIG KEY  ___"
+    dw "___   Desert Palace Big Key  ___"
+    dw "___  Eastern Palace Big Key  ___"
     dw "___                          ___"
     dw "___                          ___" ; 9F    
 
-    dw "___     HYRULE CASTLE KEY    ___" ; A0
-    dw "___        SEWERS KEY        ___"
-    dw "___    EASTERN PALACE KEY    ___"
-    dw "___     DESERT PALACE KEY    ___"
-    dw "___      CASTLE TOWER KEY    ___"
-    dw "___      SWAMP PALACE KEY    ___"
-    dw "___  PALACE OF DARKNESS KEY  ___"
-    dw "___      MISERY MIRE KEY     ___"
-    dw "___      SKULL WOODS KEY     ___"
-    dw "___       ICE PALACE KEY     ___"
-    dw "___     TOWER OF HERA KEY    ___"
-    dw "___      THIEVES TOWN KEY    ___"
-    dw "___      TURTLE ROCK KEY     ___"
-    dw "___      GANONS TOWER KEY    ___"
+    dw "___     Hyrule Castle Key    ___" ; A0
+    dw "___        Sewers Key        ___"
+    dw "___    Eastern Palace Key    ___"
+    dw "___     Desert Palace Key    ___"
+    dw "___      Castle Tower Key    ___"
+    dw "___      Swamp Palace Key    ___"
+    dw "___  Palace of Darkness Key  ___"
+    dw "___      Misery Mire Key     ___"
+    dw "___      Skull Woods Key     ___"
+    dw "___       Ice Palace Key     ___"
+    dw "___     Tower of Hera Key    ___"
+    dw "___     Thieves' Town Key    ___"
+    dw "___      Turtle Rock Key     ___"
+    dw "___      Ganon's Tower Key   ___"
     dw "___                          ___"
     dw "___                          ___" ; AF    
 
 dungeon_names:
     dw "___          UNUSED          ___" ; 0
     dw "___          UNUSED          ___" ; 1
-    dw "___       GANONS TOWER       ___" ; 2
-    dw "___       TURTLE ROCK        ___" ; 3
-    dw "___       THIEVES TOWN       ___" ; 4
-    dw "___      TOWER OF HERA       ___" ; 5
-    dw "___        ICE PALACE        ___" ; 6
-    dw "___       SKULL WOODS        ___" ; 7
-    dw "___       MISERY MIRE        ___" ; 8
-    dw "___    PALACE OF DARKNESS    ___" ; 9
-    dw "___       SWAMP PALACE       ___" ; A
+    dw "___       Ganon's Tower      ___" ; 2
+    dw "___       Turtle Rock        ___" ; 3
+    dw "___       Thieves' Town      ___" ; 4
+    dw "___      Tower of Hera       ___" ; 5
+    dw "___        Ice Palace        ___" ; 6
+    dw "___       Skull Woods        ___" ; 7
+    dw "___       Misery Mire        ___" ; 8
+    dw "___    Palace of Darkness    ___" ; 9
+    dw "___       Swamp Palace       ___" ; A
     dw "___          UNUSED          ___" ; B
-    dw "___       DESERT PALACE      ___" ; C
-    dw "___      EASTERN PALACE      ___" ; D
+    dw "___       Desert Palace      ___" ; C
+    dw "___      Eastern Palace      ___" ; D
     dw "___          UNUSED          ___" ; E
-    dw "___       HYRULE CASTLE      ___" ; F
+    dw "___       Hyrule Castle      ___" ; F
 
 dungeon_names_key:
-    dw "___       HYRULE CASTLE      ___" ; 0
+    dw "___       Hyrule Castle      ___" ; 0
     dw "___          UNUSED          ___" ; 1
     dw "___          UNUSED          ___" ; 2
-    dw "___       DESERT PALACE      ___" ; 3
-    dw "___       CASTLE TOWER       ___" ; 4
-    dw "___       SWAMP PALACE       ___" ; 5
-    dw "___    PALACE OF DARKNESS    ___" ; 6
-    dw "___       MISERY MIRE        ___" ; 7
-    dw "___       SKULL WOODS        ___" ; 8
-    dw "___        ICE PALACE        ___" ; 9
-    dw "___      TOWER OF HERA       ___" ; A
-    dw "___       THIEVES TOWN       ___" ; B
-    dw "___       TURTLE ROCK        ___" ; C
-    dw "___       GANONS TOWER       ___" ; D
+    dw "___       Desert Palace      ___" ; 3
+    dw "___       Castle Tower       ___" ; 4
+    dw "___       Swamp Palace       ___" ; 5
+    dw "___    Palace of Darkness    ___" ; 6
+    dw "___       Misery Mire        ___" ; 7
+    dw "___       Skull Woods        ___" ; 8
+    dw "___        Ice Palace        ___" ; 9
+    dw "___      Tower of Hera       ___" ; A
+    dw "___       Thieves' Town      ___" ; B
+    dw "___       Turtle Rock        ___" ; C
+    dw "___       Ganon's Tower      ___" ; D
     dw "___          UNUSED          ___" ; E
     dw "___          UNUSED          ___" ; F
 
 region_names:
-    dw "___         CRATERIA         ___" ; 0
-    dw "___         CRATERIA         ___" ; 1
-    dw "___         CRATERIA         ___" ; 2
-    dw "___         BRINSTAR         ___" ; 3
-    dw "___         BRINSTAR         ___" ; 4
-    dw "___         BRINSTAR         ___" ; 5
-    dw "___         NORFAIR          ___" ; 6
-    dw "___         NORFAIR          ___" ; 7
-    dw "___         NORFAIR          ___" ; 8
-    dw "___         MARIDIA          ___" ; 9
-    dw "___         MARIDIA          ___" ; A
-    dw "___         MARIDIA          ___" ; B
-    dw "___       WRECKED SHIP       ___" ; C
-    dw "___       WRECKED SHIP       ___" ; D
-    dw "___      LOWER NORFAIR       ___" ; E
-    dw "___      LOWER NORFAIR       ___" ; F
+    dw "___         Crateria         ___" ; 0
+    dw "___         Crateria         ___" ; 1
+    dw "___         Crateria         ___" ; 2
+    dw "___         Brinstar         ___" ; 3
+    dw "___         Brinstar         ___" ; 4
+    dw "___         Brinstar         ___" ; 5
+    dw "___         Norfair          ___" ; 6
+    dw "___         Norfair          ___" ; 7
+    dw "___         Norfair          ___" ; 8
+    dw "___         Maridia          ___" ; 9
+    dw "___         Maridia          ___" ; A
+    dw "___         Maridia          ___" ; B
+    dw "___       Wrecked Ship       ___" ; C
+    dw "___       Wrecked Ship       ___" ; D
+    dw "___      Lower Norfair       ___" ; E
+    dw "___      Lower Norfair       ___" ; F
 
 keycard_names:
-    dw "___     LEVEL 1 KEYCARD      ___" ; 0
-    dw "___     LEVEL 2 KEYCARD      ___" ; 1
-    dw "___       BOSS KEYCARD       ___" ; 2
-    dw "___     LEVEL 1 KEYCARD      ___" ; 3
-    dw "___     LEVEL 2 KEYCARD      ___" ; 4
-    dw "___       BOSS KEYCARD       ___" ; 5
-    dw "___     LEVEL 1 KEYCARD      ___" ; 6
-    dw "___     LEVEL 2 KEYCARD      ___" ; 7
-    dw "___       BOSS KEYCARD       ___" ; 8
-    dw "___     LEVEL 1 KEYCARD      ___" ; 9
-    dw "___     LEVEL 2 KEYCARD      ___" ; A
-    dw "___       BOSS KEYCARD       ___" ; B
-    dw "___     LEVEL 1 KEYCARD      ___" ; C
-    dw "___       BOSS KEYCARD       ___" ; D
-    dw "___     LEVEL 1 KEYCARD      ___" ; E
-    dw "___       BOSS KEYCARD       ___" ; F
+    dw "___     Level 1 Keycard      ___" ; 0
+    dw "___     Level 2 Keycard      ___" ; 1
+    dw "___       Boss Keycard       ___" ; 2
+    dw "___     Level 1 Keycard      ___" ; 3
+    dw "___     Level 2 Keycard      ___" ; 4
+    dw "___       Boss Keycard       ___" ; 5
+    dw "___     Level 1 Keycard      ___" ; 6
+    dw "___     Level 2 Keycard      ___" ; 7
+    dw "___       Boss Keycard       ___" ; 8
+    dw "___     Level 1 Keycard      ___" ; 9
+    dw "___     Level 2 Keycard      ___" ; A
+    dw "___       Boss Keycard       ___" ; B
+    dw "___     Level 1 Keycard      ___" ; C
+    dw "___       Boss Keycard       ___" ; D
+    dw "___     Level 1 Keycard      ___" ; E
+    dw "___       Boss Keycard       ___" ; F
 
 
 cleartable
@@ -2237,9 +2237,9 @@ write_placeholders:
 char_table:
     ; Each unsupported value translate to "?" $38FE to raise a visual indication
     ;  <sp>   !      "      #      $      %      &      '      (      )      *      +      ,      -      .      /
-    dw $384E, $38FF, $38FC, $38FE, $38FE, $380A, $38FE, $38FC, $38FE, $38FE, $38FE, $38FE, $38FB, $38CF, $38FA, $38FE
+    dw $384E, $38FF, $38AA, $38AE, $38FE, $380A, $38FE, $38FC, $38FE, $38FE, $38FE, $38AF, $38FB, $38CF, $38FA, $38FE
     ;  0      1      2      3      4      5      6      7      8      9      :      ;      <      =      >      ?
-    dw $3809, $3800, $3801, $3802, $3803, $3804, $3805, $3806, $3807, $3808, $38FE, $38FE, $38FE, $38FE, $38FE, $38FE
+    dw $3889, $3880, $3881, $3882, $3883, $3884, $3885, $3886, $3887, $3888, $38AB, $38FE, $38FE, $38FE, $38FE, $38FE
     ;  @      A      B      C      D      E      F      G      H      I      J      K      L      M      N      O
     dw $38FE, $38E0, $38E1, $38E2, $38E3, $38E4, $38E5, $38E6, $38E7, $38E8, $38E9, $38EA, $38EB, $38EC, $38ED, $38EE
     ;  P      Q      R      S      T      U      V      W      X      Y      Z      [      \      ]      ^      _
@@ -2247,9 +2247,9 @@ char_table:
 
 ; Lowercase Letters, which simply translate to uppercase
     ;  `      A      B      C      D      E      F      G      H      I      J      K      L      M      N      O
-    dw $38FE, $38E0, $38E1, $38E2, $38E3, $38E4, $38E5, $38E6, $38E7, $38E8, $38E9, $38EA, $38EB, $38EC, $38ED, $38EE
+    dw $38FE, $3890, $3891, $3892, $3893, $3894, $3895, $3896, $3897, $3898, $3899, $389A, $389B, $389C, $389D, $389E
     ;  P      Q      R      S      T      U      V      W      X      Y      Z      {      |      }      ~      <DEL>
-    dw $38EF, $38F0, $38F1, $38F2, $38F3, $38F4, $38F5, $38F6, $38F7, $38F8, $38F9, $38FE, $38FE, $38FE, $38FE, $38FE
+    dw $389F, $38A0, $38A1, $38A2, $38A3, $38A4, $38A5, $38A6, $38A7, $38A8, $38A9, $38FE, $38FE, $38FE, $38AC, $38FE
 
 org $c58749
 base $858749
