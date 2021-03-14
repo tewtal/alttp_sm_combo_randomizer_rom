@@ -162,7 +162,7 @@ sm_fix_checksum:
     phy
     php
 
-     %ai16()
+    %ai16()
     
     lda $14
     pha
@@ -242,6 +242,13 @@ sm_copy_alttp_items: ; Copies ALTTP items into a temporary SRAM buffer used when
     inx : inx
     cpx #$0048
     bne -
+    ldx #$0000
+-
+    lda.l !SRAM_ALTTP_START+$4E0,x    ; copy 4E0-4EF from ALTTP SRAM for dungeon small key count
+    sta.l !SRAM_ALTTP_SMALLKEY_BUF,x  ; save to temporary buffer
+    inx : inx
+    cpx #$0010
+    bne -
 
     plp
     plx
@@ -266,6 +273,13 @@ sm_save_alttp_items: ; Restores ALTTP items to the real SRAM
     sta.l !SRAM_ALTTP_START+$420,x    ; save to 420-467 in ALTTP SRAM
     inx : inx
     cpx #$0048
+    bne -
+    ldx #$0000
+-
+    lda.l !SRAM_ALTTP_SMALLKEY_BUF,x  ; copy from temporary buffer
+    sta.l !SRAM_ALTTP_START+$4E0,x    ; save to 4E0-4EF from ALTTP SRAM for dungeon small key count
+    inx : inx
+    cpx #$0010
     bne -
 
     plp

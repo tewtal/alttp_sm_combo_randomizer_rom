@@ -103,6 +103,26 @@ macro CopyDialog(address)
 	%CopyDialogIndirect()
 endmacro
 ;--------------------------------------------------------------------------------
+macro CopyDialogTable(tbl, entries)
+	REP #$20
+	JSL GetRandomInt	
+	STA.W $4204
+	SEP #$20
+	LDA.B #<entries>
+	STA.W $4206
+	NOP #7
+	REP #$20
+	LDA.W $4216
+	ASL
+	TAX
+	LDA.L <tbl>, x ; Load pointer into A
+	STA $00
+	SEP #$20
+	LDA.B #<tbl>>>16
+	STA.B $02
+	%CopyDialogIndirect()
+endmacro
+;--------------------------------------------------------------------------------
 macro CopyDialogIndirect()
 	REP #$20 : LDA !OFFSET_POINTER : TAX : LDY.w #$0000 : SEP #$20 ; copy 2-byte offset pointer to X and set Y to 0
 	?loop:
@@ -137,28 +157,29 @@ FreeDungeonItemNotice:
 		LDA $02 : PHA
 	;--------------------------------
 
+	LDA.l !MULTIWORLD_PICKUP : BEQ + : BRL .skip : +
 	LDA.l FreeItemText : BNE + : BRL .skip : +
 
 	LDA #$00 : STA $7F5010 ; initialize scratch
 	LDA !ITEM_TEMPORARY
-	CMP.b #$24 : BNE + ; general small key
+	CMP.b #$24 : BEQ + : BRL ++ : + ; general small key
 		%CopyDialog(Notice_SmallKeyOf)
-		LDA !OFFSET_RETURN : DEC #2 : STA !OFFSET_POINTER
+		REP #$20 : LDA !OFFSET_RETURN : DEC #2 : STA !OFFSET_POINTER : SEP #$20
 		%CopyDialog(Notice_Self)
 		BRL .done
-	+ : CMP.b #$25 : BNE + ; general compass
+	++ : CMP.b #$25 : BNE + ; general compass
 		%CopyDialog(Notice_CompassOf)
-		LDA !OFFSET_RETURN : DEC #2 : STA !OFFSET_POINTER
+		REP #$20 : LDA !OFFSET_RETURN : DEC #2 : STA !OFFSET_POINTER : SEP #$20
 		%CopyDialog(Notice_Self)
 		BRL .done
 	+ : CMP.b #$33 : BNE + ; general map
 		%CopyDialog(Notice_MapOf)
-		LDA !OFFSET_RETURN : DEC #2 : STA !OFFSET_POINTER
+		REP #$20 : LDA !OFFSET_RETURN : DEC #2 : STA !OFFSET_POINTER : SEP #$20
 		%CopyDialog(Notice_Self)
 		BRL .done
 	+ : CMP.b #$32 : BNE + ; general big key
 		%CopyDialog(Notice_BigKeyOf)
-		LDA !OFFSET_RETURN : DEC #2 : STA !OFFSET_POINTER
+		REP #$20 : LDA !OFFSET_RETURN : DEC #2 : STA !OFFSET_POINTER : SEP #$20
 		%CopyDialog(Notice_Self)
 		BRL .done
 	+
@@ -171,18 +192,21 @@ FreeDungeonItemNotice:
 		BRL .dungeon
 	+ : CMP.b #$90 : BNE + ; big key of...
 		%CopyDialog(Notice_BigKeyOf)
-		BRA .dungeon
+		BRL .dungeon
 	+ : CMP.b #$A0 : BNE + ; small key of...
 		LDA !ITEM_TEMPORARY : CMP.b #$AF : BNE ++ : BRL .skip : ++
 		%CopyDialog(Notice_SmallKeyOf)
 		PLA : AND.b #$0F : STA $7F5020 : LDA.b #$0F : !SUB $7F5020 : PHA
 		LDA #$01 : STA $7F5010 ; set up a flip for small keys
-		BRA .dungeon
+		BRL .dungeon
+	+ : CMP.b #$D0 : BNE + ; keycard for ...
+		%CopyDialog(Notice_KeycardFor)
+		BRL .region
 	+
 	BRL .skip ; it's not something we are going to give a notice for
 
 	.dungeon
-	LDA !OFFSET_RETURN : DEC #2 : STA !OFFSET_POINTER
+	REP #$20 : LDA !OFFSET_RETURN : DEC #2 : STA !OFFSET_POINTER : SEP #$20
 	LDA !ITEM_TEMPORARY
 	AND.b #$0F ; looking at low bits only
 	STA $7F5011
@@ -218,12 +242,52 @@ FreeDungeonItemNotice:
 	+ : CMP.b #$0C : BNE + ; ...desert palace
 		%CopyDialog(Notice_Desert) : BRL .done
 	+ : CMP.b #$0D : BNE + ; ...eastern palace
-		%CopyDialog(Notice_Eastern) : BRA .done
+		%CopyDialog(Notice_Eastern) : BRL .done
 	+ : CMP.b #$0E : BNE + ; ...hyrule castle
-		%CopyDialog(Notice_Castle) : BRA .done
+		%CopyDialog(Notice_Castle) : BRL .done
 	+ : CMP.b #$0F : BNE + ; ...sewers
 		%CopyDialog(Notice_Sewers)
-	+
+	+ BRL .done
+
+	.region
+	REP #$20 : LDA !OFFSET_RETURN : DEC #2 : STA !OFFSET_POINTER : SEP #$20
+	LDA !ITEM_TEMPORARY
+	AND.b #$0F ; looking at low bits only
+	CMP.b #$00 : BNE + ; ...light world
+		%CopyDialog(Notice_CrateriaL1) : BRL .done
+	+ : CMP.b #$01 : BNE + ; ...dark world
+		%CopyDialog(Notice_CrateriaL2) : BRL .done
+	+ : CMP.b #$02 : BNE + ; ...ganon's tower
+		%CopyDialog(Notice_CrateriaBoss) : BRL .done
+	+ : CMP.b #$03 : BNE + ; ...turtle rock
+		%CopyDialog(Notice_BrinstarL1) : BRL .done
+	+ : CMP.b #$04 : BNE + ; ...thieves' town
+		%CopyDialog(Notice_BrinstarL2) : BRL .done
+	+ : CMP.b #$05 : BNE + ; ...tower of hera
+		%CopyDialog(Notice_BrinstarBoss) : BRL .done
+	+ : CMP.b #$06 : BNE + ; ...ice palace
+		%CopyDialog(Notice_NorfairL1) : BRL .done
+	+ : CMP.b #$07 : BNE + ; ...skull woods
+		%CopyDialog(Notice_NorfairL2) : BRL .done
+	+ : CMP.b #$08 : BNE + ; ...misery mire
+		%CopyDialog(Notice_NorfairBoss) : BRL .done
+	+ : CMP.b #$09 : BNE + ; ...dark palace
+		%CopyDialog(Notice_MaridiaL1) : BRL .done
+	+ : CMP.b #$0A : BNE + ; ...swamp palace
+		%CopyDialog(Notice_MaridiaL2) : BRL .done
+	+ : CMP.b #$0B : BNE + ; ...agahnim's tower
+		%CopyDialog(Notice_MaridiaBoss) : BRL .done
+	+ : CMP.b #$0C : BNE + ; ...desert palace
+		%CopyDialog(Notice_WreckedShipL1) : BRL .done
+	+ : CMP.b #$0D : BNE + ; ...eastern palace
+		%CopyDialog(Notice_WreckedShipBoss) : BRL .done
+	+ : CMP.b #$0E : BNE + ; ...hyrule castle
+		%CopyDialog(Notice_LowerNorfairL1) : BRL .done
+	+ : CMP.b #$0F : BNE + ; ...sewers
+		%CopyDialog(Notice_LowerNorfairBoss)
+	+ BRL .done
+
+
 	.done
 
 	STZ $1CF0 : STZ $1CF1 ; reset decompression buffer
@@ -250,139 +314,139 @@ RTL
 	PLY : PLX : PLA
 RTL
 ;--------------------------------------------------------------------------------
-DialogBlind:
-	%LoadDialogAddress(BlindText)
-	JSL.l Sprite_ShowMessageMinimal
-RTL
-;--------------------------------------------------------------------------------
-DialogFairyThrow:
-	LDA.l Restrict_Ponds : BEQ .normal
-	LDA $7EF35C : ORA $7EF35D : ORA $7EF35E : ORA $7EF35F : BNE .normal
+; DialogBlind:
+; 	%LoadDialogAddress(BlindText)
+; 	JSL.l Sprite_ShowMessageMinimal
+; RTL
+; ;--------------------------------------------------------------------------------
+; DialogFairyThrow:
+; 	LDA.l Restrict_Ponds : BEQ .normal
+; 	LDA $7EF35C : ORA $7EF35D : ORA $7EF35E : ORA $7EF35F : BNE .normal
 	
-	.noInventory
-	LDA $0D80, X : !ADD #$08 : STA $0D80, X
-	LDA.b #$51
-	LDY.b #$01
-RTL
-	.normal
-	LDA.b #$88
-	LDY.b #$00
-RTL
+; 	.noInventory
+; 	LDA $0D80, X : !ADD #$08 : STA $0D80, X
+; 	LDA.b #$51
+; 	LDY.b #$01
+; RTL
+; 	.normal
+; 	LDA.b #$88
+; 	LDY.b #$00
+; RTL
+; ;--------------------------------------------------------------------------------
+; DialogPyramidFairy:
+; 	%LoadDialogAddress(PyramidFairyText)
+; 	JSL.l Sprite_ShowMessageUnconditional
+; RTL
+; ;--------------------------------------------------------------------------------
+; DialogTriforce:
+; 	%LoadDialogAddress(TriforceText)
+; 	REP #$20 : LDA.w #$0171 : STA $1CF0 : SEP #$20 ; fix border
+; 	JSL.l Main_ShowTextMessage
+; 	JSL.l Messaging_Text
+; RTL
+; ;--------------------------------------------------------------------------------
+; DialogGanon1:
+; 	JSL.l CheckGanonVulnerability : BCS +
+; 		%LoadDialogAddress(GanonText1Alternate)
+; 		BRA ++
+; 	+
+; 		%LoadDialogAddress(GanonText1)
+; 	++
+; 	JSL.l Sprite_ShowMessageMinimal
+; RTL
+; ;--------------------------------------------------------------------------------
+; DialogGanon2:
+; 	JSL.l CheckGanonVulnerability : BCS +
+; 		%LoadDialogAddress(GanonText2Alternate)
+; 		BRA ++
+; 	+
+; 		%LoadDialogAddress(GanonText2)
+; 	++
+; 	JSL.l Sprite_ShowMessageMinimal
+; RTL
+; ;--------------------------------------------------------------------------------
+; DialogPedestal:
+; 	PHA
+; 	LDA $0202 : CMP.b #$0F : BEQ + ; Show normal text if book is not equipped
+; 	-
+; 	PLA : JSL Sprite_ShowMessageUnconditional ; Wacky Hylian Text
+; RTL
+; 	+
+; 	BIT $F4 : BVC - ; Show normal text if Y is not pressed
+; 	%LoadDialogAddress(MSPedestalText)
+; 	PLA : JSL Sprite_ShowMessageUnconditional ; Text From MSPedestalText (tables.asm)
+; RTL
 ;--------------------------------------------------------------------------------
-DialogPyramidFairy:
-	%LoadDialogAddress(PyramidFairyText)
-	JSL.l Sprite_ShowMessageUnconditional
-RTL
+; DialogEtherTablet:
+; 	PHA
+; 	LDA $0202 : CMP.b #$0F : BEQ + ; Show normal text if book is not equipped
+; 	-
+; 	PLA : JSL Sprite_ShowMessageUnconditional ; Wacky Hylian Text
+; RTL
+; 	+
+; 	BIT $F4 : BVC - ; Show normal text if Y is not pressed
+; 	LDA.l AllowHammerTablets : BEQ ++
+; 		LDA $7EF34B : BEQ .yesText : BRA .noText
+; 	++
+; 		LDA $7EF359 : CMP.b #$FF : BEQ .yesText : CMP.b #$02 : !BGE .noText
+; 	;++
+; 	.yesText
+; 	PLA : JSL Sprite_ShowMessageUnconditional ; Text From MSPedestalText (tables.asm)
+; RTL
+; 	.noText
+; 	PLA
+; RTL
+; ;--------------------------------------------------------------------------------
+; DialogBombosTablet:
+; 	PHA
+; 	LDA $0202 : CMP.b #$0F : BEQ + ; Show normal text if book is not equipped
+; 	-
+; 	PLA : JSL Sprite_ShowMessageUnconditional ; Wacky Hylian Text
+; RTL
+; 	+
+; 	BIT $F4 : BVC - ; Show normal text if Y is not pressed
+; 	LDA.l AllowHammerTablets : BEQ ++
+; 		LDA $7EF34B : BEQ .yesText : BRA .noText
+; 	++
+; 		LDA $7EF359 : CMP.b #$FF : BEQ .yesText : CMP.b #$02 : !BGE .noText
+; 	;++
+; 	.yesText
+; 	PLA : JSL Sprite_ShowMessageUnconditional ; Text From MSPedestalText (tables.asm)
+; RTL
+; 	.noText
+; 	PLA
+; RTL
 ;--------------------------------------------------------------------------------
-DialogTriforce:
-	%LoadDialogAddress(TriforceText)
-	REP #$20 : LDA.w #$0171 : STA $1CF0 : SEP #$20 ; fix border
-	JSL.l Main_ShowTextMessage
-	JSL.l Messaging_Text
-RTL
-;--------------------------------------------------------------------------------
-DialogGanon1:
-	JSL.l CheckGanonVulnerability : BCS +
-		%LoadDialogAddress(GanonText1Alternate)
-		BRA ++
-	+
-		%LoadDialogAddress(GanonText1)
-	++
-	JSL.l Sprite_ShowMessageMinimal
-RTL
-;--------------------------------------------------------------------------------
-DialogGanon2:
-	JSL.l CheckGanonVulnerability : BCS +
-		%LoadDialogAddress(GanonText2Alternate)
-		BRA ++
-	+
-		%LoadDialogAddress(GanonText2)
-	++
-	JSL.l Sprite_ShowMessageMinimal
-RTL
-;--------------------------------------------------------------------------------
-DialogPedestal:
-	PHA
-	LDA $0202 : CMP.b #$0F : BEQ + ; Show normal text if book is not equipped
-	-
-	PLA : JSL Sprite_ShowMessageUnconditional ; Wacky Hylian Text
-RTL
-	+
-	BIT $F4 : BVC - ; Show normal text if Y is not pressed
-	%LoadDialogAddress(MSPedestalText)
-	PLA : JSL Sprite_ShowMessageUnconditional ; Text From MSPedestalText (tables.asm)
-RTL
-;--------------------------------------------------------------------------------
-DialogEtherTablet:
-	PHA
-	LDA $0202 : CMP.b #$0F : BEQ + ; Show normal text if book is not equipped
-	-
-	PLA : JSL Sprite_ShowMessageUnconditional ; Wacky Hylian Text
-RTL
-	+
-	BIT $F4 : BVC - ; Show normal text if Y is not pressed
-	LDA.l AllowHammerTablets : BEQ ++
-		LDA $7EF34B : BEQ .yesText : BRA .noText
-	++
-		LDA $7EF359 : CMP.b #$FF : BEQ .yesText : CMP.b #$02 : !BGE .noText
-	;++
-	.yesText
-	PLA : JSL Sprite_ShowMessageUnconditional ; Text From MSPedestalText (tables.asm)
-RTL
-	.noText
-	PLA
-RTL
-;--------------------------------------------------------------------------------
-DialogBombosTablet:
-	PHA
-	LDA $0202 : CMP.b #$0F : BEQ + ; Show normal text if book is not equipped
-	-
-	PLA : JSL Sprite_ShowMessageUnconditional ; Wacky Hylian Text
-RTL
-	+
-	BIT $F4 : BVC - ; Show normal text if Y is not pressed
-	LDA.l AllowHammerTablets : BEQ ++
-		LDA $7EF34B : BEQ .yesText : BRA .noText
-	++
-		LDA $7EF359 : CMP.b #$FF : BEQ .yesText : CMP.b #$02 : !BGE .noText
-	;++
-	.yesText
-	PLA : JSL Sprite_ShowMessageUnconditional ; Text From MSPedestalText (tables.asm)
-RTL
-	.noText
-	PLA
-RTL
-;--------------------------------------------------------------------------------
-DialogUncle:
-	;%LoadDialog(UncleQuote,DialogUncleData)
-	%LoadDialogAddress(UncleText)
-	JSL Sprite_ShowMessageUnconditional
-RTL
-;--------------------------------------------------------------------------------
-DialogSahasrahla:
-	LDA.l $7EF374 : AND #$04 : BEQ + ;Check if player has green pendant
-		%LoadDialogAddress(SahasrahlaAfterItemText)
-		JSL.l Sprite_ShowMessageUnconditional
-		RTL
-	+
-	%LoadDialogAddress(SahasrahlaNoPendantText)
-	JSL.l Sprite_ShowMessageUnconditional
-RTL
-;--------------------------------------------------------------------------------
-DialogAlcoholic:
-	%LoadDialogAddress(AlcoholicText)
-	JSL.l Sprite_ShowMessageUnconditional
-RTL
-;--------------------------------------------------------------------------------
-DialogBombShopGuy:
-	LDA.l $7EF37A : AND #$05 : CMP #$05 : BEQ + ;Check if player has crystals 5 & 6
-		%LoadDialogAddress(BombShopGuyNoCrystalsText)
-		JSL.l Sprite_ShowMessageUnconditional
-		RTL
-	+
-	%LoadDialogAddress(BombShopGuyText)
-	JSL.l Sprite_ShowMessageUnconditional
-RTL
+; DialogUncle:
+; 	;%LoadDialog(UncleQuote,DialogUncleData)
+; 	%LoadDialogAddress(UncleText)
+; 	JSL Sprite_ShowMessageUnconditional
+; RTL
+; ;--------------------------------------------------------------------------------
+; DialogSahasrahla:
+; 	LDA.l $7EF374 : AND #$04 : BEQ + ;Check if player has green pendant
+; 		%LoadDialogAddress(SahasrahlaAfterItemText)
+; 		JSL.l Sprite_ShowMessageUnconditional
+; 		RTL
+; 	+
+; 	%LoadDialogAddress(SahasrahlaNoPendantText)
+; 	JSL.l Sprite_ShowMessageUnconditional
+; RTL
+; ;--------------------------------------------------------------------------------
+; DialogAlcoholic:
+; 	%LoadDialogAddress(AlcoholicText)
+; 	JSL.l Sprite_ShowMessageUnconditional
+; RTL
+; ;--------------------------------------------------------------------------------
+; DialogBombShopGuy:
+; 	LDA.l $7EF37A : AND #$05 : CMP #$05 : BEQ + ;Check if player has crystals 5 & 6
+; 		%LoadDialogAddress(BombShopGuyNoCrystalsText)
+; 		JSL.l Sprite_ShowMessageUnconditional
+; 		RTL
+; 	+
+; 	%LoadDialogAddress(BombShopGuyText)
+; 	JSL.l Sprite_ShowMessageUnconditional
+; RTL
 ;--------------------------------------------------------------------------------
 ; A0 - A9 - 0 - 9
 ; AA - C3 - A - Z

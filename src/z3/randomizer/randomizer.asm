@@ -55,7 +55,7 @@ incsrc spriteswap.asm
 incsrc sharedplayerpalettefix.asm
 incsrc fairyfountainrooms.asm
 
-org $cae980             ; Free space in SM bank 85
+org $cae980             ; Free space in SM bank 8a
 base $8ae980
 incsrc newitems.asm
 warnpc $8affff
@@ -90,7 +90,7 @@ incsrc halfmagicbat.asm
 incsrc mantle.asm
 incsrc swordswap.asm
 incsrc map.asm
-;incsrc dialog.asm
+incsrc dialog.asm
 incsrc events.asm
 incsrc entrances.asm
 incsrc heartbeep.asm
@@ -103,8 +103,9 @@ incsrc rngfixes.asm
 incsrc openmode.asm
 incsrc stats.asm
 incsrc textskip_functions.asm
+incsrc itemtext.asm
 incsrc textrenderer.asm
-warnpc $f90000
+warnpc $b8ffff
 
 org $1C8000 ; text tables for translation
 incbin data/i18n_en.bin
@@ -179,7 +180,6 @@ warnpc $51C801
 org $530000
 GFX_HUD_Palette:
 incbin data/hudpalette.pal
-warnpc $540000
 
 ;org $520000
 ;Extra_Text_Table:

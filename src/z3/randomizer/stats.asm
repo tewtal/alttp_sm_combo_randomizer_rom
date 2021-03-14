@@ -229,7 +229,7 @@ IncrementSmallKeys:
 			JSL AddInventory_incrementKeyLong
 		+
 		JSL.l UpdateKeys
-		PHY : LDY.b #24 : JSL.l FullInventoryExternal : PLY
+		PHY : LDY.b #$24 : JSL.l FullInventoryExternal : JSR CountChestKey : PLY
 		JSL.l HUD_RebuildLong
 	PLX
 RTL
@@ -244,7 +244,7 @@ IncrementSmallKeysNoPrimary:
 		LDA $1B : BEQ + ; skip room check if outdoors
 			PHP : REP #$20 ; set 16-bit accumulator
 				LDA $048E : CMP.w #$0087 : BNE ++ ; hera basement
-					PLP : PHY : LDY.b #24 : JSL.l FullInventoryExternal : PLY : BRA +
+					PLP : PHY : LDY.b #$24 : JSL.l FullInventoryExternal : JSR CountChestKey : PLY : BRA +
 				++
 			PLP
 		+
@@ -255,6 +255,41 @@ RTL
 DecrementSmallKeys:
 	STA $7EF36F ; thing we wrote over, write small key count
 	JSL.l UpdateKeys
+RTL
+;--------------------------------------------------------------------------------
+CountChestKeyLong: ; called from ItemDowngradeFix in itemdowngrade.asm
+	JSR CountChestKey
+RTL
+;--------------------------------------------------------------------------------
+CountChestKey: ; called by neighbor functions
+	PHA : PHX
+		CPY #$24 : BEQ +  ; small key for this dungeon - use $040C
+		CPY #$A0 : !BLT .end ; Ignore most items
+		CPY #$AE : !BGE .end ; Ignore reserved key and generic key
+		TYA : AND.B #$0F : BNE ++ ; If this is a sewers key, instead count it as an HC key
+			INC
+		++ TAX : BRA .count  ; use Key id instead of $040C (Keysanity)
+		+ LDA $040C : LSR : TAX
+		.count
+		LDA $7EF4E0, X : INC : STA $7EF4E0, X
+   .end
+	PLX : PLA
+RTS
+;--------------------------------------------------------------------------------
+CountBonkItem: ; called from GetBonkItem in bookofmudora.asm
+	LDA $A0 ; check room ID - only bonk keys in 2 rooms so we're just checking the lower byte
+
+	CMP #115 : BNE + ; Desert Bonk Key
+		LDA.L BonkKey_Desert : BRA ++
+	+ : CMP #140 : BNE + ; GTower Bonk Key
+		LDA.L BonkKey_GTower : BRA ++
+	+ LDA.B #$24 ; default to small key
+	++
+	CMP #$24 : BNE +
+		PHY
+			TAY : JSR CountChestKey
+		PLY
+	+
 RTL
 ;--------------------------------------------------------------------------------
 IncrementAgahnim2Sword:

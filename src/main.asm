@@ -27,10 +27,14 @@ incsrc "sm/newgame.asm"                     ; Super Metroid New Game Initializat
 incsrc "sm/minorfixes.asm"                  ; Super Metroid some softlock removals etc
 incsrc "sm/demofix.asm"                     ; Super Metroid Stop demos from playing
 incsrc "sm/maps.asm"                        ; Super Metroid map pause screen and HUD changes
+incsrc "sm/map_icons.asm"                   ; Super Metroid door icons for keysanity map
 incsrc "sm/max_ammo.asm"                    ; Super Metroid max ammo patch by personitis, adapted by Leno for Crossover
 incsrc "sm/multiworld.asm"                  ; Super Metroid Multiworld support features
 incsrc "sm/sprite/sprite.asm"               ; Super Metroid custom Samus sprite "engine" by Artheau
 incsrc "sm/titlescreen.asm"                 ; Super Metroid Upload New Title Screen GFX
+incsrc "sm/keycards.asm"                    ; Super Metroid Keycard system
+incsrc "sm/plminject.asm"                   ; Super Metroid PLM Injection
+incsrc "sm/messagebox.asm"                  ; Super Metroid Messagebox improvements
 
 ; --- ALTTP code ---
 incsrc "z3/hirom.asm"	                    ; ALTTP ExHiROM patch

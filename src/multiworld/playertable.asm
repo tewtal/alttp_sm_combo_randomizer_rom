@@ -3,14 +3,14 @@
 ; (12-byte name, 4 bytes of data if needed)
 
 rando_player_table:
-    db "  PLAYER 1  " : dw $0000, $0000
-    db "  PLAYER 2  " : dw $0000, $0000
-    db "  PLAYER 3  " : dw $0000, $0000
-    db "  PLAYER 4  " : dw $0000, $0000
-    db "  PLAYER 5  " : dw $0000, $0000
-    db "  PLAYER 6  " : dw $0000, $0000
-    db "  PLAYER 7  " : dw $0000, $0000
-    db "  PLAYER 8  " : dw $0000, $0000
+    db "  Player 1  " : dw $0000, $0000
+    db "  Player 2  " : dw $0000, $0000
+    db "  Player 3  " : dw $0000, $0000
+    db "  Player 4  " : dw $0000, $0000
+    db "  Player 5  " : dw $0000, $0000
+    db "  Player 6  " : dw $0000, $0000
+    db "  Player 7  " : dw $0000, $0000
+    db "  Player 8  " : dw $0000, $0000
     db "123456789012" : dw $0000, $0000
     db "123456789012" : dw $0000, $0000
     db "123456789012" : dw $0000, $0000
