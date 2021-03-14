@@ -79,7 +79,13 @@ base $88f000
 msg_copy_charset:
     rep #$30
 
-    lda #$4400
+    ; Get the correct pointer into BG3 tilemap
+    lda $005d
+    asl #4
+    and #$f000
+    clc
+    adc #$0400
+
     sta $2116
     lda #$1801
     sta $4310
@@ -102,7 +108,14 @@ msg_copy_charset:
     
 msg_restore_vram:
     rep #$20
-    lda #$4400
+
+    ; Get the correct pointer into BG3 tilemap
+    lda $005d
+    asl #4
+    and #$f000
+    clc
+    adc #$0400
+    
     sta $2116
     lda #$1801
     sta $4310
