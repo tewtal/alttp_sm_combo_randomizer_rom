@@ -124,7 +124,7 @@ RTL
 ;ProcessBottleMenu:
 ;--------------------------------------------------------------------------------
 ProcessBottleMenu:
-	LDA $F4 : AND #$40 : BEQ .y_not_pressed ; skip if Y is not down
+;	LDA $F4 : AND #$40 : BEQ .y_not_pressed ; skip if Y is not down
 	LDA $7EF34F ; check bottle state
 	BEQ .no_bottles ; skip if we have no bottles
 	PHX
@@ -137,9 +137,9 @@ ProcessBottleMenu:
 	.no_bottles
 	LDA #$00 ; pretend like the controller state was 0 from the overridden load
 RTL
-	.y_not_pressed
-	LDA $F4 : AND.b #$0C ; thing we wrote over - load controller state
-RTL
+;	.y_not_pressed
+;	LDA $F4 : AND.b #$0C ; thing we wrote over - load controller state
+;RTL
 ;--------------------------------------------------------------------------------
 
 ;--------------------------------------------------------------------------------
