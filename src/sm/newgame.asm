@@ -43,7 +43,7 @@ introskip_doorflags:
     sta $7ed8b8
 
     ; Set up open mode event bit flags
-    lda #$0001
+    lda.l config_events
     sta $7ed820
     
     lda #$0000
