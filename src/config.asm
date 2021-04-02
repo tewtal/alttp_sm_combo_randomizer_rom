@@ -17,3 +17,7 @@ config_sm_sprite:    ; $F47004
 ; Enables keysanity specific code sections.
 config_keysanity:    ; $F47006
     dw #$0000
+
+; Number of SM bosses to defeat
+config_sm_bosses:
+    db #$04
