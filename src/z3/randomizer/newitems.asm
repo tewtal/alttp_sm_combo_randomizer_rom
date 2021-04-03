@@ -184,6 +184,79 @@ endmacro
 ; 	PLA : STA $00
 ; RTS
 ;--------------------------------------------------------------------------------
+macro TopHalf(address)
+	LDA <address> : !ADD #$10 : STA <address>
+endmacro
+
+macro BottomHalf(address)
+	PHA : PHX
+		LDA <address> : INC : AND #$0F : TAX
+		LDA <address> : AND #$F0 : STA <address>
+		TXA : ORA <address> : STA <address>
+	PLX : PLA
+endmacro
+
+; Subroutine to increment dungeon chest counters.
+DungeonChestCounterIncrement:
+	JSR DungeonChestCounterIncrementMain
+RTL
+
+DungeonChestCounterIncrementMain:
+	LDA $040C ; get dungeon id
+
+	CMP.b #$00 : BNE + ; Sewers (Escape)
+		BRA ++
+	+ CMP.b #$02 : BNE + ; Hyrule Castle (Escape)
+		++
+		CPY.b #$32 : BNE ++ : BRL .end : ++ ; Prison guard big key doesn't count for dungeon chest counts.
+		%TopHalf($7EF434)
+		BRL .end
+	+ CMP.b #$04 : BNE + ; Eastern Palace
+		LDA $7EF436 : INC : AND #$07 : TAX
+		LDA $7EF436 : AND #$F8 : STA $7EF436
+		TXA : ORA $7EF436 : STA $7EF436
+		BRL .end
+	+ CMP.b #$06 : BNE + ; Desert Palace
+		LDA $7EF435 : !ADD #$20 : STA $7EF435
+		BRL .end
+	+ CMP.b #$08 : BNE + ; Agahnim's Tower
+		LDA $7EF435 : INC : AND #$03 : TAX
+		LDA $7EF435 : AND #$FC : STA $7EF435
+		TXA : ORA $7EF435 : STA $7EF435
+		BRL .end
+	+ CMP.b #$0A : BNE + ; Swamp Palace
+		%BottomHalf($7EF439)
+		BRL .end
+	+ CMP.b #$0C : BNE + ; Palace of Darkness
+		%BottomHalf($7EF434)
+		BRL .end
+	+ CMP.b #$0E : BNE + ; Misery Mire
+		%BottomHalf($7EF438)
+		BRL .end
+	+ CMP.b #$10 : BNE + ; Skull Woods
+		%TopHalf($7EF437)
+		BRL .end
+	+ CMP.b #$12 : BNE + ; Ice Palace
+		%TopHalf($7EF438)
+		BRL .end
+	+ CMP.b #$14 : BNE + ; Tower of Hera
+		LDA $7EF435 : !ADD #$04 : AND #$1C : TAX
+		LDA $7EF435 : AND #$E3 : STA $7EF435
+		TXA : ORA $7EF435 : STA $7EF435
+		BRL .end
+	+ CMP.b #$16 : BNE + ; Thieves' Town
+		%BottomHalf($7EF437)
+		BRL .end
+	+ CMP.b #$18 : BNE + ; Turtle Rock
+		%TopHalf($7EF439)
+		BRL .end
+	+ CMP.b #$1A : BNE + ; Ganon's Tower
+		LDA $7EF436 : !ADD #$08 : STA $7EF436
+		;BRL .end
+	+
+	.end
+RTS
+
 AddReceivedItemExpandedGetItem:
 	PHX
 	
@@ -196,13 +269,20 @@ AddReceivedItemExpandedGetItem:
 	;STA $FFFFFF
 
 	lda.l config_multiworld
-	beq +
+	beq .ownItem
 
 	; If this is a multiworld item for someone else, skip picking the item up and just play
 	; the animation, also, write this item to the outgoing queue
 	lda !MULTIWORLD_PICKUP
 	cmp #$01
-	bne +
+	bne .ownItem
+
+	; Check if we're indoors and increment the dungeon chest counter if so.
+	; Increment it here because the normal item get routine will be skipped.
+	LDA $1b : BEQ +
+	JSR DungeonChestCounterIncrementMain
++
+
 	plx
 
 	pla : pla : pla ; Align the stack by popping the return value off it (so we can JML instead of RTL)
@@ -225,7 +305,7 @@ AddReceivedItemExpandedGetItem:
 
 	phx
 	jml $098763		; Skip all code that gives Link the item and just show the graphics
-+
+.ownItem
 
 	LDA $02D8 ; check inventory
 	JSL.l FreeDungeonItemNotice
