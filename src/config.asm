@@ -18,6 +18,10 @@ config_sm_sprite:    ; $F47004
 config_keysanity:    ; $F47006
     dw #$0000
 
+; Number of SM bosses to defeat
+config_sm_bosses:
+    db #$04
+
 ; starting events
 ; 0001 is zebes awake (default)
 ; 0400 is Tourian open (AKA Fast MB)
