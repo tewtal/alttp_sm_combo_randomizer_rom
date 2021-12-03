@@ -257,6 +257,7 @@ CrystalPendantFlags_2:
 	db $40 ; Turtle Rock
 ;Pendant: $00
 ;Crystal: $40
+;SM Boss: $80
 ;--------------------------------------------------------------------------------
 ; 0x18005D - 0x18005F (unused)
 ;--------------------------------------------------------------------------------
@@ -617,6 +618,8 @@ CrystalPendantFlags:
 ;Crystal 5: $04
 ;Crystal 6: $01
 ;Crystal 7: $08
+
+;SM Token : $00 -- Setting this to $00 should always make the price spawn
 ;--------------------------------------------------------------------------------
 ;Dungeons with no drops should match their respective world's normal vanilla prize ;xxx
 ;--------------------------------------------------------------------------------
@@ -634,6 +637,7 @@ org $01C6FC ; PC 0xC6FC - Bank01.asm:10344 - (db $00, $00, $01, $02, $00, $06, $
 	db $03 ; Tower of Hera
 	db $06 ; Thieves' Town
 	db $06 ; Turtle Rock
+
 ;Ether/Nothing: $00
 ;Green Pendant: $01
 ;Blue Pendant: $02
@@ -641,6 +645,9 @@ org $01C6FC ; PC 0xC6FC - Bank01.asm:10344 - (db $00, $00, $01, $02, $00, $06, $
 ;Heart Container: $04
 ;Bombos: $05
 ;Crystal: $06
+
+;SM Tokens: $80, $81, $82, $83
+
 ;--------------------------------------------------------------------------------
 org $02885E ; PC 0x1085E - Bank02.asm:1606 - (dw $0006, $005A, $0029, $0090, $00DE, $00A4, $00AC, $000D) ; DEPRECATED - DISCONTINUE USE
 dw $0006 ; Crystal 2 Location

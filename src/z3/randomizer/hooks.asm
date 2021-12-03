@@ -1240,6 +1240,21 @@ org $01C715 ; <- C715 - Bank01.asm:10358 - (LDA $7EF3CA : BNE .inDarkWorld)
 LDA CrystalPendantFlags_2, X
 ;JSL.l GetPendantCrystalWorld
 ;================================================================================
+org $098BBC ; #_098BBC: LDA.w .receipt_ids,Y (AncillaAdd_FallingPrize)
+JSL AncillaAdd_FallingPrize_ExtendedItems
+NOP #2
+
+org $08CAD6; #_08CAD6: LDA.w $0C5E,X (Ancilla29_MilestoneItemGet)
+JSL Ancilla29_MilestoneItemGet_ExtendedItems
+NOP #2
+
+org $00E4A2
+JML Graphics_LoadChrHalfSlot_ExtendedItems
+NOP #3
+
+org $0ABAB9
+JML WorldMap_LoadSpriteGFX_ExtendedItems
+
 ;org $0AC5C3 ; <- 545C3 - Bank0A.asm:1859 - (LDA $7EF374 : AND $0AC5A6, X : BEQ .fail)
 ;NOP #10
 ;CLC

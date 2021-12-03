@@ -74,8 +74,11 @@ GetAnimatedSpriteGfxFile:
     CMP.b #$39 : !BGE +
 		LDY.b #$5D : JML GetAnimatedSpriteGfxFile_return
 	+
-	CMP.b #$50 : !BLT +
+	CMP.b #$6F : !BGE +
 		LDY.b #$F0 : JML GetAnimatedSpriteGfxFile_return
+	+
+	CMP.b #$70 : !BLT +
+		LDY.b #$F1 : JML GetAnimatedSpriteGfxFile_return
 	+
 		LDY.b #$32
 JML GetAnimatedSpriteGfxFile_return
@@ -115,6 +118,13 @@ dw $0600, $0630, $0660, $0690, $06C0, $06F0, $0720, $0750
 dw $0900, $0930, $0960, $0990, $09C0, $09F0, $0A20, $0A50
 dw $0C00, $0C30, $0C60, $0C90, $0CC0, $0CF0, $0D20, $0D50
 
+;#$68-6F - Unused
+dw $0600, $0600, $0600, $0600, $0600, $0600, $0600, $0600
+
+;#$70 - Super Metroid Item Graphics #2
+dw $0600, $0630, $0660, $0690, $06C0, $06F0, $0720, $0750
+dw $0900, $0930, $0960, $0990, $09C0, $09F0, $0A20, $0A50
+dw $0C00, $0C30, $0C60, $0C90, $0CC0, $0CF0, $0D20, $0D50
 
 GetAnimatedSpriteBufferPointer:
 	;PHB : PHK : PLB
@@ -690,7 +700,11 @@ AddReceivedItemExpanded:
 	db $50, $51, $52, $53, $54, $55, $56, $57, $58, $59, $5A, $5B, $5C, $5D, $5E, $5F ; Super Metroid
 	
 	; #$C0 - SM Items
-	db $60, $61, $62, $63, $64, $49, $49, $49, $49, $49, $49, $49, $49, $49, $49, $49 ; Super Metroid
+	db $60, $61, $62, $63, $64
+	
+	db $70, $71, $72, $73 ; Boss Tokens
+	
+	db $49, $49, $49, $49, $49, $49, $49 ; Super Metroid - Unused
 	
 	; #$D0 - SM Items (Keycards)
 	db $65, $66, $67, $65, $66, $67, $65, $66, $67, $65, $66, $67, $65, $67, $65, $67 ; Super Metroid
@@ -774,7 +788,14 @@ AddReceivedItemExpanded:
 	
 	; #$B0 - SM Items
 	db  1, 5, 1, 2, 2, 4, 2, 2, 2, 1, 4, 1, 2, 2, 2, 4 ; SM Items #1
-	db  1, 1, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 ; SM Items #2
+	
+	; #$C0 - SM Items Continued
+	db  1, 1, 2, 4, 4
+	
+	; #$C5 ... - SM Boss Reward tokens
+	db  4, 2, 2, 1
+	
+	db  4, 4, 4, 4, 4, 4, 4, 4
 	db  2, 1, 2, 2, 1, 2, 2, 1, 2, 2, 1, 2, 2, 2, 2, 2 ; Keycards
 	db  4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 ; Unused
 	db  4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 ; Unused
@@ -1232,7 +1253,6 @@ CountBottlesLong:
 ;    STZ $B0
 ;JML.l StatsFinalPrep
 ;--------------------------------------------------------------------------------
-
 Decomp_spr_high_extended:
 	cpy #$f0
 	bcs .extended
@@ -1254,8 +1274,8 @@ Decomp_spr_high_extended:
 	jml Decomp_spr_high_extended_return
 
 .bank
-	db GFX_SM_Items>>16, $00, $00, $00, $00, $00, $00, $00
+	db GFX_SM_Items>>16, GFX_SM_Items_2>>16, $00, $00, $00, $00, $00, $00
 .high
-	db GFX_SM_Items>>8, $00, $00, $00, $00, $00, $00, $00
+	db GFX_SM_Items>>8, GFX_SM_Items_2>>8, $00, $00, $00, $00, $00, $00
 .low
-	db GFX_SM_Items, $00, $00, $00, $00, $00, $00, $00
+	db GFX_SM_Items, GFX_SM_Items_2, $00, $00, $00, $00, $00, $00
