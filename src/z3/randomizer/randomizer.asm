@@ -106,6 +106,7 @@ incsrc stats.asm
 incsrc textskip_functions.asm
 incsrc itemtext.asm
 incsrc textrenderer.asm
+incsrc dungeonrewards.asm
 warnpc $b8ffff
 
 org $1C8000 ; text tables for translation
@@ -135,6 +136,14 @@ warnpc $504000
 org $504000
 GFX_SM_Items:
 incbin data/newitems_sm.gfx
+
+org $506000
+GFX_SM_Items_2:
+incbin data/newitems_sm_2.gfx
+
+; Uncompressed 3BPP sprite data used for extra map icons
+GFX_Map_ExtSprites:
+incbin data/newitems_sm_2.bin
 warnpc $508000
 
 

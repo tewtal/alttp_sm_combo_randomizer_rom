@@ -89,7 +89,8 @@ OverworldMap_CheckObject:
 RTL
 ++
 		LDA.l CrystalPendantFlags_2, X
-		AND.b #$40 : BNE .checkCrystal
+		BMI .checkSMToken
+		AND.b #$40 : BNE .checkCrystal		
 		
 		.checkPendant
 		LDA $7EF374 : AND.l CrystalPendantFlags, X : BNE .fail
@@ -97,6 +98,10 @@ RTL
 	
 		.checkCrystal
 		LDA $7EF37A : AND.l CrystalPendantFlags, X : BNE .fail
+		CLC : BRA .done
+
+		.checkSMToken
+		LDA !SRAM_SM_ITEM_BUF+$72 : AND.l CrystalPendantFlags, X : BNE .fail
 		CLC : BRA .done
 	
 		.fail

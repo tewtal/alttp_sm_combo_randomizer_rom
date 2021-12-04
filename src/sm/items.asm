@@ -45,8 +45,10 @@
 !DungeonKeyItemBig = #DungeonKeyItemBig
 !KeycardBig = #KeycardBig
 
-; org $01E9BC
-;     db $d1
+!BossRewardSmall = #BossRewardSmall
+
+org $01E9BC
+    db $b0
 
 ; org $cf8432
 ;     dw $efe0
@@ -1569,6 +1571,7 @@ base $859643
     dw !DungeonItemBig,    !Big, big_key       ; 60
     dw !DungeonKeyItemBig, !Big, small_key     ; 61 
     dw !KeycardBig,        !Big, keycard       ; 62
+    dw !EmptySmall,        !BossRewardSmall,  reward    ; 63
 
     dw !EmptySmall, !Small, btn_array
 
@@ -1743,13 +1746,14 @@ keycard:
     dw "___           for            ___"
     dw "___          REGION          ___"
 
-
+reward:
+    dw "______  Boss Reward PH   _______"
 
 cleartable
-
 btn_array:
 	DW $0000, $012A, $012A, $012C, $012C, $012C, $0000, $0000, $0000, $0000, $0000, $0000, $0120, $0000, $0000
 	DW $0000, $0000, $0000, $012A, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
+    DW $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
     DW $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
     DW $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
     DW $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
@@ -2070,8 +2074,89 @@ keycard_names:
     dw "___     Level 1 Keycard      ___" ; E
     dw "___       Boss Keycard       ___" ; F
 
+pendants:
+table box_yellow.tbl,rtl
+    dw "______     Red Pendant   _______"
+    dw "______    Blue Pendant   _______"
+table box_green.tbl,rtl
+    dw "______   Green Pendant   _______"
+
+crystals:
+table box.tbl,rtl
+    dw "______      Crystal 6    _______"
+table box_yellow.tbl,rtl
+    dw "______      Crystal 1    _______"
+table box.tbl,rtl
+    dw "______      Crystal 5    _______"
+table box_yellow.tbl,rtl
+    dw "______      Crystal 7    _______"
+    dw "______      Crystal 2    _______"
+    dw "______      Crystal 4    _______"
+    dw "______      Crystal 3    _______"
+
+bosses:
+    dw "______     Kraid Boss    _______"
+    dw "______   Phantoon Boss   _______"
+    dw "______    Draygon Boss   _______"
+    dw "______    Ridley Boss    _______"
+
+
 
 cleartable
+BossRewardSmall:
+    REP #$30
+    LDA $C7     ; RewardType
+    BEQ .pendant
+    CMP #$0040
+    BEQ .crystal
+    BRA .smboss
+    .pendant
+        LDY #pendants
+        BRA +
+    .crystal
+        LDY #crystals
+        BRA +
+    .smboss
+        LDY #bosses
++
+    LDA $C9     ; Bitflag
+
+    ; Loop until we've shifted out the bit from the mask
+    ; and increase Y to point to the correct message box
+-
+    LSR
+    BCS .found
+    PHA : TYA : CLC : ADC #$0040 : TAY : PLA
+    BRA -
+
+    .found
+
+    PHY
+
+    ; Copy message tilemap to RAM
+    LDX #$0000 
+               
+-
+    LDA $8040,x
+    STA $7E3200,x
+    INX #2        
+    CPX #$0040 
+    BNE -    
+
+    JSR $82B8
+
+    LDX #$0000             ;\
+    PLY
+-
+    LDA $0000, y
+    STA $7E3240, x
+    INY #2
+    INX #2
+    CPX #$0040
+    BNE -
+
+    LDX #$0080
+    JMP $82A0
 
 EmptyBig:
 	REP #$30
