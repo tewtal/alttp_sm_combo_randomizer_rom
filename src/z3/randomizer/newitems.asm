@@ -80,7 +80,7 @@ GetAnimatedSpriteGfxFile:
 	CMP.b #$70 : !BGE +
 		LDY.b #$F0 : JML GetAnimatedSpriteGfxFile_return
 	+
-	CMP.b #$71 : !BGE +
+	CMP.b #$80 : !BGE +
 		LDY.b #$F1 : JML GetAnimatedSpriteGfxFile_return
 	+
 		LDY.b #$32
