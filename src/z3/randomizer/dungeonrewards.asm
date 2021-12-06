@@ -1,3 +1,64 @@
+RoomTag_RoomTrigger_KillDoor_ExtendedItems:
+    LDA CrystalPendantFlags_2,X
+    BEQ .pendant
+    CMP #$40
+    BEQ .crystal
+    BRA .boss
+
+    .pendant
+    LDA.l $7EF374
+    AND.l CrystalPendantFlags, X
+    BNE .exit
+    BRA .open_door
+
+    .crystal
+    LDA.l $7EF37A
+    AND.l CrystalPendantFlags, X
+    BNE .exit
+    BRA .open_door
+
+    .boss
+    LDA.l !SRAM_SM_ITEM_BUF+$72
+    AND.l CrystalPendantFlags, X
+    BNE .exit
+
+    .open_door
+    JML.l $01C529
+
+    .exit
+    JML.l $01C53E
+
+RoomTag_KillRoomForPrize_ExtendedItems:
+    LDA CrystalPendantFlags_2,X
+    BEQ .pendant
+    CMP #$40
+    BEQ .crystal
+    BRA .boss
+
+    .pendant
+    LDA.l $7EF374
+    AND.l CrystalPendantFlags, X
+    BNE .delete_tag
+    BRA .spawn_prize
+
+    .crystal
+    LDA.l $7EF37A
+    AND.l CrystalPendantFlags, X
+    BNE .delete_tag
+    BRA .spawn_prize
+
+    .boss
+    LDA.l !SRAM_SM_ITEM_BUF+$72
+    AND.l CrystalPendantFlags, X
+    BNE .delete_tag
+
+    .spawn_prize
+    JML.l $01C731
+
+    .delete_tag
+    JML.l $01C749
+
+
 WorldMap_LoadSpriteGFX_ExtendedItems:
     ; Spend two frames in this routine to load two different sprite sets for the map
     ; To compensate, abuse the fade-in and start it here already so no frames are lost.

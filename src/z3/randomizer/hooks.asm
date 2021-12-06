@@ -1233,12 +1233,11 @@ NOP #2
 ;================================================================================
 ;Clear level to open doors
 org $01C50D ; 0xC50D - Bank01.asm:10032 - (LDA $7EF3CA : BNE .inDarkWorld)
-LDA CrystalPendantFlags_2, X
+JML.l RoomTag_RoomTrigger_KillDoor_ExtendedItems
 ;================================================================================
 ;Kill enemy to clear level
 org $01C715 ; <- C715 - Bank01.asm:10358 - (LDA $7EF3CA : BNE .inDarkWorld)
-LDA CrystalPendantFlags_2, X
-;JSL.l GetPendantCrystalWorld
+JML.l RoomTag_KillRoomForPrize_ExtendedItems
 ;================================================================================
 org $098BBC ; #_098BBC: LDA.w .receipt_ids,Y (AncillaAdd_FallingPrize)
 JSL AncillaAdd_FallingPrize_ExtendedItems

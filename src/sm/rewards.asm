@@ -53,7 +53,7 @@ boss_death_reward:
     lda.l boss_rewards, x
     sta $c7
     beq .pendant
-    cmp #$20
+    cmp #$40
     beq .crystal
     bra .smboss
 
