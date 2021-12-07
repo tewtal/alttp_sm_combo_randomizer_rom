@@ -8,19 +8,19 @@ RoomTag_RoomTrigger_KillDoor_ExtendedItems:
     .pendant
     LDA.l $7EF374
     AND.l CrystalPendantFlags, X
-    BNE .exit
+    BEQ .exit
     BRA .open_door
 
     .crystal
     LDA.l $7EF37A
     AND.l CrystalPendantFlags, X
-    BNE .exit
+    BEQ .exit
     BRA .open_door
 
     .boss
     LDA.l !SRAM_SM_ITEM_BUF+$72
     AND.l CrystalPendantFlags, X
-    BNE .exit
+    BEQ .exit
 
     .open_door
     JML.l $01C529
