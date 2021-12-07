@@ -798,7 +798,7 @@ AddReceivedItemExpanded:
 	; #$C5 ... - SM Boss Reward tokens
 	db  4, 2, 2, 1
 	
-	db  4, 4, 4, 4, 4, 4, 4, 4
+	db  4, 4, 4, 4, 4, 4, 4
 	db  2, 1, 2, 2, 1, 2, 2, 1, 2, 2, 1, 2, 2, 2, 2, 2 ; Keycards
 	db  4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 ; Unused
 	db  4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 ; Unused
