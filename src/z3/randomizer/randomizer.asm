@@ -107,6 +107,7 @@ incsrc textskip_functions.asm
 incsrc itemtext.asm
 incsrc textrenderer.asm
 incsrc dungeonrewards.asm
+incsrc quickswap.asm
 warnpc $b8ffff
 
 org $1C8000 ; text tables for translation
