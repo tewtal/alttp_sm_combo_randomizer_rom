@@ -5,18 +5,30 @@ org $c38c5c
 ; Door ASM to set the G4 open event bit if all major bosses are killed
 org $cfea00
 base $8fea00
-    lda $7ed828
-    bit.w #$0100
-    beq +
-    lda $7ed82c
-    bit.w #$0001
-    beq +
-    lda $7ed82a
-    and.w #$0101
-    cmp.w #$0101
-    bne +
-    lda $7ed820
-    ora.w #$0400
-    sta $7ed820
+    phx
+
+    ; Count number of set SM boss flags
+    ; using the new event bits for the SM boss credits
+
+    lda $7ed832
+    stz $12
+    ldx #$0000
+
+-
+    lsr : bcc +
+    inc $12 ; If C is set, count this as a killed boss
 +
+    inx
+    cpx #$0004
+    bne -
+
+    lda $12
+    cmp.l config_sm_bosses
+    bcc +
+
+    lda $7ed820
+    ora.w #$07C0
+    sta $7ed820
+
++   plx
     rts

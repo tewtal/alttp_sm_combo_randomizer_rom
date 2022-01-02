@@ -35,6 +35,8 @@ incsrc "sm/titlescreen.asm"                 ; Super Metroid Upload New Title Scr
 incsrc "sm/keycards.asm"                    ; Super Metroid Keycard system
 incsrc "sm/plminject.asm"                   ; Super Metroid PLM Injection
 incsrc "sm/messagebox.asm"                  ; Super Metroid Messagebox improvements
+incsrc "sm/rewards.asm"                     ; Super Metroid Custom Boss Rewards
+incsrc "sm/tables.asm"                      ; Super Metroid Data Tables
 
 ; --- ALTTP code ---
 incsrc "z3/hirom.asm"	                    ; ALTTP ExHiROM patch

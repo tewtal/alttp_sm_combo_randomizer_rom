@@ -45,6 +45,7 @@ Bank            Mirror banks    Content
 82:8000-F70F    C2              SM Bank #82
 82:F710-F73F    C2              -- SM Transition Code --
 82:F800-FEFF    C2              -- SM Seed display code --
+82:FB80-FF00    C2              -- SM Map icon code --
 82:FF00-FFFF    C2              -- SM Menu Code --
 83:8000-AD6F    C3              SM Bank #83 - Doors
 83:AE00-AE7F    C3              -- New LN Refill Exit (Teleport) Door Data --
@@ -83,6 +84,7 @@ Bank            Mirror banks    Content
 97:8000-FFFF    D7              SM Bank #97
 98:8000-FFFF    D8              SM Bank #98
 99:8000-EE1F    D9              SM Bank #99
+99:F000-FFFF    D9              -- SM Custom Boss Rewards --
 9A:8000-FFFF    DA              SM Bank #9A
 9B:8000-FFFF    DB              SM Bank #9B
 9C:8000-FFFF    DC              SM Bank #9C
@@ -168,7 +170,8 @@ E6:0000-7FFF    --              -- SM State data --
 F1:0000-7FFF    --              -- SM State data --
 
 F2:0000-3FFF    --              -- ALTTP Teleport Code and Tables --
-F2:4000-7FFF    --              -- SM Teleport Code and Tables --
+F2:4000-5FFF    --              -- SM Teleport Code and Tables --
+F2:6000-7FFF    --              -- SM Randomizer Data Tables --
 
 F3:0000-7FFF    --              -- SM Item table for ALTTP Items --
 

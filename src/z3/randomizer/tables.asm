@@ -161,6 +161,14 @@ org $400040 ; PC 0x180040
 PreopenCurtains:
 db #$00 ; #$00 = Off (default) - #$01 = On
 ;--------------------------------------------------------------------------------
+org $40008B ; AKA "Fast Ganon" -- PC 0x18008B
+PreopenPyramidHole:
+db #$00 ; #$00 = Off ( default) - #$01 = On
+;--------------------------------------------------------------------------------
+org $40008C ; (old)org $30808C ; PC 0x18008C
+PreopenGanonsTower:
+db #$00 ; #$00 = Off (default) - #$01 = On
+;--------------------------------------------------------------------------------
 org $400041 ; PC 0x180041
 AllowSwordlessMedallionUse:
 db #$00 ; #$00 = Off (default) - #$01 = Medallion Pads - #$02 = Always (Not Implemented)
@@ -171,7 +179,7 @@ db #$00 ; #$00 = Off (default) - #$01 = On
 ;--------------------------------------------------------------------------------
 org $400043 ; PC 0x180043
 StartingSword:
-db #$01 ; #$00 = No Sword (default) - #$FF = Non-Sword
+db #$00 ; #$00 = No Sword (default) - #$FF = Non-Sword
 ;--------------------------------------------------------------------------------
 org $400044 ; PC 0x180044
 AllowHammerTablets:
@@ -249,8 +257,18 @@ CrystalPendantFlags_2:
 	db $40 ; Turtle Rock
 ;Pendant: $00
 ;Crystal: $40
+;SM Boss: $80
 ;--------------------------------------------------------------------------------
 ; 0x18005D - 0x18005F (unused)
+;--------------------------------------------------------------------------------
+; old -- org $30805E ; PC 0x18005E - Number of crystals required to enter GT
+org $40005E ; PC 0x18005E - Number of crystals required to enter GT
+NumberOfCrystalsRequiredForTower:
+db #$07 ; #$07 = 7 Crystals
+; old -- org $30805F ; PC 0x18005F - Number of crystals required to kill Ganon
+org $40005F ; PC 0x18005F - Number of crystals required to kill Ganon
+NumberOfCrystalsRequiredForGanon:
+db #$07 ; #$07 = 7 Crystals
 ;--------------------------------------------------------------------------------
 org $400060 ; PC 0x180060 - 0x18007E
 ProgrammableItemLogicJump_1:
@@ -600,6 +618,8 @@ CrystalPendantFlags:
 ;Crystal 5: $04
 ;Crystal 6: $01
 ;Crystal 7: $08
+
+;SM Token : $00 -- Setting this to $00 should always make the price spawn
 ;--------------------------------------------------------------------------------
 ;Dungeons with no drops should match their respective world's normal vanilla prize ;xxx
 ;--------------------------------------------------------------------------------
@@ -617,6 +637,7 @@ org $01C6FC ; PC 0xC6FC - Bank01.asm:10344 - (db $00, $00, $01, $02, $00, $06, $
 	db $03 ; Tower of Hera
 	db $06 ; Thieves' Town
 	db $06 ; Turtle Rock
+
 ;Ether/Nothing: $00
 ;Green Pendant: $01
 ;Blue Pendant: $02
@@ -624,6 +645,9 @@ org $01C6FC ; PC 0xC6FC - Bank01.asm:10344 - (db $00, $00, $01, $02, $00, $06, $
 ;Heart Container: $04
 ;Bombos: $05
 ;Crystal: $06
+
+;SM Tokens: $80, $81, $82, $83
+
 ;--------------------------------------------------------------------------------
 org $02885E ; PC 0x1085E - Bank02.asm:1606 - (dw $0006, $005A, $0029, $0090, $00DE, $00A4, $00AC, $000D) ; DEPRECATED - DISCONTINUE USE
 dw $0006 ; Crystal 2 Location
