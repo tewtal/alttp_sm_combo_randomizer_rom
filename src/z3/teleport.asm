@@ -97,4 +97,6 @@ zelda_teleport_table:
     dw $00e5, $97c2, $0003  ; Death mountain cave -> Norfair map station
     dw $010e, $a894, $0077  ; Dark world ice rod cave -> Maridia missile refill
     dw $0115, NewLNRefillDoorData_entry, $0070  ; Misery mire right side -> LN GT Refill
+    dw $0085, $8fd6, $0030  ; Desert palace back door -> Pink Brinstar mainstreet (from save room)
+    dw $00f9, $925e, $0003  ; Death Mountain moldorm cave -> Kraid's lair kihunter room (from save room)
     dw $0000
