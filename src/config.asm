@@ -13,7 +13,6 @@ config_alttp_sprite: ; $F47002
 config_sm_sprite:    ; $F47004
     dw #$0000
 
-
 ; Enables keysanity specific code sections.
 config_keysanity:    ; $F47006
     dw #$0000
