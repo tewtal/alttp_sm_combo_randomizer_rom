@@ -161,14 +161,6 @@ org $400040 ; PC 0x180040
 PreopenCurtains:
 db #$00 ; #$00 = Off (default) - #$01 = On
 ;--------------------------------------------------------------------------------
-org $40008B ; AKA "Fast Ganon" -- PC 0x18008B
-PreopenPyramidHole:
-db #$00 ; #$00 = Off ( default) - #$01 = On
-;--------------------------------------------------------------------------------
-org $40008C ; (old)org $30808C ; PC 0x18008C
-PreopenGanonsTower:
-db #$00 ; #$00 = Off (default) - #$01 = On
-;--------------------------------------------------------------------------------
 org $400041 ; PC 0x180041
 AllowSwordlessMedallionUse:
 db #$00 ; #$00 = Off (default) - #$01 = Medallion Pads - #$02 = Always (Not Implemented)
@@ -261,11 +253,11 @@ CrystalPendantFlags_2:
 ;--------------------------------------------------------------------------------
 ; 0x18005D - 0x18005F (unused)
 ;--------------------------------------------------------------------------------
-; old -- org $30805E ; PC 0x18005E - Number of crystals required to enter GT
+; old -- org $40005E ; PC 0x18005E - Number of crystals required to enter GT
 org $40005E ; PC 0x18005E - Number of crystals required to enter GT
 NumberOfCrystalsRequiredForTower:
 db #$07 ; #$07 = 7 Crystals
-; old -- org $30805F ; PC 0x18005F - Number of crystals required to kill Ganon
+; old -- org $40005F ; PC 0x18005F - Number of crystals required to kill Ganon
 org $40005F ; PC 0x18005F - Number of crystals required to kill Ganon
 NumberOfCrystalsRequiredForGanon:
 db #$07 ; #$07 = 7 Crystals
@@ -367,8 +359,33 @@ db #$80 ; #$80 - Full Refill (Default)
 org $400086 ; PC 0x180086
 GanonAgahRNG:
 db #$00 ; $00 = static rng, $01 = no extra blue balls/warps
+
+org $400089 ; PC 0x180089
+TurtleRockAutoOpenFix:
+db #$00 ; #$00 - Normal, #$01 - Open TR Entrance if exiting from it
 ;--------------------------------------------------------------------------------
-; 0x180087 - 0x18008F (unused)
+org $40008A ; PC 0x18008A
+BlockCastleDoorsInRain:
+db #$00 ; #$00 - Normal, $01 - Block them (Used by Entrance Rando in Standard Mode)
+;--------------------------------------------------------------------------------
+org $40008B ; PC 0x18008B
+PreopenPyramid:
+db $00 ; #$00 = Off (default) - #$01 = On
+;--------------------------------------------------------------------------------
+org $40008C ; PC 0x18008C
+PreopenGanonsTower:
+db $00 ; #$00 = Off (default) - #$01 = On
+;--------------------------------------------------------------------------------
+org $40008D ; PC 0x18008D
+InstantPostAgaWorldState:
+db $00 ; #$00 = Off (default) - #$01 = On
+;--------------------------------------------------------------------------------
+org $40008E ; PC 0x18008E
+FakeBoots:
+db $00 ; #$00 = Off (default) - #$01 = On
+
+;--------------------------------------------------------------------------------
+; 0x18008F (unused)
 ;--------------------------------------------------------------------------------
 org $400090 ; PC 0x180090 - 0x180097
 ProgressiveSwordLimit:
@@ -399,8 +416,10 @@ Bugfix_PreAgaDWDungeonDeathToFakeDW:
 db #$01 ; #$00 = Original Behavior - #$01 = Randomizer Behavior (Default)
 Bugfix_SetWorldOnAgahnimDeath:
 db #$01 ; #$00 = Original Behavior - #$01 = Randomizer Behavior (Default)
+Bugfix_PodEG:
+db #$01 ; #$00 = Original Behavior - #$01 = Randomizer Behavior (Default)
 ;--------------------------------------------------------------------------------
-; 0x1800A4- 0x1800FF (unused)
+; 0x1800A5- 0x1800FF (unused)
 ;--------------------------------------------------------------------------------
 org $400100 ; PC 0x180100 (0x40 bytes)
 ShovelSpawnTable:
@@ -508,6 +527,18 @@ db $16, $16
 org $02D592+$37
 Music_GTower:
 db $16
+
+;--------------------------------------------------------------------------------
+; GT sign text pointer (Message id of the upper right of map43 = map44)
+;--------------------------------------------------------------------------------
+org $07F57F
+dw #$0190
+;--------------------------------------------------------------------------------
+; Pyramid sign text pointer (Message id of the upper left of map5B = map5B)
+;--------------------------------------------------------------------------------
+org $07F5AD
+dw #$0191
+
 ;--------------------------------------------------------------------------------
 ; THIS ENTIRE TABLE IS DEPRECATED
 ;Map Crystal Locations
@@ -955,6 +986,71 @@ org $400220 ; PC 0x180220
 ;--------------------------------------------------------------------------------
 ; 0x180240 - 0x1802FF (unused)
 ;================================================================================
+
+;================================================================================
+; $308240 (0x180420) - $308246 (0x180246)
+; For starting areas in single entrance caves, we specify which row in the StartingAreaExitTable
+; to use for exit information. Values are 1 based indexes, with 0 representing a multi-entrance cave
+; start position.
+; Position 0: Link's House
+; Position 1: sanctuary
+; Position 2: Zelda's cell
+; Position 3: Wounded Uncle
+; Position 4: Mantle
+; Position 5: Middle of Old Man Cave
+; Position 6: Old Man's House
+org $400240 ; PC 0x180240
+StartingAreaExitOffset:
+db $00, $00, $00, $00, $00, $00, $00
+;--------------------------------------------------------------------------------
+org $400247 ; PC 0x180247
+; For any starting areas in single entrance caves you can specify the overworld door here
+; to enable drawing the doorframes These values should be the overworld door index+1.
+; A value of zero will draw no door frame.
+StartingAreaOverworldDoor:
+db $00, $00, $00, $00, $00, $00, $00
+;--------------------------------------------------------------------------------
+; 0x18024E - 0x18024F (unused)
+;-------------------------------------------------------------------------------
+; $308250 (0x180250) - $30829F (0x18029F)
+org $400250 ; PC 0x180250
+StartingAreaExitTable:
+; This has the same format as the main Exit table, except
+; is stored row major instead of column major
+; it lacks the last two columns and has 1 padding byte per row (the last byte)
+dw $0112 : db $53 : dw $001e, $0400, $06e2, $0446, $0758, $046d, $075f : db $00, $00, $00
+dw $0000 : db $00 : dw $0000, $0000, $0000, $0000, $0000, $0000, $0000 : db $00, $00, $00
+dw $0000 : db $00 : dw $0000, $0000, $0000, $0000, $0000, $0000, $0000 : db $00, $00, $00
+dw $0000 : db $00 : dw $0000, $0000, $0000, $0000, $0000, $0000, $0000 : db $00, $00, $00
+;--------------------------------------------------------------------------------
+; 0x1802A0 - 0x1802FF (unused)
+;--------------------------------------------------------------------------------
+; $308300 (0x180300) - $30834F (0x18034F)
+org $400300 ; PC 0x180300
+ExtraHole_Map16:
+dw $FFFF, $FFFF, $FFFF, $FFFF, $FFFF, $FFFF, $FFFF, $FFFF
+dw $FFFF, $FFFF, $FFFF, $FFFF, $FFFF, $FFFF, $FFFF, $FFFF
+ExtraHole_Area:
+dw $FFFF, $FFFF, $FFFF, $FFFF, $FFFF, $FFFF, $FFFF, $FFFF
+dw $FFFF, $FFFF, $FFFF, $FFFF, $FFFF, $FFFF, $FFFF, $FFFF
+ExtraHole_Entrance:
+db $00, $00, $00, $00, $00, $00, $00, $00
+db $00, $00, $00, $00, $00, $00, $00, $00
+;--------------------------------------------------------------------------------
+; $308350 (0x180350) - $30834F (0x18034F)
+; Correspond to the three start options
+; do not set for a starting location that is using a single entrance cave
+org $400350 ; PC 0x180350
+ShouldStartatExit:
+db $00, $00, $00
+;--------------------------------------------------------------------------------
+; $308358 (0x180358) fixes major glitches
+; 0x00 - fix
+; otherwise dont fix various major glitches
+org $400358
+AllowAccidentalMajorGlitch:
+db $00
+
 ; $308300 (0x180300) - $3083FF (0x1803FF)
 ; MS Pedestal Text (ALTTP JP Text Format)
 org $400300 ; PC 0x180300

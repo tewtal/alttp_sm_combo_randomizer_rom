@@ -109,9 +109,9 @@ transition_to_zelda:
     jsl DecompShieldGfx         ; Update shield graphics
 
     ; Load starting equipment, pre-open stuff
-    LDA !SRAM_ALTTP_FRESH_FILE : BNE +
+    LDA.l !SRAM_ALTTP_FRESH_FILE : BNE +
         JSL.l OnNewFile
-        LDA.b #$FF : STA !SRAM_ALTTP_FRESH_FILE
+        LDA.b #$FF : STA.l !SRAM_ALTTP_FRESH_FILE
     +
 
     lda #$ff
