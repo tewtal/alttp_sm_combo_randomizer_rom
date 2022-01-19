@@ -76,7 +76,7 @@ org $c39a7a
 ; *whilst* it's in the middle of writing entries to the $D0 table, which the NMI processes.
 
 ; This fix simply clears this NMI-ready flag for the duration of the PLM drawing routine.
-; Squeeze this into the freespace before the free space used by items.asm
+; Place this into the freespace after the free space used by items.asm
 org $c4fe00
 base $84fe00
 
