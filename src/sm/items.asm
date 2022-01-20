@@ -795,7 +795,7 @@ receive_sm_item:
 .end
     rts
 
-warnpc $850000
+warnpc $84fe00
 
 org $c498e3
 base $8498e3
