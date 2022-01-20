@@ -15,6 +15,10 @@ alttp_multiworld_replace_item:
 	CMP.b #$37 : BEQ .exit                ; Pendant
 	CMP.b #$38 : BEQ .exit                ; Pendant
 	CMP.b #$39 : BEQ .exit                ; Pendant
+    CMP.b #$C5 : BEQ .exit                ; Kraid Boss Token
+    CMP.b #$C6 : BEQ .exit                ; Phantoon Boss Token
+    CMP.b #$C7 : BEQ .exit                ; Draygon Boss Token
+    CMP.b #$C8 : BEQ .exit                ; Ridley Boss Token
     bra .next
 .exit
     jmp .end
