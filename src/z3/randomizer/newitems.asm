@@ -453,6 +453,10 @@ AddReceivedItemExpandedGetItem:
 
 		; Check if we got a key for the dungeon we're currently in, and increment the dungeon key count
 		LDA $40C : CMP #$FF : BEQ .done
+		CMP #$02 : BNE +
+		CPX #$00 : BNE +
+		LDX #$01 ; If we got a sewer key in hyrule castle, swap it for a HC key
+	+
 		TXA : ASL : CMP $40C : BNE .done
 		LDA.l $7EF36F : INC : STA.l $7EF36F
 
