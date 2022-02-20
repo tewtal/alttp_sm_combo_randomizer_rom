@@ -7,6 +7,7 @@ org $C2FB80 ; Beginning of a large block of free space
 base $82FB80
 Map_Labels_Hijack:
 JSL Draw_Door_Icons
+JSL rewards_draw_map_icons  ; Draw boss reward icons
 
 REP #$30 ; this is the code that was overwritten
 PHB      ; by the JMP into this routine

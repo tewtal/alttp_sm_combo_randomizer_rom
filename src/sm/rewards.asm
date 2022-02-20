@@ -88,3 +88,122 @@ boss_death_reward:
 
     plp : plx
     rts
+
+rewards_draw_map_icons:
+    phx : phy : phb
+    pea $8282 : plb :  plb
+
+    lda !SRAM_ALTTP_ITEM_BUF+$7A : bit #$0002 : beq +
+        ldy.w #BlueCrystal_Icon_Spritemap
+        lda #$0020 : sta $12
+        lda #$0002 : sta $14
+        lda #$3e00 : sta $16
+        jsl $81879f
+    +
+    
+    lda !SRAM_ALTTP_ITEM_BUF+$7A : bit #$0010 : beq +
+        ldy.w #BlueCrystal_Icon_Spritemap
+        lda #$0020 : sta $12
+        lda #$000A : sta $14
+        lda #$3e00 : sta $16
+        jsl $81879f
+    +
+
+    lda !SRAM_ALTTP_ITEM_BUF+$7A : bit #$0040 : beq +
+        ldy.w #BlueCrystal_Icon_Spritemap
+        lda #$0020 : sta $12
+        lda #$0012 : sta $14
+        lda #$3e00 : sta $16
+        jsl $81879f
+    +
+
+    lda !SRAM_ALTTP_ITEM_BUF+$7A : bit #$0020 : beq +
+        ldy.w #BlueCrystal_Icon_Spritemap
+        lda #$0020 : sta $12
+        lda #$001A : sta $14
+        lda #$3e00 : sta $16
+        jsl $81879f
+    +
+
+    lda !SRAM_ALTTP_ITEM_BUF+$7A : bit #$0004 : beq +
+        ldy.w #RedCrystal_Icon_Spritemap
+        lda #$0020 : sta $12
+        lda #$0022 : sta $14
+        lda #$3e00 : sta $16
+        jsl $81879f
+    +
+
+    lda !SRAM_ALTTP_ITEM_BUF+$7A : bit #$0008 : beq +
+        ldy.w #RedCrystal_Icon_Spritemap
+        lda #$0020 : sta $12
+        lda #$002A : sta $14
+        lda #$3e00 : sta $16
+        jsl $81879f
+    +
+
+    lda !SRAM_ALTTP_ITEM_BUF+$7A : bit #$0001 : beq +
+        ldy.w #BlueCrystal_Icon_Spritemap
+        lda #$0020 : sta $12
+        lda #$0032 : sta $14
+        lda #$3e00 : sta $16
+        jsl $81879f
+    +
+
+    lda !SRAM_ALTTP_ITEM_BUF+$74 : bit #$0001 : beq +
+        ldy.w #GreenPendant_Icon_Spritemap
+        lda #$0020 : sta $12
+        lda #$003A : sta $14
+        lda #$3e00 : sta $16
+        jsl $81879f
+    +
+
+    lda !SRAM_ALTTP_ITEM_BUF+$74 : bit #$0004 : beq +
+        ldy.w #BluePendant_Icon_Spritemap
+        lda #$0020 : sta $12
+        lda #$0042 : sta $14
+        lda #$3e00 : sta $16
+        jsl $81879f
+    +
+
+    lda !SRAM_ALTTP_ITEM_BUF+$74 : bit #$0002 : beq +
+        ldy.w #RedPendant_Icon_Spritemap
+        lda #$0020 : sta $12
+        lda #$004A : sta $14
+        lda #$3e00 : sta $16
+        jsl $81879f    
+    +
+
+    lda $7ed832 : bit #$0001 : beq +
+        ldy.w #BossKraid_Icon_Spritemap
+        lda #$0020 : sta $12
+        lda #$00DE : sta $14
+        lda #$3e00 : sta $16
+        jsl $81879f
+    +
+
+    lda $7ed832 : bit #$0002 : beq +
+        ldy.w #BossPhantoon_Icon_Spritemap
+        lda #$0020 : sta $12
+        lda #$00E6 : sta $14
+        lda #$3e00 : sta $16
+        jsl $81879f
+    +
+
+    lda $7ed832 : bit #$0004 : beq +
+        ldy.w #BossDraygon_Icon_Spritemap
+        lda #$0020 : sta $12
+        lda #$00EE : sta $14
+        lda #$3e00 : sta $16
+        jsl $81879f
+    +
+
+    lda $7ed832 : bit #$0008 : beq +
+        ldy.w #BossRidley_Icon_Spritemap
+        lda #$0020 : sta $12
+        lda #$00F6 : sta $14
+        lda #$3e00 : sta $16
+        jsl $81879f   
+    +
+
+    plb : ply : plx
+    rtl
