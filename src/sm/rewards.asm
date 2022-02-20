@@ -133,7 +133,7 @@ rewards_draw_map_icons:
         jsl $81879f
     +
 
-    lda !SRAM_ALTTP_ITEM_BUF+$7A : bit #$0008 : beq +
+    lda !SRAM_ALTTP_ITEM_BUF+$7A : bit #$0001 : beq +
         ldy.w #RedCrystal_Icon_Spritemap
         lda #$0020 : sta $12
         lda #$002A : sta $14
@@ -141,7 +141,7 @@ rewards_draw_map_icons:
         jsl $81879f
     +
 
-    lda !SRAM_ALTTP_ITEM_BUF+$7A : bit #$0001 : beq +
+    lda !SRAM_ALTTP_ITEM_BUF+$7A : bit #$0008 : beq +
         ldy.w #BlueCrystal_Icon_Spritemap
         lda #$0020 : sta $12
         lda #$0032 : sta $14
@@ -149,7 +149,7 @@ rewards_draw_map_icons:
         jsl $81879f
     +
 
-    lda !SRAM_ALTTP_ITEM_BUF+$74 : bit #$0001 : beq +
+    lda !SRAM_ALTTP_ITEM_BUF+$74 : bit #$0004 : beq +
         ldy.w #GreenPendant_Icon_Spritemap
         lda #$0020 : sta $12
         lda #$003A : sta $14
@@ -157,7 +157,7 @@ rewards_draw_map_icons:
         jsl $81879f
     +
 
-    lda !SRAM_ALTTP_ITEM_BUF+$74 : bit #$0004 : beq +
+    lda !SRAM_ALTTP_ITEM_BUF+$74 : bit #$0002 : beq +
         ldy.w #BluePendant_Icon_Spritemap
         lda #$0020 : sta $12
         lda #$0042 : sta $14
@@ -165,7 +165,7 @@ rewards_draw_map_icons:
         jsl $81879f
     +
 
-    lda !SRAM_ALTTP_ITEM_BUF+$74 : bit #$0002 : beq +
+    lda !SRAM_ALTTP_ITEM_BUF+$74 : bit #$0001 : beq +
         ldy.w #RedPendant_Icon_Spritemap
         lda #$0020 : sta $12
         lda #$004A : sta $14

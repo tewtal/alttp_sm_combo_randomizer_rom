@@ -100,6 +100,7 @@ transition_to_zelda:
     jsl $0dfa78                 ; Redraw HUD
     jsl $00fc41
     %ai8()
+    jsl $00e310                 ; Load default graphics
     jsl $09c499                 ; Load all overworld sprites
     plp
 
