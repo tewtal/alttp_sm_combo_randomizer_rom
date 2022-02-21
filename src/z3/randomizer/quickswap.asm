@@ -1,15 +1,5 @@
 ; Thanks to Kazuto for developing the original QS code that inspired this one
 
-!INFINITE_BOMBS = "$7F50C9"
-IsItemAvailable:
-	; LDA !INFINITE_BOMBS : BEQ .finite
-	.infinite
-		CPX.b #$04 : BNE .finite
-		LDA.b #$01 : RTL
-	.finite
-                LDA $7EF33F, X
-RTL
-
 QuickSwap:
 	; We perform all other checks only if we are pushing L or R in order to have minimal
 	; perf impact, since this runs every frame
@@ -69,7 +59,7 @@ RCode:
 		+ CPX.b #$14 : BNE + : LDX.b #$00 ;will wrap around to 1
 		+ INX
 	.nextItem
-	JSL.l IsItemAvailable : BEQ -
+	LDA.l $7EF33F, X : BEQ -
 RTS
 
 LCode:
@@ -84,5 +74,5 @@ LCode:
 		+ CPX.b #$01 : BNE + : LDX.b #$15 ; will wrap around to $14
 		+ DEX
 	.nextItem
-	JSL.l IsItemAvailable : BEQ -
+	LDA.l $7EF33F, X : BEQ -
 RTS
