@@ -38,13 +38,28 @@ TAX
     LDA $0000,x
     CMP #$FFFF
     BEQ .exit
+    AND #$00FF
     CMP.l #$0001
     BNE +
     LDA.l config_keysanity
-    BNE +
+    BNE .draw
     TXA
     BRA .next
+
 +
+    CMP.l #$0002
+    BNE .draw
+    LDA.l config_keysanity
+    BEQ .draw
+    LDA $0000, x
+    XBA : AND #$00FF        ; Get boss id
+    CLC : ADC #$00A0        ; Add to event-id
+    JSL $808233             ; Check if event is set
+    BCS .draw
+    TXA
+    BRA .next
+
+.draw
     LDA $0002,x
     PHX
     SEC
@@ -104,7 +119,7 @@ DW $0001,$00A4,$0047,$1D02  ; 2 - Pink Brin Hoppers > Hoptank Room
 DW $0001,$00B4,$004F,$1D02  ; 2 - Spore Spawn Farm > Spore Spawn Super
 DW $0001,$00B0,$0023,$1D0B  ; B - Spore Spawn
 DW $0001,$01B4,$009F,$1D0B  ; B - Kraid
-DW $0000,$01BD,$00A8,$1D15  ; Reward - Kraid
+DW $0002,$01BD,$00A8,$1D15  ; Reward - Kraid
 DW $FFFF
 
 org $C2FD80
@@ -121,7 +136,7 @@ DW $0001,$0078,$0053,$1D0B  ; B - Crocomire
 DW $0001,$00EC,$001F,$1D01  ; 1 - Single Chamber > Three Musketeers
 DW $0001,$00F4,$0057,$1D01  ; 1 - WRITG > Amphitheater
 DW $0001,$00BC,$0087,$1D0B  ; B - Ridley
-DW $0000,$00B9,$0098,$1D18  ; Reward - Ridley
+DW $0302,$00B9,$0098,$1D18  ; Reward - Ridley
 DW $FFFF
 
 org $C2FE00
@@ -131,7 +146,7 @@ DW $0001,$005C,$005F,$1D01  ; 1 - (Cr) West Ocean > "Peekaboo Room"
 DW $0001,$004C,$0067,$1D01  ; 1 - (Cr) West Ocean > Bowling Alley
 DW $0001,$0054,$006F,$1D01  ; 1 - Gravity Suit Room
 DW $0001,$0094,$009F,$1D0B  ; B - Phantoon
-DW $0000,$0099,$00A8,$1D16  ; Reward - Phantoon
+DW $0102,$0099,$00A8,$1D16  ; Reward - Phantoon
 DW $FFFF
 
 org $C2FE40
@@ -143,7 +158,7 @@ DW $0001,$00BC,$0047,$1D02  ; 2 - Botwoon
 DW $0001,$0104,$0047,$1D02  ; 2 - Halfie Climb > Botwoon E-Tank
 DW $0001,$0104,$003F,$1D0B  ; B - Cactus Alley > Halfie Climb
 DW $0001,$0144,$004F,$1D0B  ; B - Draygon
-DW $0000,$013D,$005F,$1D17  ; Reward - Draygon 
+DW $0202,$013D,$005F,$1D17  ; Reward - Draygon 
 DW $FFFF
 
 org $C2FEA0

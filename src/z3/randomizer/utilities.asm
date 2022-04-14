@@ -141,7 +141,10 @@ RTL
 	db $70, $71, $72, $73 ; Super Metroid Boss Tokens
 	
 	;C9x
-	db $49, $49, $49, $49, $49, $49, $49 ; Super Metroid - Unused
+	db $49
+
+	;CAx .. 
+	db $77, $77, $77, $77, $49, $49 ; Super Metroid - Map stations
 	
 	;Dx
 	db $65, $66, $67, $65, $66, $67, $65, $66, $67, $65, $66, $67, $65, $67, $65, $67 ; Super Metroid Keycards
@@ -277,7 +280,13 @@ RTL
 	db $02, $02, $04, $08, $08
 	
 	; $C5..
-	db $08, $04, $04, $02, $08, $08, $08, $08, $08, $08, $08 ; Super Metroid
+	db $08, $04, $04, $02
+	
+	; $C8
+	db $08
+	
+	; $CA ..
+	db $08, $08, $08, $08, $08, $08 ; Super Metroid - Map station item icons
 	
 	; $D0
 	db $04, $02, $04, $04, $02, $04, $04, $02, $04, $04, $02, $04, $04, $04, $04, $04 ; Super Metroid Keycards

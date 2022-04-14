@@ -44,16 +44,17 @@
 !DungeonItemBig = #DungeonItemBig
 !DungeonKeyItemBig = #DungeonKeyItemBig
 !KeycardBig = #KeycardBig
+!MapMarkerBig = #MapMarkerBig
 
 !BossRewardSmall = #BossRewardSmall
 
-org $01E9BC
-    db $b0
+; org $01E9BC
+;     db $ca
 
 ; org $cf8432
 ;     dw $efe0
 ; org $cf8432+$5
-;     db $D2
+;     db $cc
 
 ;org $cf86de
 ;    dw $efe4    ; Morph to progressive sword
@@ -114,10 +115,10 @@ item_graphics:
     dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; C7 - Draygon Boss Token
     dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; C8 - Ridley Boss Token
     dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; C9 - Unused
-    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; CA - Unused
-    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; CB - Unused
-    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; CC - Unused
-    dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; CD - Unused
+    dw $F400 : db $00, $00, $00, $00, $00, $00, $00, $00    ; CA - Kraid Map 
+    dw $F400 : db $00, $00, $00, $00, $00, $00, $00, $00    ; CB - Phantoon Map
+    dw $F400 : db $00, $00, $00, $00, $00, $00, $00, $00    ; CC - Draygon Map
+    dw $F400 : db $00, $00, $00, $00, $00, $00, $00, $00    ; CD - Ridley Map
     dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; CE - Unused
     dw $0000 : db $00, $00, $00, $00, $00, $00, $00, $00    ; CF - Unused
 
@@ -767,6 +768,8 @@ receive_sm_item:
 .customItem
     cmp #$0020
     bcs .keycard
+    cmp #$001A
+    bcs .mapMarker
     bra .end
 
 .keycard
@@ -780,6 +783,20 @@ receive_sm_item:
     lda #$0062
     jsl $858080                 ; Display message 62 - keycard
     bra .end
+
+.mapMarker
+    and #$000f
+    sec : sbc #$000a
+    sta $c7                     ; Store map marker index
+    clc : adc #$00a0            ; Set event (map marker received)
+    jsl $8081fa
+
+    lda !SM_MULTIWORLD_PICKUP
+    bne .multiPickup
+    lda #$0064
+    jsl $858080                 ; Display message 64 - map marker
+    bra .end
+
 
 .multiPickup
     phx : phy
@@ -1495,9 +1512,6 @@ namespace "alttp_item_"
 ;    dw $006C, $0008, $0001, $0049       ; Heart Container
 ;    dw $0076, $0005, $0001, $004B       ; 5 Arrows
 
-
-
-
 org $c59643
 base $859643
     dw !EmptySmall, !Small, bow
@@ -1572,6 +1586,7 @@ base $859643
     dw !DungeonKeyItemBig, !Big, small_key     ; 61 
     dw !KeycardBig,        !Big, keycard       ; 62
     dw !EmptySmall,        !BossRewardSmall,  reward    ; 63
+    dw !MapMarkerBig,      !Big, map_marker    ; 64
 
     dw !EmptySmall, !Small, btn_array
 
@@ -1749,6 +1764,12 @@ keycard:
 reward:
     dw "______  Boss Reward PH   _______"
 
+map_marker:
+    dw "___     This is the map      ___"
+    dw "___           for            ___"
+    dw "___                          ___"
+    dw "___          ZONE            ___"
+
 cleartable
 btn_array:
 	DW $0000, $012A, $012A, $012C, $012C, $012C, $0000, $0000, $0000, $0000, $0000, $0000, $0120, $0000, $0000
@@ -1767,6 +1788,8 @@ btn_array:
     DW $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
 
 table box_yellow.tbl,rtl
+pushpc
+org $F32000
 item_names:
     dw "___      Grappling Beam      ___" ; 00 (b0) (sm items)
     dw "___       X-Ray Scope        ___"
@@ -1796,10 +1819,10 @@ item_names:
     dw "___                          ___"  ;17
     dw "___                          ___"  ;18
     dw "___                          ___"  ;19
-    dw "___                          ___"  ;1A
-    dw "___                          ___"  ;1B
-    dw "___                          ___"  ;1C
-    dw "___                          ___"  ;1D
+    dw "___        Brinstar Map      ___"  ;1A
+    dw "___      Wrecked Ship Map    ___"  ;1B
+    dw "___        Maridia Map       ___"  ;1C
+    dw "___     Lower Norfair Map    ___"  ;1D
     dw "___                          ___"  ;1E
     dw "___                          ___"  ;1F
 
@@ -2100,11 +2123,16 @@ bosses:
     dw "______    Draygon Boss   _______"
     dw "______    Ridley Boss    _______"
 
-
+map_markers:
+    dw "___         Brinstar         ___" ; 0
+    dw "___       Wrecked Ship       ___" ; 1
+    dw "___         Maridia          ___" ; 2
+    dw "___      Lower Norfair       ___" ; 3
+pullpc
 
 cleartable
 BossRewardSmall:
-    REP #$30
+    REP #$30    
     LDA $C7     ; RewardType
     BEQ .pendant
     CMP #$0040
@@ -2145,16 +2173,18 @@ BossRewardSmall:
 
     JSR $82B8
 
+    PHB : PEA $F3F3 : PLB : PLB
     LDX #$0000             ;\
     PLY
 -
-    LDA $0000, y
+    LDA.W $0000, y
     STA $7E3240, x
     INY #2
     INX #2
     CPX #$0040
     BNE -
 
+    PLB
     LDX #$0080
     JMP $82A0
 
@@ -2182,10 +2212,16 @@ KeycardBig:
     JSR write_keycard
     LDY #$0000
     JMP $841D
+MapMarkerBig:
+    REP #$30
+    JSR write_map_marker
+    LDA #$0000
+    JMP $841D
 
 write_dungeon:
     phx : phy
-    lda $1c1f
+    phb : pea $f3f3 : plb : plb
+    lda.l $001c1f
     cmp #$005e
     beq .adjust
     cmp #$005f
@@ -2195,59 +2231,61 @@ write_dungeon:
     bra .end
 
 .adjust
-    lda $c7                ; Load dungeon id
+    lda.b $c7                ; Load dungeon id
     asl #6 : tay
     ldx #$0000
 -
-    lda dungeon_names, y
+    lda.w dungeon_names, y
     sta.l $7e3300, x
     inx #2 : iny #2
     cpx #$0040
     bne -
 
 .end
-    ply : plx
+    plb : ply : plx
     lda #$0020
     rts
 
 write_dungeon_key:
     phx : phy
-    lda $1c1f
+    phb : pea $f3f3 : plb : plb
+    lda.l $001c1f
     cmp #$0061
     beq .adjust
     bra .end
 
 .adjust
-    lda $c7                ; Load dungeon id
+    lda.b $c7                ; Load dungeon id
     asl #6 : tay
     ldx #$0000
 -
-    lda dungeon_names_key, y
+    lda.w dungeon_names_key, y
     sta.l $7e3300, x
     inx #2 : iny #2
     cpx #$0040
     bne -
 
 .end
-    ply : plx
+    plb : ply : plx
     lda #$0020
     rts
 
 write_keycard:
     phx : phy
-    lda $1c1f
+    phb : pea $f3f3 : plb : plb
+    lda.l $001c1f
     cmp #$0062
     beq .adjust
     bra .end
 
 .adjust
-    lda $c7                ; Load keycard index
+    lda.b $c7                ; Load keycard index
     asl #6 : tay
     phy
 
     ldx #$0000
 -
-    lda keycard_names, y
+    lda.w keycard_names, y
     sta.l $7e3280, x
     inx #2 : iny #2
     cpx #$0040
@@ -2256,20 +2294,45 @@ write_keycard:
     ply
     ldx #$0000
 -
-    lda region_names, y
+    lda.w region_names, y
     sta.l $7e3300, x
     inx #2 : iny #2
     cpx #$0040
     bne -
 
 .end
-    ply : plx
+    plb : ply : plx
+    lda #$0020
+    rts
+
+write_map_marker:
+    phx : phy
+    phb : pea $f3f3 : plb : plb
+    lda.l $001c1f
+    cmp #$0064
+    beq .adjust
+    bra .end
+
+.adjust
+    lda.b $c7                ; Load map marker id
+    asl #6 : tay
+    ldx #$0000
+-
+    lda.w map_markers, y
+    sta.l $7e3300, x
+    inx #2 : iny #2
+    cpx #$0040
+    bne -
+
+.end
+    plb : ply : plx
     lda #$0020
     rts
 
 write_placeholders:
     phx : phy
-    lda $1c1f
+    phb : pea $f3f3 : plb : plb
+    lda.l $001c1f
     cmp #$005c
     beq .adjust
     cmp #$005d
@@ -2277,7 +2340,7 @@ write_placeholders:
     bra .end
 
 .adjust
-    lda $c1                 ; Load item id
+    lda.b $c1                 ; Load item id
     cmp #$00b0              
     bcc .alttpItem
     sec
@@ -2290,13 +2353,13 @@ write_placeholders:
     asl #6 : tay
     ldx #$0000
 -
-    lda item_names, y       ; Write item name to box
+    lda.w item_names, y       ; Write item name to box
     sta.l $7e3280, x
     inx #2 : iny #2
     cpx #$0040
     bne -
 
-    lda $c3                 ; Load player 1
+    lda.b $c3                 ; Load player 1
     asl #4 : tax
     ldy #$0000
 -
@@ -2304,7 +2367,7 @@ write_placeholders:
     and #$00ff
     phx
     asl : tax               ; Put char table offset in X
-    lda char_table-$40, x 
+    lda.l char_table-$40, x 
     tyx
     sta.l $7e3314, x
     iny #2
@@ -2315,7 +2378,7 @@ write_placeholders:
     rep #$30
 
 .end
-    ply : plx
+    plb : ply : plx
     lda #$0020
     rts
 

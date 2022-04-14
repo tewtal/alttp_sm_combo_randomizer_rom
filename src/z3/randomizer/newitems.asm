@@ -709,9 +709,10 @@ AddReceivedItemExpanded:
 	; #$C0 - SM Items
 	db $60, $61, $62, $63, $64
 	
-	db $70, $71, $72, $73 ; Boss Tokens
-	
-	db $49, $49, $49, $49, $49, $49, $49 ; Super Metroid - Unused
+	db $70, $71, $72, $73 ; Boss Tokens	
+	db $49 ; Super Metroid - Unused
+	db $77, $77, $77, $77 ; Super Metroid - Map Station Items
+	db $49, $49 ; Super Metroid - Unused
 	
 	; #$D0 - SM Items (Keycards)
 	db $65, $66, $67, $65, $66, $67, $65, $66, $67, $65, $66, $67, $65, $67, $65, $67 ; Super Metroid
@@ -802,7 +803,10 @@ AddReceivedItemExpanded:
 	; #$C5 ... - SM Boss Reward tokens
 	db  4, 2, 2, 1
 	
-	db  4, 4, 4, 4, 4, 4, 4
+	db  4
+	
+	; #$CA ...  - SM Map stations
+	db  4, 4, 4, 4, 4, 4
 	db  2, 1, 2, 2, 1, 2, 2, 1, 2, 2, 1, 2, 2, 2, 2, 2 ; Keycards
 	db  4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 ; Unused
 	db  4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4 ; Unused

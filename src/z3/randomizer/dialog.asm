@@ -181,8 +181,8 @@ FreeDungeonItemNotice:
 		%CopyDialog(Notice_BigKeyOf)
 		REP #$20 : LDA !OFFSET_RETURN : DEC #2 : STA !OFFSET_POINTER : SEP #$20
 		%CopyDialog(Notice_Self)
-		BRL .done
-	+
+		BRL .done	
+	+	
 	AND.b #$F0 ; looking at high bits only
 	CMP.b #$70 : BNE + ; map of...
 		%CopyDialog(Notice_MapOf)
@@ -199,6 +199,10 @@ FreeDungeonItemNotice:
 		PLA : AND.b #$0F : STA $7F5020 : LDA.b #$0F : !SUB $7F5020 : PHA
 		LDA #$01 : STA $7F5010 ; set up a flip for small keys
 		BRL .dungeon
+	+ : CMP.b #$C0 : BNE + ; SM Map for ... ?`
+		LDA !ITEM_TEMPORARY : CMP.b #$CA : BCS ++ : BRL .skip : ++
+		%CopyDialog(Notice_SmMapOf)
+		BRL .sm_area
 	+ : CMP.b #$D0 : BNE + ; keycard for ...
 		%CopyDialog(Notice_KeycardFor)
 		BRL .region
@@ -287,7 +291,19 @@ FreeDungeonItemNotice:
 		%CopyDialog(Notice_LowerNorfairBoss)
 	+ BRL .done
 
-
+	.sm_area
+	REP #$20 : LDA !OFFSET_RETURN : DEC #2 : STA !OFFSET_POINTER : SEP #$20
+	LDA !ITEM_TEMPORARY
+	AND.b #$0F ; looking at low bits only
+	SEC : SBC #$0A	; Remove offset of $0A
+	CMP.b #$00 : BNE + ; ...brinstar
+		%CopyDialog(Notice_Brinstar) : BRL .done
+	+ : CMP.b #$01 : BNE + ; ...wrecked ship
+		%CopyDialog(Notice_WreckedShip) : BRL .done
+	+ : CMP.b #$02 : BNE + ; ...maridia
+		%CopyDialog(Notice_Maridia) : BRL .done
+	+ : CMP.b #$03 : BNE + ; ...lower norfair
+		%CopyDialog(Notice_LowerNorfair) : BRL .done		
 	.done
 
 	STZ $1CF0 : STZ $1CF1 ; reset decompression buffer

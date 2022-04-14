@@ -382,10 +382,10 @@ alttp_mw_item_names:
     db "                   ", $00  ;17
     db "                   ", $00  ;18
     db "                   ", $00  ;19
-    db "                   ", $00  ;1A
-    db "                   ", $00  ;1B
-    db "                   ", $00  ;1C
-    db "                   ", $00  ;1D
+    db "    Brinstar Map   ", $00  ;1A
+    db "  Wrecked Ship Map ", $00  ;1B
+    db "    Maridia Map    ", $00  ;1C
+    db " Lower Norfair Map ", $00  ;1D
     db "                   ", $00  ;1E
     db "                   ", $00  ;1F
  
