@@ -149,10 +149,10 @@ alttp_sm_item_table:
     dw $0072, $0005, $0004, $0000      ; Draygon Boss Token
     dw $0072, $0005, $0008, $0000      ; Ridley Boss Token
     dw $0000, $ffff, $0000, $0000      ; c9
-    dw $0000, $ffff, $0000, $0000      ; ca
-    dw $0000, $ffff, $0000, $0000      ; cb
-    dw $0000, $ffff, $0000, $0000      ; cc
-    dw $0000, $ffff, $0000, $0000      ; cd
+    dw $0074, $0005, $0001, $0000      ; Brinstar Map
+    dw $0074, $0005, $0002, $0000      ; Wrecked Ship Map
+    dw $0074, $0005, $0004, $0000      ; Maridia Map
+    dw $0074, $0005, $0008, $0000      ; Lower Norfair Map
     dw $0000, $ffff, $0000, $0000      ; ce
     dw $0000, $ffff, $0000, $0000      ; cf
 
