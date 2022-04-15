@@ -2173,9 +2173,9 @@ BossRewardSmall:
 
     JSR $82B8
 
+    PLY
     PHB : PEA $F3F3 : PLB : PLB
     LDX #$0000             ;\
-    PLY
 -
     LDA.W $0000, y
     STA $7E3240, x
