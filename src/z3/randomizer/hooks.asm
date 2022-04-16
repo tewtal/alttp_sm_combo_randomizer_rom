@@ -2648,3 +2648,11 @@ org $08C531
 ; Hook the beginning of Save & Quit to add soft-reset restrictions
 org $00fa2b ; Bank00.asm : 8724 (LDA.b #$17 : STA $10)
     jsl OnBeginSaveAndQuit
+
+;=====================================================
+;-- Hijack the point where brightness is enabled during save & quit
+;=====================================================
+
+org $028109 ; <- 10109
+JSL.l EnableBrightnessSlow
+NOP

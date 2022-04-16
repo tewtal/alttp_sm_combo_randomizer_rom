@@ -204,3 +204,17 @@ FixJingleGlitch:
 
 .exit
 	RTL
+
+;--------------------------------------------------------------------------------
+; Fix green flash that occurs during save & quit,
+; which happens due to brightness being enabled just before NMI is executed,
+; which itself happens just before the frame's processing has finished,
+; causing a lag frame to happen with brightness enabled, but before the new palettes have been loaded
+EnableBrightnessSlow:
+; Wait for NMI so that we enable brightness with plenty of processing time left before next NMI
+STZ.b $12 : - : LDA.b $12 : BEQ -
+
+; Enable brightness
+LDA.b #$0F : STA.b $13
+
+RTL
