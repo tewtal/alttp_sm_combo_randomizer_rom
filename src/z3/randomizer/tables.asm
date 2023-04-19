@@ -462,11 +462,20 @@ db $04, $08, $10 ; change to db $04, $08, $08 for original cape behavior
 org $08DC42 ; PC 0x45C42 - ancilla_cane_spark.asm:200 - (db 4, 2, 1)
 ByrnaMagicUsage:
 db #$04, #$02, #$01 ; normal, 1/2, 1/4 magic
-;--------------------------------------------------------------------------------
 ;Dungeon Music
 ;org $02D592 ; PC 0x15592
 ;11 - Pendant Dungeon
 ;16 - Crystal Dungeon
+
+org $02D592+$03
+Music_Castle:
+db $10,$10,$10
+org $02D592+$24
+Music_AgaTower:
+db $10
+org $02D592+$81
+Music_Sewer:
+db $10
 
 org $02D592+$08
 Music_Eastern:
@@ -499,7 +508,7 @@ Music_Skull:
 db $16, $16, $16, $16
 
 org $02D592+$76
-Music_Skul_Drop:
+Music_Skull_Drop:
 db $16, $16, $16, $16
 
 org $02D592+$34
@@ -980,6 +989,20 @@ db #$01 ; #$00 = On - #$01 = Off (Default)
 ;--------------------------------------------------------------------------------
 ; 0x180215 - 0x18021F (unused)
 ;================================================================================
+org $40021A ; PC 0x18021A
+NoBGM:
+db $00 ; $00 = BGM enabled (default) $01 = BGM disabled
+org $40021B ; PC 0x18021B
+FastFanfare:
+db $00 ; $00 = Normal fanfare (default) $01 = Fast fanfare
+org $40021C ; PC 0x18021C
+MSUResumeType:
+db $01 ; Type of tracks to resume #$00 = Everything - #$01 = Overworld (default)
+org $40021D ; PC 0x18021D
+MSUResumeTimer:
+dw $0708 ; Number of frames on a different track until we no longer resume (0x708 = 1800 = ~30s)
+
+
 ; $308220 (0x180220) - $30823F (0x18023F)
 ; Plandomizer Author Name (ASCII) - Leave unused chars as 0
 org $400220 ; PC 0x180220
@@ -1702,14 +1725,52 @@ db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
 ;================================================================================
 org $405000 ; PC 0x185000 - 0x18503F
 MSUTrackList:
-db $00,$01,$03,$03,$03,$03,$03,$03
-db $01,$03,$01,$03,$03,$03,$03,$03
-db $03,$03,$03,$01,$03,$03,$03,$03
-db $03,$03,$03,$03,$03,$01,$03,$03
-db $03,$01,$01,$FF,$FF,$FF,$FF,$FF
-db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
-db $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF
+db $01,$03,$03,$03,$03,$03,$03,$01
+db $03,$01,$03,$03,$03,$03,$03,$03
+db $03,$03,$01,$03,$03,$03,$03,$03
+db $01,$01,$03,$03,$01,$03,$03,$03
+db $01,$01,$03,$03,$03,$03,$03,$03
+db $03,$03,$03,$03,$03,$03,$03,$03
+db $03,$03,$03,$03,$03,$03,$03,$03
+db $03,$03,$03,$03,$03,$00,$00,$00
+
+MSUExtendedFallbackList:
+db $01,$02,$03,$04,$05,$06,$07,$08
+db $09,$0A,$0B,$0C,$0D,$0E,$0D,$10
+db $11,$12,$13,$14,$15,$16,$17,$18
+db $19,$1A,$1B,$1C,$1D,$1E,$1F,$20
+db $21,$22,$11,$11,$10,$16,$16,$16
+db $16,$16,$11,$16,$16,$16,$15,$15
+db $15,$15,$15,$15,$15,$15,$15,$15
+db $15,$15,$16,$02,$09,$00,$00,$00
+
+MusicShuffleTable:
+db $01,$02,$03,$04,$05,$06,$07,$08
+db $09,$0A,$0B,$0C,$0D,$0E,$0F,$10
+db $11,$12,$13,$14,$15,$16,$17,$18
+db $19,$1A,$1B,$1C,$1D,$1E,$1F,$20
+db $21,$22,$23,$24,$25,$26,$27,$28
+db $29,$2A,$2B,$2C,$2D,$2E,$2F,$30
+db $31,$32,$33,$34,$35,$36,$37,$38
+db $39,$3A,$3B,$3C,$3D,$3E,$3F,$40
+
+MSUDungeonFallbackList:
+dw Music_Sewer
+dw Music_Castle
+dw Music_Eastern
+dw Music_Desert
+dw Music_AgaTower
+dw Music_Swamp
+dw Music_Darkness
+dw Music_Mire
+dw Music_Skull
+dw Music_Ice
+dw Music_Hera
+dw Music_Thieves
+dw Music_TRock
+dw Music_GTower
+dw $0000
+dw $0000
 ;--------------------------------------------------------------------------------
 ; 0x185040 - 1850FF (unused)
 ;--------------------------------------------------------------------------------
