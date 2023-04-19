@@ -37,9 +37,9 @@ SM_SpecialCommand_Mute:
 	+
 
 	MOV $F4,A
-    MOV A, #$DD
-    MOV $1E15,A
     MOV A, #$CF
+    MOV $1E15,A
+    MOV A, #$DD
     MOV $1E16,A
 
 	+++
