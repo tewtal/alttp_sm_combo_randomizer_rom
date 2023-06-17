@@ -149,13 +149,13 @@ SM_MSU_Main:
 	DEC : PHA
 		AND.b #$07 : TAY
 		PLA : LSR #3 : TAX
-	LDA.l MSUFallbackTable+$10,X : BEQ .OriginalCode : CMP.b #$FF : BEQ .continue
+	LDA.l MSUFallbackTable+$10,X : BEQ .fallback : CMP.b #$FF : BEQ .continue
 	
 	- : CPY #$00 : BEQ +
 		LSR : DEY : BRA -
 	+
 	
-	AND.b #$01 : BEQ .OriginalCode
+	AND.b #$01 : BEQ .fallback
 
 	.continue
 	pla
@@ -180,6 +180,10 @@ SM_MSU_Main:
     - : STZ.w APUIO0 : LDA.w APUIO0 : BNE - ; Wait until mute/unmute command is completed
 	bra .Exit
 	
+.fallback
+    PLA
+    BRA .OriginalCode
+
 .OriginalCode
 	lda.b #$00
 	sta.w !MSU_AUDIO_CONTROL
