@@ -472,9 +472,9 @@ MSUInit:
 .check_sm_fallback
         PHP : SEP #$10
         ;LDA.l NoBGM : BNE .done
-    + : LDA.b #132
-    LDX.b #3
-    LDY.b #7
+    + : LDA.b #142
+    LDX.b #5
+    LDY.b #1
 
 .check_sm_track
     STA.w MSUTRACK
@@ -643,6 +643,10 @@ MSUMain:
 
 .command_f1:
     CPX.b #!VAL_COMMAND_FADE_OUT : BNE .command_f0
+    ; Don't fade out when leaving under the bridge
+    LDA $8A : CMP #$80 : BNE +
+        JML SPCContinue
+    +
     STZ.w TargetVolume
     STZ.w CurrentMSUTrack
     JML SPCContinue
