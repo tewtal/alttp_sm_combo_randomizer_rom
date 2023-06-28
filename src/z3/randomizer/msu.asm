@@ -421,15 +421,8 @@ MSUInit:
 
     REP #$20
 
-    LDA.w MSUID : CMP.w #!VAL_MSU_ID_01 : BEQ + : JMP .done
-    LDA.w MSUID+2 : CMP.w #!VAL_MSU_ID_23 : BEQ + : JMP .done
-    LDA.w MSUID+4 : CMP.w #!VAL_MSU_ID_45 : BEQ + : JMP .done
 
-    .done
-    PLP
-    RTL
 
-+
     ; Count the number of available MSU-1 packs
     LDA.w #$0000
     LDX.b #$00
