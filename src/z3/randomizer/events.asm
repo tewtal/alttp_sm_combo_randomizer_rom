@@ -107,18 +107,18 @@ RTL
 ;--------------------------------------------------------------------------------
 !RNG_ITEM_LOCK_IN = "$7F5090"
 OnNewFile:
-;	PHX : PHP
-;		REP #$20 ; set 16-bit accumulator
-;		LDA.l LinkStartingRupees : STA $7EF362 : STA $7EF360
-;		LDA.l StartingTime : STA $7EF454
-;		LDA.l StartingTime+2 : STA $7EF454+2
+	PHX : PHP
+		REP #$20 ; set 16-bit accumulator
+		LDA.l LinkStartingRupees : STA $7EF362 : STA $7EF360
+		LDA.l StartingTime : STA $7EF454
+		LDA.l StartingTime+2 : STA $7EF454+2
 
-;		LDX.w #$00 : - ; copy over starting equipment
-;			LDA StartingEquipment, X : STA $7EF340, X
-;			INX : INX
-;		CPX.w #$004F : !BLT -
+		LDX.b #$00 : - ; copy over starting equipment
+			LDA.l StartingEquipment, X : STA $7EF340, X
+			INX : INX
+		CPX.b #$4F : !BLT -
 
-;		SEP #$20 ; set 8-bit accumulator
+		SEP #$20 ; set 8-bit accumulator
 		;LDA #$FF : STA !RNG_ITEM_LOCK_IN ; reset rng item lock-in
 		LDA.l PreopenCurtains : BEQ +
 			LDA.b #$80 : STA $7EF061 ; open aga tower curtain
@@ -130,8 +130,8 @@ OnNewFile:
 		LDA.l PreopenGanonsTower : BEQ +
 			LDA.b #$20 : STA $7EF2C3 ; Ganons Tower already open
 		+
-;		LDA StartingSword : STA $7EF359 ; set starting sword type
-;	PLP : PLX
+		LDA.l StartingSword : STA $7EF359 ; set starting sword type
+	PLP : PLX
 RTL
 ;--------------------------------------------------------------------------------
 OnInitFileSelect:
