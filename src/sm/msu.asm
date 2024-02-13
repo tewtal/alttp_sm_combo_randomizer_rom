@@ -51,6 +51,7 @@
 !MSU_AUDIO_TRACK_HI = $2005
 !MSU_AUDIO_VOLUME = $2006
 !MSU_AUDIO_CONTROL = $2007
+!CURRENT_MSU_TRACK = $0332
 
 ;;; SPC communication ports
 !SPC_COMM_0 = $2140
@@ -293,6 +294,7 @@ SM_MSU_Main:
     tay
     clc : adc.b #!TRACK_OFFSET
 
+    sta.w !CURRENT_MSU_TRACK
     sta.w !MSU_AUDIO_TRACK_LO
     stz.w !MSU_AUDIO_TRACK_HI
     
