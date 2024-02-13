@@ -94,6 +94,8 @@ introskip_doorflags:
     sta $0789  ; this is used for the minimap, so blue tiles can show up on it. this also lets the main map scroll
     %a16()
 
+    jsr init_sm_equipment
+
     ; Call the save code to create a new file
     lda $7e0952
     jsl $818000
@@ -101,3 +103,15 @@ introskip_doorflags:
 .ret:   
     lda #$0000
     rtl
+
+org $c0f800
+base $80f800
+init_sm_equipment:
+    lda.l starting_equipment : sta $09a2 : sta $09a4 ; Equipment
+    lda.l starting_equipment+$2 : sta $09a6 : sta $09a8 ; Beams
+    lda.l starting_equipment+$4 : sta $09c2 : sta $09c4 ; Energy
+    lda.l starting_equipment+$6 : sta $09c6 : sta $09c8 ; Missiles
+    lda.l starting_equipment+$8 : sta $09ca : sta $09cc ; Supers
+    lda.l starting_equipment+$a : sta $09ce : sta $09d0 ; Power Bombs
+    rts
+
