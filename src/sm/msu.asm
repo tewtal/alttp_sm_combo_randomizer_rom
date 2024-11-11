@@ -51,6 +51,7 @@
 !MSU_AUDIO_TRACK_HI = $2005
 !MSU_AUDIO_VOLUME = $2006
 !MSU_AUDIO_CONTROL = $2007
+!CURRENT_MSU_TRACK = $0332
 
 ;;; SPC communication ports
 !SPC_COMM_0 = $2140
@@ -87,6 +88,11 @@ macro CheckMSUPresence16(labelToJump)
     cmp.w #$2D53
     BEQ + : jmp <labelToJump> : +
 endmacro
+
+; Hijack SM reset code to mute msu
+org $C08462
+base $808462
+    jml debug_reset_mute_msu
 
 ; Init MSU and check for missing tracks
 org $C08564
@@ -323,8 +329,10 @@ SM_MSU_Main:
     tay
     clc : adc.b #!TRACK_OFFSET
 
+    sta.w !CURRENT_MSU_TRACK
     sta.w !MSU_AUDIO_TRACK_LO
     stz.w !MSU_AUDIO_TRACK_HI
+    stz.w !MSU_AUDIO_VOLUME
     
 .CheckAudioStatus
     lda.w !MSU_STATUS : bit.b #!MSU_STATUS_AUDIO_BUSY : bne .CheckAudioStatus
@@ -472,3 +480,13 @@ TrackNeedLooping:
 NoLooping:
     lda.b #$01
     rts
+
+debug_reset_mute_msu:
+    sep #$30
+    lda.b #$00
+    sta.w $2004
+    sta.w $2005
+    REP #$30
+    LDX #$1FFF
+    TCD
+    JML $80846E
